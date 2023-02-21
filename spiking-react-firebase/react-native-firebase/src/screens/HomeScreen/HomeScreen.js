@@ -3,22 +3,22 @@ import { Pressable, SafeAreaView, Text, View, Image } from "react-native";
 import { collection, getDocs, QuerySnapshot } from "@firebase/firestore";
 import firebase from "firebase/compat";
 import { ScrollView } from "react-native-gesture-handler";
+import storage from "@react-native-firebase/storage"; //
+
 const db = firebase.firestore();
 
 export default function HomeScreen({ props }) {
   const [pets, setPets] = useState([]);
+  const [imageUrl, setImageUrl] = useState(null); //
 
   const getPets = async () => {
     const queryPets = await db.collection("lost_pets").get();
-    const newPets = []; //
+    const newPets = [];
     queryPets.forEach((doc) => {
-      //   console.log(doc.id, doc.data());
-      //   const newPets = { ...doc.data(), id: doc.id };
       const pet = { ...doc.data(), id: doc.id };
       newPets.push(pet);
-      //   setPets(newPets);
     });
-    console.log(pets, " <<<<<<<<<< PETS VARIABLE");
+    // console.log(pets, " <<<<<<<<<< PETS VARIABLE");
     setPets(newPets);
   };
 
@@ -29,8 +29,11 @@ export default function HomeScreen({ props }) {
   const baseStorageUrl =
     "https://firebasestorage.googleapis.com/v0/b/pets-reunited.appspot.com/o/";
 
-  const newURL = encodeURIComponent(pets.picture);
-  console.log(pets.picture, "URL <<<<<<<<<<<<<<<<");
+  // const newURL = baseStorageUrl + pets[0].picture;
+  const newURL = baseStorageUrl;
+  // console.log(pets[1].picture.slice(31), "PETS URL <<<<<<<<<<<<<<<<");
+  // console.log(baseStorageUrl, "BASE URL <<<<<<<<<<<<<<<<");
+  // console.log(newURL, "NEW URL <<<<<<<<<<<<<<<<");
   return (
     <ScrollView>
       <View>
