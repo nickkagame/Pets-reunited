@@ -1,11 +1,13 @@
-import "react-native-gesture-handler";
-import React, { useEffect, useState } from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import { LoginScreen, HomeScreen, RegistrationScreen } from "./src/screens";
-import { firebase } from "./src/firebase/config"; //
-import { decode, encode } from "base-64";
-import { Text } from "react-native"; //
+import 'react-native-gesture-handler';
+import React, { useEffect, useState } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { LoginScreen, HomeScreen, RegistrationScreen } from './src/screens';
+import { firebase } from './src/firebase/config'; //
+import { decode, encode } from 'base-64';
+import { Text } from 'react-native'; //
+import PostPet from './src/screens/PostPet/PostPet.js';
+
 if (!global.btoa) {
   global.btoa = encode;
 }
@@ -23,7 +25,7 @@ export default function App() {
     return <Text>loading ...</Text>;
   }
   useEffect(() => {
-    const usersRef = firebase.firestore().collection("users");
+    const usersRef = firebase.firestore().collection('users');
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         usersRef
@@ -42,20 +44,21 @@ export default function App() {
       }
     });
   }, []);
-
+ 
   return (
     <NavigationContainer>
       <Stack.Navigator>
         {user ? (
-          <Stack.Screen name="Home">
-            {(props) => <HomeScreen {...props} extraData={user} />}
-            {/* <SinglePet /> */}
-          </Stack.Screen>
+          <>
+            <Stack.Screen name="Home">
+              {(props) => <HomeScreen {...props} extraData={user} />}             
+            </Stack.Screen>
+            <Stack.Screen name="PostPet" component={PostPet} />
+          </>
         ) : (
           <>
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Registration" component={RegistrationScreen} />
-            
           </>
         )}
       </Stack.Navigator>
