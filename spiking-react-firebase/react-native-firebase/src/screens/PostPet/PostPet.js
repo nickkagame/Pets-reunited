@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { Text, View, Button, TextInput, Image } from "react-native";
-import { collection, addDoc, getDocs, QuerySnapshot, getFirestore } from "@firebase/firestore";
-import * as ImagePicker from 'expo-image-picker';
+import {
+  collection,
+  addDoc,
+  getDocs,
+  QuerySnapshot,
+  getFirestore,
+} from "@firebase/firestore";
+import * as ImagePicker from "expo-image-picker";
 import { firebase } from "../../firebase/config";
 import "firebase/firestore";
 import "firebase/compat/firestore";
 import "@firebase/firestore";
 import "@firebase/storage";
 import "@firebase/storage-compat";
-import {app } from "../../firebase/config"
+import { app } from "../../firebase/config";
+import CalendarPicker from "react-native-calendar-picker";
 
-const db = getFirestore(app)
+const db = getFirestore(app);
 
 export default function PostPet() {
   const [pet_name, setPet_name] = useState("");
@@ -21,48 +28,54 @@ export default function PostPet() {
   const [chipId, setChipId] = useState("");
   const [pet_type, setPet_type] = useState("");
   const [description, setDescription] = useState("");
-  const [lastSeenDate, setLastSeenDate] = useState("");
+  // const [lastSeenDate, setLastSeenDate] = useState("");
   const [selectedOption, setSelectedOption] = useState("option1");
   const [image, setImage] = useState("");
   const [uploading, setUploading] = useState(null);
+  const [selectedStartDate, setSelectedStartDate] = useState(null);
+
+  
 
   const uploadImage = async () => {
     const blob = await new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
-      xhr.onload = function() {
+      xhr.onload = function () {
         resolve(xhr.response);
       };
-      xhr.onerror = function() {
-        reject(new TypeError('Network request failed'));
+      xhr.onerror = function () {
+        reject(new TypeError("Network request failed"));
       };
-      xhr.responseType = 'blob';
-      xhr.open('GET', image, true);
+      xhr.responseType = "blob";
+      xhr.open("GET", image, true);
       xhr.send(null);
-    })
-    const ref = firebase.storage().ref().child(`Pictures/Image1`)
-    const snapshot = ref.put(blob)
-    snapshot.on(firebase.storage.TaskEvent.STATE_CHANGED,
-      ()=>{
-        setUploading(true)
+    });
+    const ref = firebase.storage().ref().child(`Pictures/Image1`);
+    const snapshot = ref.put(blob);
+    snapshot.on(
+      firebase.storage.TaskEvent.STATE_CHANGED,
+      () => {
+        setUploading(true);
       },
       (error) => {
-        setUploading(false)
-        console.log(error)
-        blob.close()
-        return 
+        setUploading(false);
+        console.log(error);
+        blob.close();
+        return;
       },
       () => {
         snapshot.snapshot.ref.getDownloadURL().then((url) => {
-          setUploading(false)
-          console.log("Download URL: ", url)
-          setImage(url)
-          blob.close()
-          return url
-        })
+          setUploading(false);
+          console.log("Download URL: ", url);
+          setImage(url);
+          blob.close();
+          return url;
+        });
       }
-      )
-  }
+    );
+  };
 
+  const startDate = selectedStartDate.format("YYYY-MM-DD");
+  console.log(startDate);
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -73,26 +86,24 @@ export default function PostPet() {
     if (!result.canceled) {
       setImage(result.assets[0].uri);
     }
-  }
+  };
 
   const handleSubmit = async () => {
     try {
-      const submitRef = await addDoc(collection(db, "lost_pets"),
-      {
-        description: description, 
-email: email,
-home_address: home_address,
-lastSeenDate: lastSeenDate,
-location: location,
-pet_name: pet_name,
-pet_type: pet_type,
-picture: image,
-your_name: your_name,
-
-      }) 
-    } catch(e) {
-      console.error(e)
-    }   
+      const submitRef = await addDoc(collection(db, "lost_pets"), {
+        description: description,
+        email: email,
+        home_address: home_address,
+        lastSeenDate: startDate,
+        location: location,
+        pet_name: pet_name,
+        pet_type: pet_type,
+        picture: image,
+        your_name: your_name,
+      });
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
@@ -155,15 +166,10 @@ your_name: your_name,
           setDescription(e);
         }}
       />
-      <TextInput
-        placeholder="Enter last seen date of your pet"
-        value={lastSeenDate}
-        onChangeText={(e) => {
-          setLastSeenDate(e);
-        }}
-      />
-      <Button title="choosepic" onPress={pickImage}/>
-      <Button title='Upload Image' onPress={uploadImage} />
+      <Text>{startDate}</Text>
+      <CalendarPicker onDateChange={setSelectedStartDate} />
+      <Button title="choosepic" onPress={pickImage} />
+      <Button title="Upload Image" onPress={uploadImage} />
       <Button title="Submit" onPress={handleSubmit} />
     </View>
   );
