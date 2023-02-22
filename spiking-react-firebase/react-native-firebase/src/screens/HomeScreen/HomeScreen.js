@@ -47,3 +47,4 @@ export default function HomeScreen({ props }) {
     </ScrollView>
   );
 }
+
