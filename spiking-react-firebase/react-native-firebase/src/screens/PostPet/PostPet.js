@@ -32,9 +32,9 @@ export default function PostPet() {
   const [selectedOption, setSelectedOption] = useState("option1");
   const [image, setImage] = useState("");
   const [uploading, setUploading] = useState(null);
-  const [selectedStartDate, setSelectedStartDate] = useState(null);
+  const [selectedStartDate, setSelectedStartDate] = useState('');
 
-  
+
 
   const uploadImage = async () => {
     const blob = await new Promise((resolve, reject) => {
@@ -74,8 +74,7 @@ export default function PostPet() {
     );
   };
 
-  const startDate = selectedStartDate.format("YYYY-MM-DD");
-  console.log(startDate);
+
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -94,7 +93,7 @@ export default function PostPet() {
         description: description,
         email: email,
         home_address: home_address,
-        lastSeenDate: startDate,
+        lastSeenDate: selectedStartDate.toString(),
         location: location,
         pet_name: pet_name,
         pet_type: pet_type,
@@ -166,7 +165,7 @@ export default function PostPet() {
           setDescription(e);
         }}
       />
-      <Text>{startDate}</Text>
+      <Text>{selectedStartDate.toString()}</Text>
       <CalendarPicker onDateChange={setSelectedStartDate} />
       <Button title="choosepic" onPress={pickImage} />
       <Button title="Upload Image" onPress={uploadImage} />
