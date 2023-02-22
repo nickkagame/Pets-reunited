@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, Button, TextInput } from "react-native";
+import { Text, View, Button, TextInput, Image } from "react-native";
 import { collection, getDocs, QuerySnapshot } from "@firebase/firestore";
-import Picker from 'react-native-picker';
+import * as ImagePicker from 'expo-image-picker';
+import { firebase } from "../../firebase/config";
+import "firebase/firestore";
+import "firebase/compat/firestore";
+import "@firebase/firestore";
+import "@firebase/storage";
+import "@firebase/storage-compat";
+
 
 export default function PostPet() {
   const [pet_name, setPet_name] = useState("");
@@ -10,15 +17,65 @@ export default function PostPet() {
   const [home_address, setHome_address] = useState("");
   const [location, setLocation] = useState("");
   const [chipId, setChipId] = useState("");
-  const [picture, setPicture] = useState("");
   const [pet_type, setPet_type] = useState("");
   const [description, setDescription] = useState("");
   const [lastSeenDate, setLastSeenDate] = useState("");
   const [selectedOption, setSelectedOption] = useState("option1");
+  const [image, setImage] = useState("");
+  const [uploading, setUploading] = useState(null);
+
+  const uploadImage = async () => {
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function() {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function() {
+        reject(new TypeError('Network request failed'));
+      };
+      xhr.responseType = 'blob';
+      xhr.open('GET', image, true);
+      xhr.send(null);
+    })
+    const ref = firebase.storage().ref().child(`Pictures/Image1`)
+    const snapshot = ref.put(blob)
+    snapshot.on(firebase.storage.TaskEvent.STATE_CHANGED,
+      ()=>{
+        setUploading(true)
+      },
+      (error) => {
+        setUploading(false)
+        console.log(error)
+        blob.close()
+        return 
+      },
+      () => {
+        snapshot.snapshot.ref.getDownloadURL().then((url) => {
+          setUploading(false)
+          console.log("Download URL: ", url)
+          setImage(url)
+          blob.close()
+          return url
+        })
+      }
+      )
+  }
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  }
 
   const handleSubmit = () => {
-    console.log("Name:", name);
-    console.log("Email:", email);
+    // console.log("Name:", name);
+    // console.log("Email:", email);
     // You can add your own logic to submit the form data here
   };
 
@@ -69,13 +126,6 @@ export default function PostPet() {
         }}
       />
       <TextInput
-        placeholder="Upload picture"
-        value={picture}
-        onChangeText={(e) => {
-          setPicture(e);
-        }}
-      />
-      <TextInput
         placeholder="Enter pet type"
         value={pet_type}
         onChangeText={(e) => {
@@ -96,6 +146,8 @@ export default function PostPet() {
           setLastSeenDate(e);
         }}
       />
+      <Button title="choosepic" onPress={pickImage}/>
+      <Button title='Upload Image' onPress={uploadImage} />
       <Button title="Submit" onPress={handleSubmit} />
     </View>
   );
