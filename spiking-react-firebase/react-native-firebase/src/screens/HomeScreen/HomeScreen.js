@@ -10,6 +10,11 @@ const db = firebase.firestore();
 export default function HomeScreen({ props }) {
   const [pets, setPets] = useState([]);
 
+  const onPostButtonPress = () => {
+    navigation.navigate('PostPet');
+  }
+
+
   const getPets = async () => {
     const storage = getStorage();
     const queryPets = await db.collection("lost_pets").get();
@@ -21,7 +26,11 @@ export default function HomeScreen({ props }) {
       newURL.push(pet.picture); //
     });
 
+
+
+
     setPets(newPets);
+
   };
   useEffect(() => {
     getPets();
