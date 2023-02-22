@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { Pressable, SafeAreaView, Text, View, Image } from "react-native";
+import { Pressable, SafeAreaView, Text, View, Image, TouchableOpacity } from "react-native";
 import { collection, getDocs, QuerySnapshot } from "@firebase/firestore";
 import firebase from "firebase/compat";
 import { ScrollView } from "react-native-gesture-handler";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import { useNavigation } from '@react-navigation/native';
 
 const db = firebase.firestore();
 
 export default function HomeScreen({ props }) {
   const [pets, setPets] = useState([]);
 
+  const navigation = useNavigation();
+  
   const onPostButtonPress = () => {
+    
     navigation.navigate('PostPet');
   }
 
@@ -39,6 +43,12 @@ export default function HomeScreen({ props }) {
   return (
     <ScrollView>
       <View>
+      <TouchableOpacity
+          
+          onPress={() => onPostButtonPress()}
+        >
+          <Text >POST LOST PET</Text>
+        </TouchableOpacity>
         {pets.map((pet) => {
           return (
             <ScrollView key={pet.id}>
