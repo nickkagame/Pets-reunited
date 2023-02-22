@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Text, View, Button, TextInput, Image } from "react-native";
-import { collection, getDocs, QuerySnapshot } from "@firebase/firestore";
+import { collection, addDoc, getDocs, QuerySnapshot, getFirestore } from "@firebase/firestore";
 import * as ImagePicker from 'expo-image-picker';
 import { firebase } from "../../firebase/config";
 import "firebase/firestore";
@@ -8,7 +8,9 @@ import "firebase/compat/firestore";
 import "@firebase/firestore";
 import "@firebase/storage";
 import "@firebase/storage-compat";
+import {app } from "../../firebase/config"
 
+const db = getFirestore(app)
 
 export default function PostPet() {
   const [pet_name, setPet_name] = useState("");
@@ -73,10 +75,24 @@ export default function PostPet() {
     }
   }
 
-  const handleSubmit = () => {
-    // console.log("Name:", name);
-    // console.log("Email:", email);
-    // You can add your own logic to submit the form data here
+  const handleSubmit = async () => {
+    try {
+      const submitRef = await addDoc(collection(db, "lost_pets"),
+      {
+        description: description, 
+email: email,
+home_address: home_address,
+lastSeenDate: lastSeenDate,
+location: location,
+pet_name: pet_name,
+pet_type: pet_type,
+picture: image,
+your_name: your_name,
+
+      }) 
+    } catch(e) {
+      console.error(e)
+    }   
   };
 
   return (

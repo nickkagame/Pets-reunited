@@ -15,10 +15,13 @@ const firebaseConfig = {
     measurementId: "G-FPZM2F1J6M"
 };
 
+//maybe delete! 
+const app = firebase.initializeApp(firebaseConfig);
+
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
+    
 }
 
 
-
-export { firebase };
+export { firebase, app};
