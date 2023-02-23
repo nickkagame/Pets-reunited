@@ -62,7 +62,7 @@ export default function LoginScreen({ navigation }) {
       >
         <Image
           style={styles.logo}
-          source={require("../../../assets/icon.png")}
+          source={require("../../../wireframe/kitty-hand-drawn-vector-illustration-cartoon-comic-style-lost-lettering-label-187134965.jpg")}
         />
         <TextInput
           style={styles.input}
