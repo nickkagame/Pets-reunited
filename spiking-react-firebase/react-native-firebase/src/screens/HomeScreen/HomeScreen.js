@@ -53,8 +53,7 @@ export default function HomeScreen({ props }) {
   return (
     <ScrollView>
       <View>
-      <TouchableOpacity
-          
+      <TouchableOpacity  
           onPress={() => onPostButtonPress()}
         >
           <Text >POST LOST PET</Text>
