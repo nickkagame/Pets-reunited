@@ -1,8 +1,8 @@
 import { Text, Image, Linking, Button, StyleSheet, View } from "react-native";
 
-export default function PetSingle({ route }) {
+export default function PetSingle({ route, extraData }) {
   const { pet } = route.params;
-
+console.log(extraData)
   const sendEmail = () => {
     Linking.openURL(`mailto:${pet.email}?subject=Regarding ${pet.pet_name}`);
   };

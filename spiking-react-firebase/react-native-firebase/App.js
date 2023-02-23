@@ -51,10 +51,15 @@ export default function App() {
       <Stack.Navigator>
         {user ? (
           <>
-            <Stack.Screen name="Home" component={HomeScreen} />
-            {/* <Stack.Screen name="Home" /> */}
-            <Stack.Screen name="PostPet" component={PostPet} />
-            <Stack.Screen name="PetSingle" component={PetSingle} />
+          <Stack.Screen name="Home">
+             {(props) => <HomeScreen {...props} extraData={user} />}               
+            </Stack.Screen>
+            <Stack.Screen name="PostPet">
+             {(props) => <PostPet {...props} extraData={user} />}               
+            </Stack.Screen>
+            <Stack.Screen name="PetSingle">
+            {(props) => <PetSingle {...props} extraData={user} />}               
+            </Stack.Screen>
           </>
         ) : (
           <>
