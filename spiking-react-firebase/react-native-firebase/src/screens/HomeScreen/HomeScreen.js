@@ -17,8 +17,12 @@ import { useNavigation } from "@react-navigation/native";
 
 const db = firebase.firestore();
 
-export default function HomeScreen({ props }) {
+export default function HomeScreen({ props, extraData }) {
+
+  
   const [pets, setPets] = useState([]);
+
+  console.log(extraData)
 
   const navigation = useNavigation();
 

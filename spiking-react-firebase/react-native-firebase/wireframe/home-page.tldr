@@ -319,6 +319,34 @@
               0.5,
               0.5
             ]
+          },
+          "7fee0410-b3c1-475f-06b1-bb5ed0796e47": {
+            "id": "7fee0410-b3c1-475f-06b1-bb5ed0796e47",
+            "type": "rectangle",
+            "name": "Rectangle",
+            "parentId": "page",
+            "childIndex": 11,
+            "point": [
+              126.95,
+              129.21
+            ],
+            "size": [
+              74.79,
+              15.35
+            ],
+            "rotation": 0,
+            "style": {
+              "color": "lightGray",
+              "size": "small",
+              "isFilled": false,
+              "dash": "draw",
+              "scale": 1
+            },
+            "label": "",
+            "labelPoint": [
+              0.5,
+              0.5
+            ]
           }
         },
         "bindings": {}
