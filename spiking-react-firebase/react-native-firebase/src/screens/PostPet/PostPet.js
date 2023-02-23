@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Text, View, Button, TextInput, Image } from "react-native";
-import uuid from 'react-native-uuid';
+import uuid from "react-native-uuid";
 import {
   collection,
   addDoc,
@@ -39,7 +39,6 @@ console.log(extraData, "--------")
   const [uploading, setUploading] = useState(null);
   const [selectedStartDate, setSelectedStartDate] = useState('');
 
- console.log(extraData)
 
   const uploadImage = async () => {
     const blob = await new Promise((resolve, reject) => {
@@ -54,7 +53,7 @@ console.log(extraData, "--------")
       xhr.open("GET", image, true);
       xhr.send(null);
     });
-    const photoFileId  = uuid.v4()
+    const photoFileId = uuid.v4();
     const ref = firebase.storage().ref().child(`Pictures/${photoFileId}`);
     const snapshot = ref.put(blob);
     snapshot.on(
@@ -79,7 +78,6 @@ console.log(extraData, "--------")
       }
     );
   };
-
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -176,7 +174,7 @@ console.log(extraData, "--------")
       />
       <Text>{selectedStartDate.toString()}</Text>
       <CalendarPicker onDateChange={setSelectedStartDate} />
-      <Button title="choosepic" onPress={pickImage} />
+      <Button title="Choose Pic" onPress={pickImage} />
       <Button title="Upload Image" onPress={uploadImage} />
       <Button title="Submit" onPress={handleSubmit} />
     </View>
