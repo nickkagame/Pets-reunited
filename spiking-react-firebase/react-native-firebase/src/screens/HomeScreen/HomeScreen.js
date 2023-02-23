@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Pressable, SafeAreaView, Text, View, Image, TouchableOpacity } from "react-native";
+import { Pressable, SafeAreaView, Text, View, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { collection, getDocs, QuerySnapshot } from "@firebase/firestore";
 import firebase from "firebase/compat";
 import { ScrollView } from "react-native-gesture-handler";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import { useNavigation } from '@react-navigation/native';
+import Footer from "../Footer/Footer";
 
 const db = firebase.firestore();
 
@@ -29,17 +30,26 @@ export default function HomeScreen({ props }) {
       newPets.push(pet);
       newURL.push(pet.picture); //
     });
-
-
-
-
     setPets(newPets);
 
   };
   useEffect(() => {
     getPets();
   }, []);
-
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: "#ecf0f1",
+    },
+    content: {
+      flex: 1,
+    },
+    footer: {
+      backgroundColor: "yellow",
+      padding: 40,
+      
+    },
+  });
   return (
     <ScrollView>
       <View>
@@ -62,6 +72,9 @@ export default function HomeScreen({ props }) {
             </ScrollView>
           );
         })}
+      </View>
+      <View >
+       <Footer />
       </View>
     </ScrollView>
   );
