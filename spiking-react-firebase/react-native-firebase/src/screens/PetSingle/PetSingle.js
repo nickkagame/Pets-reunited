@@ -7,7 +7,7 @@ export default function PetSingle({ route }) {
     Linking.openURL(`mailto:${pet.email}?subject=Regarding ${pet.pet_name}`);
   };
 
-  //   console.log(pet);
+  // console.log(pet);
   return (
     <>
       <View style={styles.container}>
@@ -20,8 +20,7 @@ export default function PetSingle({ route }) {
         />
         <Text>My home is in {pet.description}.</Text>
         <Text>
-          I was last seen on {pet.lastSeenDate} around the {pet.location} area
-          :(
+          I was last seen on {} around the {pet.location} area :(
         </Text>
         <Text>I really miss my owner {pet.your_name}</Text>
         <Button
