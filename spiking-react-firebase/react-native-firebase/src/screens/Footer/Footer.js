@@ -15,26 +15,12 @@ import { useNavigation } from "@react-navigation/native";
 const db = firebase.firestore();
 
 export default function HomeScreen({ props }) {
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: "#ecf0f1",
-    },
-    content: {
-      flex: 1,
-    },
-    footer: {
-      backgroundColor: "yellow",
-      padding: 40,
-    },
-  });
-
   const navigation = useNavigation();
   const goToSearch = () => {
-    navigation.navigate('Search');
+    navigation.navigate("Search");
   };
   const goToUserProfile = () => {
-    navigation.navigate('UserProfile');
+    navigation.navigate("UserProfile");
   };
 
   return (
@@ -45,3 +31,18 @@ export default function HomeScreen({ props }) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#ecf0f1",
+  },
+  content: {
+    flex: 1,
+  },
+  footer: {
+    backgroundColor: "yellow",
+    padding: 30,
+    flexDirection: "row",
+  },
+});
