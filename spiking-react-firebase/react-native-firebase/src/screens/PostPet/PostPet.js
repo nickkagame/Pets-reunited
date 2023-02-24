@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Text, View, Button, TextInput, Image } from "react-native";
-import uuid from 'react-native-uuid';
+import uuid from "react-native-uuid";
 import {
   collection,
   addDoc,
@@ -20,8 +20,6 @@ import CalendarPicker from "react-native-calendar-picker";
 
 const db = getFirestore(app);
 
-
-
 export default function PostPet() {
   const [pet_name, setPet_name] = useState("");
   const [your_name, setYour_name] = useState("");
@@ -31,13 +29,9 @@ export default function PostPet() {
   const [chipId, setChipId] = useState("");
   const [pet_type, setPet_type] = useState("");
   const [description, setDescription] = useState("");
-  // const [lastSeenDate, setLastSeenDate] = useState("");
-  const [selectedOption, setSelectedOption] = useState("option1");
   const [image, setImage] = useState("");
   const [uploading, setUploading] = useState(null);
-  const [selectedStartDate, setSelectedStartDate] = useState('');
-
- 
+  const [selectedStartDate, setSelectedStartDate] = useState("");
 
   const uploadImage = async () => {
     const blob = await new Promise((resolve, reject) => {
@@ -52,7 +46,7 @@ export default function PostPet() {
       xhr.open("GET", image, true);
       xhr.send(null);
     });
-    const photoFileId  = uuid.v4()
+    const photoFileId = uuid.v4();
     const ref = firebase.storage().ref().child(`Pictures/${photoFileId}`);
     const snapshot = ref.put(blob);
     snapshot.on(
@@ -78,7 +72,6 @@ export default function PostPet() {
     );
   };
 
-
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -98,6 +91,7 @@ export default function PostPet() {
         email: email,
         home_address: home_address,
         lastSeenDate: selectedStartDate.toString(),
+        chipId: chipId,
         location: location,
         pet_name: pet_name,
         pet_type: pet_type,

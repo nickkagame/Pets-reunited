@@ -13,8 +13,6 @@ import {
 import firebase from "firebase/compat";
 import { useNavigation } from "@react-navigation/native";
 import Footer from "../Footer/Footer";
-import SelectDropdown from "react-native-select-dropdown";
-import { getStorage } from "firebase/storage";
 
 export default function Search({ extraData, setUser }) {
   const [pets, setPets] = useState([]);
