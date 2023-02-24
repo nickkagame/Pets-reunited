@@ -20,7 +20,12 @@ import CalendarPicker from "react-native-calendar-picker";
 
 const db = getFirestore(app);
 
-export default function PostPet() {
+
+
+export default function PostPet({extraData}) {
+
+console.log(extraData, "--------")
+
   const [pet_name, setPet_name] = useState("");
   const [your_name, setYour_name] = useState("");
   const [email, setEmail] = useState("");
@@ -31,7 +36,8 @@ export default function PostPet() {
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
   const [uploading, setUploading] = useState(null);
-  const [selectedStartDate, setSelectedStartDate] = useState("");
+  const [selectedStartDate, setSelectedStartDate] = useState('');
+
 
   const uploadImage = async () => {
     const blob = await new Promise((resolve, reject) => {
@@ -97,6 +103,9 @@ export default function PostPet() {
         pet_type: pet_type,
         picture: image,
         your_name: your_name,
+        userID: extraData.id,
+        userProfileEmail: extraData.email,
+        userProfileName: extraData.fullName
       });
     } catch (e) {
       console.error(e);
@@ -165,7 +174,7 @@ export default function PostPet() {
       />
       <Text>{selectedStartDate.toString()}</Text>
       <CalendarPicker onDateChange={setSelectedStartDate} />
-      <Button title="choosepic" onPress={pickImage} />
+      <Button title="Choose Pic" onPress={pickImage} />
       <Button title="Upload Image" onPress={uploadImage} />
       <Button title="Submit" onPress={handleSubmit} />
     </View>
