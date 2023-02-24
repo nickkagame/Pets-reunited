@@ -9,6 +9,7 @@ import {
   FlatList,
   ActivityIndicator,
   StyleSheet,
+  StatusBar,
 } from "react-native";
 import { collection, getDocs, QuerySnapshot } from "@firebase/firestore";
 import firebase from "firebase/compat";
