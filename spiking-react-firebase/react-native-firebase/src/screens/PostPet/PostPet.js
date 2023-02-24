@@ -29,8 +29,10 @@ import CalendarPicker from "react-native-calendar-picker";
 
 const db = getFirestore(app);
 
+
 export default function PostPet({ extraData }) {
   console.log(extraData, "--------");
+
 
   const [pet_name, setPet_name] = useState("");
   const [your_name, setYour_name] = useState("");
@@ -40,8 +42,6 @@ export default function PostPet({ extraData }) {
   const [chipId, setChipId] = useState("");
   const [pet_type, setPet_type] = useState("");
   const [description, setDescription] = useState("");
-  // const [lastSeenDate, setLastSeenDate] = useState("");
-  const [selectedOption, setSelectedOption] = useState("option1");
   const [image, setImage] = useState("");
   const [uploading, setUploading] = useState(null);
   const [selectedStartDate, setSelectedStartDate] = useState("");
@@ -104,6 +104,7 @@ export default function PostPet({ extraData }) {
         email: email,
         home_address: home_address,
         lastSeenDate: selectedStartDate.toString(),
+        chipId: chipId,
         location: location,
         pet_name: pet_name,
         pet_type: pet_type,

@@ -1,15 +1,20 @@
-import "react-native-gesture-handler";
-import React, { useEffect, useState } from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import { LoginScreen, HomeScreen, RegistrationScreen } from "./src/screens";
-import { firebase } from "./src/firebase/config"; //
-import { decode, encode } from "base-64";
-import { Text } from "react-native"; //
-import PostPet from "./src/screens/PostPet/PostPet.js";
+
+import 'react-native-gesture-handler';
+import React, { useEffect, useState } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { LoginScreen, HomeScreen, RegistrationScreen } from './src/screens';
+import { firebase } from './src/firebase/config'; //
+import { decode, encode } from 'base-64';
+import { Text } from 'react-native'; //
+import PostPet from './src/screens/PostPet/PostPet.js';
 import PetSingle from "./src/screens/PetSingle/PetSingle";
 import { StyleSheet } from "react-native";
 import { StatusBar } from "expo-status-bar";
+import Search from "./src/screens/Search/Search";
+import UserProfile from "./src/screens/UserProfile/UserProfile";
+import EditProfile from "./src/screens/EditProfile/EditProfile";
+import EditPost from './src/screens/EditPost/EditPost';
 
 if (!global.btoa) {
   global.btoa = encode;
@@ -62,6 +67,18 @@ export default function App() {
             </Stack.Screen>
             <Stack.Screen name="PetSingle">
               {(props) => <PetSingle {...props} extraData={user} />}
+            </Stack.Screen>
+            <Stack.Screen name="Search">
+              {(props) => <Search {...props} extraData={user} />}             
+            </Stack.Screen>
+            <Stack.Screen name="UserProfile">
+              {(props) => <UserProfile {...props} extraData={user} />}             
+            </Stack.Screen>
+            <Stack.Screen name="EditProfile">
+              {(props) => <EditProfile {...props} extraData={user} setUser = {setUser}/>}             
+            </Stack.Screen>
+            <Stack.Screen name="Edit Post">
+              {(props) => <EditPost {...props} extraData={user} setUser = {setUser}/>}             
             </Stack.Screen>
           </>
         ) : (

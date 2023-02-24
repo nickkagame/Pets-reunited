@@ -11,11 +11,14 @@ import {
   StyleSheet,
   StatusBar,
 } from "react-native";
+
 import { collection, getDocs, QuerySnapshot } from "@firebase/firestore";
 import firebase from "firebase/compat";
 import { ScrollView } from "react-native-gesture-handler";
-import { getStorage, ref, getDownloadURL } from "firebase/storage";
-import { useNavigation } from "@react-navigation/native";
+import { getStorage } from "firebase/storage";
+import { useNavigation } from '@react-navigation/native';
+import Footer from "../Footer/Footer";
+
 
 const db = firebase.firestore();
 
@@ -46,10 +49,28 @@ export default function HomeScreen({ props, extraData }) {
   useEffect(() => {
     getPets();
   }, []);
-
+  
   const handlePress = (pet) => {
     navigation.navigate("PetSingle", { pet: pet });
   };
+  
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: "#ecf0f1",
+    },
+    content: {
+      flex: 1,
+    },
+    footer: {
+      backgroundColor: "yellow",
+      padding: 40,
+      
+    },
+  });
+
+
+  
 
   if (pets.length === 0) {
     return <ActivityIndicator />;
@@ -81,8 +102,15 @@ export default function HomeScreen({ props, extraData }) {
           keyExtractor={(item) => item.id}
         />
       </View>
-    );
-  }
+      <View >
+      
+      </View>
+    </ScrollView>
+    <Footer />
+
+    </>
+  );
+
 }
 
 const styles = StyleSheet.create({

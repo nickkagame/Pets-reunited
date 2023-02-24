@@ -28,6 +28,7 @@
     "react-native-gesture-handler": "~2.8.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-picker": "^4.3.7",
+    "react-native-select-dropdown": "^3.3.0",
     "react-native-uuid": "^2.0.1",
     "react-native-web": "~0.18.9"
   },
