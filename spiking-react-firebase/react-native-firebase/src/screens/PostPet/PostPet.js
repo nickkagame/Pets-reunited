@@ -26,6 +26,7 @@ import "@firebase/storage";
 import "@firebase/storage-compat";
 import { app } from "../../firebase/config";
 import CalendarPicker from "react-native-calendar-picker";
+import Footer from "../Footer/Footer";
 
 const db = getFirestore(app);
 
@@ -120,6 +121,7 @@ export default function PostPet({ extraData }) {
   };
 
   return (
+    <>
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Report a lost pet</Text>
       <TextInput
@@ -205,6 +207,8 @@ export default function PostPet({ extraData }) {
         <Text style={styles.buttonText}>Submit</Text>
       </TouchableOpacity>
     </ScrollView>
+    <Footer/>
+    </>
   );
 }
 
