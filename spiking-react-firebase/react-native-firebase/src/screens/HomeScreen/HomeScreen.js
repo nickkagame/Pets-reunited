@@ -3,7 +3,7 @@ import { Pressable, SafeAreaView, Text, View, Image, TouchableOpacity, StyleShee
 import { collection, getDocs, QuerySnapshot } from "@firebase/firestore";
 import firebase from "firebase/compat";
 import { ScrollView } from "react-native-gesture-handler";
-import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import { getStorage } from "firebase/storage";
 import { useNavigation } from '@react-navigation/native';
 import Footer from "../Footer/Footer";
 
