@@ -51,7 +51,7 @@ export default function EditPost({ route, extraData }) {
       .then((response) => {
         alert("Post updated! 👍");
       }).then(()=>{
-        navigation.navigate('UserProfile',{pet: pet});
+        navigation.navigate('UserProfile',{});
       })
       .catch((err) => {
         console.log(err);

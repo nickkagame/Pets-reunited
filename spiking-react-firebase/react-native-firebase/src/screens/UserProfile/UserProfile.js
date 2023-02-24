@@ -18,7 +18,7 @@ import { getStorage } from "firebase/storage";
 import uuid from 'react-native-uuid';
 
 
-export default function Search({ route, extraData }) {
+export default function UserProfile({ route, extraData }) {
   const [pets, setPets] = useState([]);
   const db = firebase.firestore();
   const navigation = useNavigation();
@@ -52,9 +52,10 @@ export default function Search({ route, extraData }) {
   };
 
   console.log(pets);
-  return (
+  return (<>
+
     <ScrollView>
-      <View>
+      <View key={uuid.v4()}>
         <Text>User Profile: </Text>
         <Text >{extraData.fullName}</Text>
         <Text>{extraData.id}</Text>
@@ -64,7 +65,7 @@ export default function Search({ route, extraData }) {
           onPress={() => goToChangeProfile()}
           title="Edit Profile"
         />
-        <Text>Your post:</Text>
+        <Text>Your lost pet posts:</Text>
         {pets.map((pet) => {
           console.log(pet)
           return (
@@ -91,9 +92,11 @@ export default function Search({ route, extraData }) {
             </>
           );
         })}
-        <Footer />
       </View>
     </ScrollView>
+    <Footer />
+  </>
+
   );
 }
 

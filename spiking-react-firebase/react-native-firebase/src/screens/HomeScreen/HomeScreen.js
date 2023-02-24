@@ -51,6 +51,7 @@ export default function HomeScreen({ props }) {
     },
   });
   return (
+    <>
     <ScrollView>
       <View>
       <TouchableOpacity  
@@ -73,9 +74,12 @@ export default function HomeScreen({ props }) {
         })}
       </View>
       <View >
-       <Footer />
+      
       </View>
     </ScrollView>
+    <Footer />
+
+    </>
   );
 }
 
