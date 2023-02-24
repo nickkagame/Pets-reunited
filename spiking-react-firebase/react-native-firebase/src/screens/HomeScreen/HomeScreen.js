@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   FlatList,
   ActivityIndicator,
+  StyleSheet,
 } from "react-native";
 import { collection, getDocs, QuerySnapshot } from "@firebase/firestore";
 import firebase from "firebase/compat";
@@ -18,11 +19,9 @@ import { useNavigation } from "@react-navigation/native";
 const db = firebase.firestore();
 
 export default function HomeScreen({ props, extraData }) {
-
-  
   const [pets, setPets] = useState([]);
 
-  console.log(extraData)
+  console.log(extraData);
 
   const navigation = useNavigation();
 
@@ -55,21 +54,25 @@ export default function HomeScreen({ props, extraData }) {
     return <ActivityIndicator />;
   } else {
     return (
-      <View>
-        <TouchableOpacity onPress={() => onPostButtonPress()}>
-          <Text>POST LOST PET</Text>
+      <View style={styles.container}>
+        <TouchableOpacity
+          style={styles.reportButtonContainer}
+          onPress={() => onPostButtonPress()}
+        >
+          <Text style={styles.reportButtonText}>Report a lost pet</Text>
         </TouchableOpacity>
         <FlatList
+          showsVerticalScrollIndicator={false}
           data={pets}
           renderItem={({ item }) => (
             <TouchableOpacity onPress={() => handlePress(item)}>
               <>
-                <Text>{item.pet_name}</Text>
+                <Text style={styles.petName}>{item.pet_name}.</Text>
                 <Image
                   source={{
                     uri: item.picture,
                   }}
-                  style={{ width: 200, height: 200 }}
+                  style={styles.image}
                 />
               </>
             </TouchableOpacity>
@@ -80,3 +83,45 @@ export default function HomeScreen({ props, extraData }) {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#5cc8d7",
+  },
+  reportButtonContainer: {
+    backgroundColor: "#788eec",
+    borderRadius: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 50,
+    borderWidth: 1,
+    borderColor: "black",
+    marginTop: 10,
+    marginBottom: 15,
+    shadowRadius: 1.5,
+    shadowOpacity: 0.5,
+    shadowColor: "black",
+  },
+  reportButtonText: {
+    fontSize: 18,
+    color: "#fff",
+    fontWeight: "bold",
+    alignSelf: "center",
+    textTransform: "uppercase",
+  },
+  petName: {
+    fontWeight: "bold",
+    margin: 10,
+    textAlign: "center",
+  },
+  image: {
+    width: 200,
+    height: 200,
+    alignSelf: "center",
+    margin: 30,
+    borderRadius: 30,
+    marginTop: 6,
+  },
+});

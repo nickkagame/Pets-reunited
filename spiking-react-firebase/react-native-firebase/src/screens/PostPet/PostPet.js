@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, Button, TextInput, Image } from "react-native";
+import {
+  Text,
+  View,
+  Button,
+  TextInput,
+  Image,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import uuid from "react-native-uuid";
 import {
   collection,
@@ -20,10 +29,8 @@ import CalendarPicker from "react-native-calendar-picker";
 
 const db = getFirestore(app);
 
-
-export default function PostPet({extraData}) {
-
-console.log(extraData, "--------")
+export default function PostPet({ extraData }) {
+  console.log(extraData, "--------");
 
   const [pet_name, setPet_name] = useState("");
   const [your_name, setYour_name] = useState("");
@@ -37,8 +44,7 @@ console.log(extraData, "--------")
   const [selectedOption, setSelectedOption] = useState("option1");
   const [image, setImage] = useState("");
   const [uploading, setUploading] = useState(null);
-  const [selectedStartDate, setSelectedStartDate] = useState('');
-
+  const [selectedStartDate, setSelectedStartDate] = useState("");
 
   const uploadImage = async () => {
     const blob = await new Promise((resolve, reject) => {
@@ -105,7 +111,7 @@ console.log(extraData, "--------")
         your_name: your_name,
         userID: extraData.id,
         userProfileEmail: extraData.email,
-        userProfileName: extraData.fullName
+        userProfileName: extraData.fullName,
       });
     } catch (e) {
       console.error(e);
@@ -113,9 +119,10 @@ console.log(extraData, "--------")
   };
 
   return (
-    <View>
-      <Text>WELCOME TO LOST PETS PAGE</Text>
+    <ScrollView style={styles.container}>
+      <Text style={styles.title}>Report a lost pet</Text>
       <TextInput
+        style={styles.input}
         placeholder="Enter pet name"
         value={pet_name}
         onChangeText={(e) => {
@@ -123,6 +130,7 @@ console.log(extraData, "--------")
         }}
       />
       <TextInput
+        style={styles.input}
         placeholder="Enter your name"
         value={your_name}
         onChangeText={(e) => {
@@ -130,6 +138,7 @@ console.log(extraData, "--------")
         }}
       />
       <TextInput
+        style={styles.input}
         placeholder="Enter email"
         value={email}
         onChangeText={(e) => {
@@ -138,6 +147,7 @@ console.log(extraData, "--------")
       />
 
       <TextInput
+        style={styles.input}
         placeholder="Enter home address"
         value={home_address}
         onChangeText={(e) => {
@@ -145,13 +155,15 @@ console.log(extraData, "--------")
         }}
       />
       <TextInput
-        placeholder="Enter location where the pet lost"
+        style={styles.input}
+        placeholder="Enter location where the pet was lost"
         value={location}
         onChangeText={(e) => {
           setLocation(e);
         }}
       />
       <TextInput
+        style={styles.input}
         placeholder="Enter chip id"
         value={chipId}
         onChangeText={(e) => {
@@ -159,6 +171,7 @@ console.log(extraData, "--------")
         }}
       />
       <TextInput
+        style={styles.input}
         placeholder="Enter pet type"
         value={pet_type}
         onChangeText={(e) => {
@@ -166,17 +179,100 @@ console.log(extraData, "--------")
         }}
       />
       <TextInput
+        style={styles.input}
         placeholder="More details of lost pet"
         value={description}
         onChangeText={(e) => {
           setDescription(e);
         }}
       />
-      <Text>{selectedStartDate.toString()}</Text>
+      <Text style={styles.datePicked}>{selectedStartDate.toString()}</Text>
       <CalendarPicker onDateChange={setSelectedStartDate} />
-      <Button title="Choose Pic" onPress={pickImage} />
-      <Button title="Upload Image" onPress={uploadImage} />
-      <Button title="Submit" onPress={handleSubmit} />
-    </View>
+
+      <TouchableOpacity style={styles.buttonContainer} onPress={pickImage}>
+        <Text style={styles.buttonText}>Choose pic</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.buttonContainer} onPress={uploadImage}>
+        <Text style={styles.buttonText}>Upload Image</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.buttonContainerBottom}
+        onPress={handleSubmit}
+      >
+        <Text style={styles.buttonText}>Submit</Text>
+      </TouchableOpacity>
+    </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#5cc8d7",
+  },
+  title: {
+    fontSize: 25,
+    color: "#000",
+    justifyContent: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    alignSelf: "center",
+    fontWeight: "bold",
+  },
+  input: {
+    height: 48,
+    borderRadius: 5,
+    overflow: "hidden",
+    backgroundColor: "white",
+    marginTop: 6,
+    marginBottom: 6,
+    marginLeft: 30,
+    marginRight: 30,
+    paddingLeft: 16,
+  },
+  buttonContainer: {
+    marginTop: 10,
+    marginBottom: 7,
+    elevation: 8,
+    backgroundColor: "#788eec",
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    borderWidth: 1,
+    borderColor: "black",
+    margin: 20,
+    shadowRadius: 1.5,
+    shadowOpacity: 0.5,
+    shadowColor: "black",
+  },
+  buttonContainerBottom: {
+    marginTop: 10,
+    marginBottom: 30,
+    elevation: 8,
+    backgroundColor: "#788eec",
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    borderWidth: 1,
+    borderColor: "black",
+    margin: 20,
+    shadowRadius: 1.5,
+    shadowOpacity: 0.5,
+    shadowColor: "black",
+  },
+  buttonText: {
+    fontSize: 18,
+    color: "#fff",
+    fontWeight: "bold",
+    alignSelf: "center",
+    textTransform: "uppercase",
+  },
+  datePicked: {
+    alignSelf: "center",
+    fontWeight: "bold",
+    marginTop: 5,
+    marginBottom: 5,
+  },
+});

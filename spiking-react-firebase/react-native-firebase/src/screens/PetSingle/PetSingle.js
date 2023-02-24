@@ -19,13 +19,9 @@ export default function PetSingle({ route, extraData }) {
   return (
     <>
       <View style={styles.container}>
-        <Text style={styles.title}>
-          Hello! My name is {pet.pet_name} the {pet.pet_type}
-        </Text>
-        <Image
-          source={{ uri: pet.picture }}
-          style={{ width: 200, height: 200 }}
-        />
+        <Text style={styles.title}>{pet.pet_name}</Text>
+        <Image source={{ uri: pet.picture }} style={styles.image} />
+        <Text style={styles.heading}>Hello! My name is {pet.pet_name}</Text>
         <Text style={styles.text}>My home is in {pet.description}.</Text>
         <Text style={styles.text}>
           I was last seen on {} around the {pet.location} area :(.
@@ -42,31 +38,58 @@ export default function PetSingle({ route, extraData }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ffffff",
+    backgroundColor: "#5cc8d7",
   },
   title: {
-    fontSize: 22,
+    fontSize: 26,
+    color: "#000",
+    justifyContent: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    alignSelf: "center",
+    fontWeight: "bold",
+  },
+
+  heading: {
+    fontSize: 20,
     color: "#000",
     justifyContent: "center",
     paddingVertical: 12,
     paddingHorizontal: 32,
     alignSelf: "center",
   },
+
   text: {
+    fontSize: 20,
     alignContent: "center",
-    paddingVertical: 12,
+    paddingVertical: 10,
     alignSelf: "center",
   },
+
+  image: {
+    width: 200,
+    height: 200,
+    alignSelf: "center",
+    margin: 30,
+    borderRadius: 30,
+  },
+
   buttonContainer: {
     marginBottom: 36,
     elevation: 8,
-    backgroundColor: "#009688",
+    backgroundColor: "#788eec",
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 12,
+    borderWidth: 1,
+    borderColor: "black",
+    margin: 20,
+    shadowRadius: 1.5,
+    shadowOpacity: 0.5,
+    shadowColor: "black",
   },
+
   buttonText: {
-    fontSize: 16,
     fontSize: 18,
     color: "#fff",
     fontWeight: "bold",
