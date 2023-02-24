@@ -18,7 +18,7 @@ import { getStorage } from "firebase/storage";
 import uuid from 'react-native-uuid';
 
 
-export default function Search({ extraData }) {
+export default function Search({ route, extraData }) {
   const [pets, setPets] = useState([]);
   const db = firebase.firestore();
   const navigation = useNavigation();
@@ -41,7 +41,7 @@ export default function Search({ extraData }) {
 
   useEffect(() => {
     getUserPost();
-  }, []);
+  }, [route]);
 
   const goToChangeProfile = () => {
     navigation.navigate(`EditProfile`);
