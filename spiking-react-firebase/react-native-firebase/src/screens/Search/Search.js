@@ -5,94 +5,84 @@ import {
   Text,
   View,
   Image,
-ScrollView,
+  ScrollView,
   StyleSheet,
   Button,
-  TextInput
+  TextInput,
 } from "react-native";
 import firebase from "firebase/compat";
 import { useNavigation } from "@react-navigation/native";
 import Footer from "../Footer/Footer";
-import SelectDropdown from 'react-native-select-dropdown'
+import SelectDropdown from "react-native-select-dropdown";
 import { getStorage } from "firebase/storage";
 
-
 export default function Search({ props }) {
-
   const [pets, setPets] = useState([]);
-  const [response, setResponse] = useState(false)
-
   const db = firebase.firestore();
 
  
-const handlePetTypeSelection = async (petType) => {
+
+  const handlePetTypeSelection = async (petType) => {
     const storage = getStorage();
-    const queryPets = await db.collection("lost_pets").get();
+    const queryPets = await db
+      .collection("lost_pets")
+      .where("pet_type", "==", petType)
+      .get();
     const newPets = [];
     const newURL = []; //
     queryPets.forEach((doc) => {
       const pet = { ...doc.data(), id: doc.id };
-      if(pet.pet_type === petType){
-        newPets.push(pet);
-      }
+
+      newPets.push(pet);
     });
     setPets(newPets);
-    console.log(newPets)
-}
+  };
 
+  const petTypes = ["Cat", "Dog", "Rabbit", "Bird", "other"];
 
-const petTypes = ['Cat', 'Dog', 'Rabbit', 'Bird', 'other']
  
-useEffect(()=> {
-
-}, [])
 
   return (
-      <View >
-          <TextInput
+      <ScrollView>
+    <View>
+        <TextInput
           editable
           multiline
           numberOfLines={4}
           maxLength={40}
-               style={{padding: 10}}
+          style={{ padding: 10 }}
         />
-       <SelectDropdown
-    data={petTypes}
-    onSelect={(selectedItem, index) => {
-      
-      console.log(selectedItem, index)
-      handlePetTypeSelection(selectedItem)
-
-    }}
-    buttonTextAfterSelection={(selectedItem, index) => {
-      // text represented after item is selected
-      // if data array is an array of objects then return selectedItem.property to render after item is selected
-      return selectedItem
-    }}
-    rowTextForSelection={(item, index) => {
-      // text represented for each item in dropdown
-      // if data array is an array of objects then return item.property to represent item in dropdown
-      return item
-    }}
-  />
-   {pets.map((pet) => {
+        <SelectDropdown
+          data={petTypes}
+          onSelect={(selectedItem, index) => {
+            console.log(selectedItem, index);
+            handlePetTypeSelection(selectedItem);
+          }}
+          buttonTextAfterSelection={(selectedItem, index) => {
+            return selectedItem;
+          }}
+          rowTextForSelection={(item, index) => {
+            return item;
+          }}
+        />
+        {pets.map((pet) => {
           return (
-            <ScrollView key={pet.id}>
-              <Text>{pet.your_name}</Text>
+            <>
+              <Text key={pet.id}>{pet.your_name}</Text>
               <Image
                 source={{
                   uri: pet.picture,
                 }}
                 style={{ width: 200, height: 200 }}
               />
-            </ScrollView>
-            )})}
-  <Footer />
-      </View>
-    );
-  }
-
-
+            </>
+          );
+        })}
+        <Footer />
+    </View>
+      </ScrollView>
+  );
+}
 
 const styles = StyleSheet.create({
   container: {

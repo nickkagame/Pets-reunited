@@ -8,6 +8,8 @@ import { decode, encode } from 'base-64';
 import { Text } from 'react-native'; //
 import PostPet from './src/screens/PostPet/PostPet.js';
 import Search from "./src/screens/Search/Search";
+import UserProfile from "./src/screens/UserProfile/UserProfile";
+import EditProfile from "./src/screens/EditProfile/EditProfile";
 
 if (!global.btoa) {
   global.btoa = encode;
@@ -57,6 +59,12 @@ export default function App() {
             <Stack.Screen name="PostPet" component={PostPet} />
             <Stack.Screen name="Search">
               {(props) => <Search {...props} extraData={user} />}             
+            </Stack.Screen>
+            <Stack.Screen name="UserProfile">
+              {(props) => <UserProfile {...props} extraData={user} />}             
+            </Stack.Screen>
+            <Stack.Screen name="EditProfile">
+              {(props) => <EditProfile {...props} extraData={user} />}             
             </Stack.Screen>
           </>
         ) : (

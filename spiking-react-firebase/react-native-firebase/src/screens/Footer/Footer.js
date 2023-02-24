@@ -33,12 +33,15 @@ export default function HomeScreen({ props }) {
   const goToSearch = () => {
     navigation.navigate('Search');
   };
+  const goToUserProfile = () => {
+    navigation.navigate('UserProfile');
+  };
 
   return (
     <View style={styles.footer}>
       <Button title="Inbox"></Button>
       <Button title="Search" onPress={() => goToSearch()}></Button>
-      <Button title="User Profile"></Button>
+      <Button title="User Profile" onPress={() => goToUserProfile()}></Button>
     </View>
   );
 }
