@@ -14,7 +14,7 @@ export const AutoComp = () => {
   useEffect(() => {
     // axios
     //   .get(
-    //     `https://maps.googleapis.com/maps/api/place/details/json?key=AIzaSyBk5GNYK6uJbIVdBFlQeJk5W3r0N6NBLwU&place_id=${currAddr}`
+    //     `https://maps.googleapis.com/maps/api/place/details/json?key=&place_id=${currAddr}`
     //   )
     //   .then(({ data }) => {
     //     console.log(data);
@@ -26,7 +26,7 @@ export const AutoComp = () => {
     //   });
 
     fetch(
-      `https://maps.googleapis.com/maps/api/place/details/json?key=AIzaSyBk5GNYK6uJbIVdBFlQeJk5W3r0N6NBLwU&place_id=${selectedItem.place_id}`
+      `https://maps.googleapis.com/maps/api/place/details/json?key=&place_id=${selectedItem.place_id}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -56,7 +56,7 @@ export const AutoComp = () => {
           setSelectedItem(data);
         }}
         query={{
-          key: "AIzaSyBk5GNYK6uJbIVdBFlQeJk5W3r0N6NBLwU",
+          key: "",
           language: "en",
         }}
       />
