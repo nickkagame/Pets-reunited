@@ -1,8 +1,9 @@
 import { Text, Image, Linking, Button, StyleSheet, View } from "react-native";
+import { AutoComp } from "../../components/AutoComp";
 
 export default function PetSingle({ route, extraData }) {
   const { pet } = route.params;
-console.log(extraData)
+  // console.log(extraData);
   const sendEmail = () => {
     Linking.openURL(`mailto:${pet.email}?subject=Regarding ${pet.pet_name}`);
   };
@@ -28,6 +29,7 @@ console.log(extraData)
           onPress={() => sendEmail()}
           title="Contact owner"
         />
+        <AutoComp />
       </View>
     </>
   );

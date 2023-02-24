@@ -21,7 +21,7 @@ const Stack = createStackNavigator();
 export default function App() {
   const [loading, setLoading] = useState(null);
   const [user, setUser] = useState(null);
-  console.log(user, "<____")
+  // console.log(user, "<____")
   if (loading) {
     return <Text>loading ...</Text>;
   }
@@ -51,15 +51,14 @@ export default function App() {
       <Stack.Navigator>
         {user ? (
           <>
-
-          <Stack.Screen name="Home">
-             {(props) => <HomeScreen {...props} extraData={user} />}               
+            <Stack.Screen name="Home">
+              {(props) => <HomeScreen {...props} extraData={user} />}
             </Stack.Screen>
             <Stack.Screen name="PostPet">
-             {(props) => <PostPet {...props} extraData={user} />}               
+              {(props) => <PostPet {...props} extraData={user} />}
             </Stack.Screen>
             <Stack.Screen name="PetSingle">
-            {(props) => <PetSingle {...props} extraData={user} />}               
+              {(props) => <PetSingle {...props} extraData={user} />}
             </Stack.Screen>
           </>
         ) : (
