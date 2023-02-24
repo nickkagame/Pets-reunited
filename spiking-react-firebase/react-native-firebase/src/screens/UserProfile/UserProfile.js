@@ -15,7 +15,7 @@ import { useNavigation } from "@react-navigation/native";
 import Footer from "../Footer/Footer";
 import SelectDropdown from "react-native-select-dropdown";
 import { getStorage } from "firebase/storage";
-import EditProfile from "../EditProfile/EditProfile"
+import uuid from 'react-native-uuid';
 
 
 export default function Search({ extraData }) {
@@ -47,8 +47,8 @@ export default function Search({ extraData }) {
     navigation.navigate(`EditProfile`);
   };
 
-  const goToChangePost = () => {
-    navigation.navigate(`Edit Post`);
+  const goToChangePost = (pet) => {
+    navigation.navigate(`Edit Post`, {pet: pet});
   };
 
   console.log(pets);
@@ -69,7 +69,7 @@ export default function Search({ extraData }) {
           console.log(pet)
           return (
             <>
-              <View style={styles.container} key={pet.description}>
+              <View style={styles.container} key={uuid.v4()}>
                 <Text style={styles.title}>
                   Hello! My name is {pet.pet_name} the {pet.pet_type}
                 </Text>
@@ -84,7 +84,7 @@ export default function Search({ extraData }) {
                 <Text>I really miss my owner {pet.your_name}</Text>
                 <Button
                   style={styles.button}
-                  onPress={() => goToChangePost()}
+                  onPress={() => goToChangePost(pet)}
                   title="Edit Post"
                 />
               </View>
