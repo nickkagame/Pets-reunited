@@ -43,8 +43,12 @@ export default function Search({ extraData }) {
     getUserPost();
   }, []);
 
-  const handleProfile = () => {
+  const goToChangeProfile = () => {
     navigation.navigate(`EditProfile`);
+  };
+
+  const goToChangePost = () => {
+    navigation.navigate(`Edit Post`);
   };
 
   console.log(pets);
@@ -52,19 +56,20 @@ export default function Search({ extraData }) {
     <ScrollView>
       <View>
         <Text>User Profile: </Text>
-        <Text>{extraData.fullName}</Text>
+        <Text >{extraData.fullName}</Text>
         <Text>{extraData.id}</Text>
         <Text>{extraData.email}</Text>
         <Button
           style={styles.button}
-          onPress={() => handleProfile()}
+          onPress={() => goToChangeProfile()}
           title="Edit Profile"
         />
         <Text>Your post:</Text>
         {pets.map((pet) => {
+          console.log(pet)
           return (
             <>
-              <View style={styles.container} key={pet.id}>
+              <View style={styles.container} key={pet.description}>
                 <Text style={styles.title}>
                   Hello! My name is {pet.pet_name} the {pet.pet_type}
                 </Text>
@@ -79,7 +84,7 @@ export default function Search({ extraData }) {
                 <Text>I really miss my owner {pet.your_name}</Text>
                 <Button
                   style={styles.button}
-                  onPress={() => handlePost()}
+                  onPress={() => goToChangePost()}
                   title="Edit Post"
                 />
               </View>

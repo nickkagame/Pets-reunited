@@ -16,48 +16,48 @@ import Footer from "../Footer/Footer";
 import SelectDropdown from "react-native-select-dropdown";
 import { getStorage } from "firebase/storage";
 
-export default function Search({ extraData }) {
+export default function Search({ extraData, setUser }) {
   const [pets, setPets] = useState([]);
   const db = firebase.firestore();
   const navigation = useNavigation();
 
-  const getUserPost = async () => {
-    const storage = getStorage();
-    const queryPets = await db
-      .collection("lost_pets")
-      .where("userID", "==", extraData.id)
-      .get();
-    const newPets = [];
-    const newURL = []; //
-    queryPets.forEach((doc) => {
-      const pet = { ...doc.data(), id: doc.id };
+ const [newName, setNewName] = useState(extraData.fullName) 
+const [newEmail, setNewEmail] = useState(extraData.email)
+ 
+console.log(extraData)
 
-      newPets.push(pet);
-    });
-    setPets(newPets);
+  const handleSubmit = () => {
+   const newUserInfo = {fullName: newName,
+   email: newEmail,
+   id: extraData.id
+   }
+    db.collection("users").doc(extraData.id).set(newUserInfo)
+      .then((response)=> {
+        setUser(newUserInfo)
+        alert("User profile updated! 👍");
+      }).catch((err)=> {
+        console.log(err)
+        alert("Error - something went wrong :(")
+      })
+      
   };
 
-  useEffect(() => {
-    getUserPost();
-  }, []);
 
-  const handleProfile = () => {
-    navigation.navigate(`EditProfile`);
-  };
-
-  console.log(pets);
   return (
     <ScrollView>
       <View>
-        {/* <Text>User Profile: </Text>
-        <Text>{extraData.fullName}</Text>
-        <Text>{extraData.id}</Text>
-        <Text>{extraData.email}</Text>
+        <Text value={extraData.fullName}>User Profile: </Text>
+        <TextInput onChangeText={(e) => {
+          setNewName(e);
+        }}>{extraData.fullName}</TextInput>
+        <TextInput onChangeText={(e) => {
+          setNewEmail(e);
+        }}>{extraData.email}</TextInput>
         <Button
           style={styles.button}
-          onPress={() => handleProfile()}
-          title="Edit Profile"
-        />   */}
+          onPress={handleSubmit}
+          title="Submit Changes"
+        />  
         <Footer />
       </View>
     </ScrollView>
