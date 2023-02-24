@@ -9,11 +9,12 @@ import { decode, encode } from 'base-64';
 import { Text } from 'react-native'; //
 import PostPet from './src/screens/PostPet/PostPet.js';
 import PetSingle from "./src/screens/PetSingle/PetSingle";
+import { StyleSheet } from "react-native";
+import { StatusBar } from "expo-status-bar";
 import Search from "./src/screens/Search/Search";
 import UserProfile from "./src/screens/UserProfile/UserProfile";
 import EditProfile from "./src/screens/EditProfile/EditProfile";
 import EditPost from './src/screens/EditPost/EditPost';
-
 
 if (!global.btoa) {
   global.btoa = encode;
@@ -27,7 +28,7 @@ const Stack = createStackNavigator();
 export default function App() {
   const [loading, setLoading] = useState(null);
   const [user, setUser] = useState(null);
-  console.log(user, "<____")
+  console.log(user, "<____");
   if (loading) {
     return <Text>loading ...</Text>;
   }
@@ -53,19 +54,19 @@ export default function App() {
   }, []);
 
   return (
-    <NavigationContainer>
+    <NavigationContainer style={styles.navContainer}>
+      <StatusBar barStyle="dark-content" backgroundColor="#f0f0f0" />
       <Stack.Navigator>
         {user ? (
           <>
-
-          <Stack.Screen name="Home">
-             {(props) => <HomeScreen {...props} extraData={user} />}               
+            <Stack.Screen name="Home">
+              {(props) => <HomeScreen {...props} extraData={user} />}
             </Stack.Screen>
             <Stack.Screen name="PostPet">
-             {(props) => <PostPet {...props} extraData={user} />}               
+              {(props) => <PostPet {...props} extraData={user} />}
             </Stack.Screen>
             <Stack.Screen name="PetSingle">
-            {(props) => <PetSingle {...props} extraData={user} />}               
+              {(props) => <PetSingle {...props} extraData={user} />}
             </Stack.Screen>
             <Stack.Screen name="Search">
               {(props) => <Search {...props} extraData={user} />}             
@@ -90,3 +91,9 @@ export default function App() {
     </NavigationContainer>
   );
 }
+
+const styles = StyleSheet.create({
+  navContainer: {
+    backgroundColor: "black",
+  },
+});
