@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import firebase from "firebase/compat";
 import { useNavigation } from "@react-navigation/native";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 const db = firebase.firestore();
 
@@ -25,12 +26,30 @@ export default function HomeScreen({ props }) {
 
   return (
     <View style={styles.footer}>
-      <Button title="Inbox"></Button>
-      <Button title="Search" onPress={() => goToSearch()}></Button>
-      <Button title="User Profile" onPress={() => goToUserProfile()}></Button>
+      <TouchableOpacity style={styles.footer}>
+        {/* <Text>Inbox</Text> */}
+        <Icon name="envelope-o" size={35} color="#900" />
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.footer} onPress={() => goToSearch()}>
+        {/* <Text>Search</Text> */}
+        <Icon name="search" size={35} color="#900" />
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.footer} onPress={() => goToUserProfile()}>
+        {/* <Text>User Profile</Text> */}
+        <Icon
+          style={styles.iconFooter}
+          name="user-circle-o"
+          size={35}
+          color="#900"
+        />
+      </TouchableOpacity>
     </View>
   );
 }
+// Can style the images!
+//They are clickable
 
 const styles = StyleSheet.create({
   container: {
@@ -44,5 +63,10 @@ const styles = StyleSheet.create({
     backgroundColor: "yellow",
     padding: 30,
     flexDirection: "row",
+  },
+  iconFooter: {
+    justifyContent: "center",
+    verticalAlign: "center",
+    marginRight: 50,
   },
 });
