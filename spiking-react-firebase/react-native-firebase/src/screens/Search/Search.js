@@ -20,8 +20,6 @@ export default function Search({ props }) {
   const [pets, setPets] = useState([]);
   const db = firebase.firestore();
 
- 
-
   const handlePetTypeSelection = async (petType) => {
     const storage = getStorage();
     const queryPets = await db
@@ -40,60 +38,74 @@ export default function Search({ props }) {
 
   const petTypes = ["Cat", "Dog", "Rabbit", "Bird", "other"];
 
- 
-
   return (
-      <ScrollView>
-    <View>
-        <TextInput
-          editable
-          multiline
-          numberOfLines={4}
-          maxLength={40}
-          style={{ padding: 10 }}
-        />
-        <SelectDropdown
-          data={petTypes}
-          onSelect={(selectedItem, index) => {
-            console.log(selectedItem, index);
-            handlePetTypeSelection(selectedItem);
-          }}
-          buttonTextAfterSelection={(selectedItem, index) => {
-            return selectedItem;
-          }}
-          rowTextForSelection={(item, index) => {
-            return item;
-          }}
-        />
-        {pets.map((pet) => {
-          return (
-            <>
-              <Text key={pet.id}>{pet.your_name}</Text>
-              <Image
-                source={{
-                  uri: pet.picture,
-                }}
-                style={{ width: 200, height: 200 }}
-              />
-            </>
-          );
-        })}
-        <Footer />
-    </View>
+    <>
+      <ScrollView style={styles.container}>
+        <View style={styles.dropDown}>
+          <TextInput
+            editable
+            multiline
+            numberOfLines={4}
+            maxLength={40}
+            style={{ padding: 10 }}
+          />
+          <SelectDropdown
+            style={styles.dropDown}
+            data={petTypes}
+            onSelect={(selectedItem, index) => {
+              handlePetTypeSelection(selectedItem);
+            }}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              return selectedItem;
+            }}
+            rowTextForSelection={(item, index) => {
+              return item;
+            }}
+          />
+          {pets.map((pet) => {
+            return (
+              <>
+                <Text style={styles.petName} key={pet.id}>
+                  {pet.your_name}
+                </Text>
+                <Image
+                  source={{
+                    uri: pet.picture,
+                  }}
+                  style={styles.image}
+                />
+              </>
+            );
+          })}
+        </View>
       </ScrollView>
+      <Footer />
+    </>
   );
 }
-
+//cant get the dropdown box to centre when an option is picked
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ecf0f1",
+    backgroundColor: "#5cc8d7",
   },
-  content: {
-    flex: 1,
+  dropDown: {
+    color: "#000",
+    justifyContent: "center",
+    paddingVertical: 20,
+    alignSelf: "center",
   },
-  footer: {
-    backgroundColor: "yellow",
-    padding: 40,
+  petName: {
+    fontWeight: "bold",
+    margin: 10,
+    textAlign: "center",
+  },
+  image: {
+    width: 200,
+    height: 200,
+    alignSelf: "center",
+    margin: 30,
+    borderRadius: 30,
+    marginTop: 6,
   },
 });

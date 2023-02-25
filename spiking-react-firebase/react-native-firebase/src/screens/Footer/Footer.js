@@ -25,48 +25,47 @@ export default function HomeScreen({ props }) {
   };
 
   return (
-    <View style={styles.footer}>
-      <TouchableOpacity style={styles.footer}>
-        {/* <Text>Inbox</Text> */}
-        <Icon name="envelope-o" size={35} color="#900" />
-      </TouchableOpacity>
+    <View style={styles.container}>
+      <View style={styles.footer}>
+        <TouchableOpacity style={styles.iconContainer}>
+          <Icon name="envelope-o" size={35} color="#900" />
+        </TouchableOpacity>
 
-      <TouchableOpacity style={styles.footer} onPress={() => goToSearch()}>
-        {/* <Text>Search</Text> */}
-        <Icon name="search" size={35} color="#900" />
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.iconContainer}
+          onPress={() => goToSearch()}
+        >
+          <Icon name="search" size={35} color="#900" />
+        </TouchableOpacity>
 
-      <TouchableOpacity style={styles.footer} onPress={() => goToUserProfile()}>
-        {/* <Text>User Profile</Text> */}
-        <Icon
-          style={styles.iconFooter}
-          name="user-circle-o"
-          size={35}
-          color="#900"
-        />
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.iconContainer}
+          onPress={() => goToUserProfile()}
+        >
+          <Icon name="user-circle-o" size={35} color="#900" />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
-// Can style the images!
-//They are clickable
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#ecf0f1",
-  },
-  content: {
-    flex: 1,
+    flexend: 0,
+    backgroundColor: "#5cc8d7",
   },
   footer: {
     backgroundColor: "yellow",
     padding: 30,
     flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    justifyContent: "space-evenly",
+    borderRadius: 50,
   },
-  iconFooter: {
+  iconContainer: {
     justifyContent: "center",
-    verticalAlign: "center",
-    marginRight: 50,
+    alignItems: "center",
+    justifyContent: "flex-end",
   },
 });
