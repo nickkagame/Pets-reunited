@@ -4,13 +4,15 @@ import { StyleSheet } from "react-native";
 // import { AutocompleteDropdown } from "react-native-autocomplete-dropdown";
 import MapView, { Marker } from "react-native-maps";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import { appKey } from "./key";
 
 export const AutoComp = () => {
   const [selectedItem, setSelectedItem] = useState("Warsaw");
-  const [currAddr, setCurrAddr] = useState("ChIJH_I65FUdYDkRGOv2oQE84rg");
+  const [currAddr, setCurrAddr] = useState("ChIJAZ-GmmbMHkcR_NPqiCq-8HI");
   const [latCurrent, setLat] = useState(52.2296756);
   const [lngCurrent, setLng] = useState(21.0122287);
   // const addInp = !selectedItem ? "" : selectedItem.title;
+  console.log(appKey);
   useEffect(() => {
     // axios
     //   .get(
@@ -26,11 +28,17 @@ export const AutoComp = () => {
     //   });
 
     fetch(
-      `https://maps.googleapis.com/maps/api/place/details/json?key=&place_id=${selectedItem.place_id}`
+      `https://maps.googleapis.com/maps/api/place/details/json?key=${appKey}&place_id=${currAddr}`
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data.result.address_components);
+        // console.log(data);
+        const { lat, lng } = data.result.geometry.location;
+        console.log("Latitude:", lat);
+        console.log("Longitude:", lng);
+        setLat(lat);
+        setLng(lng);
+        // console.log(data.result.address_components);
         const town = data.result.address_components.find(
           (component) =>
             component.types.includes("locality") ||
@@ -44,7 +52,7 @@ export const AutoComp = () => {
       })
       .catch((error) => console.error(error));
   }, [selectedItem]);
-  // console.log(selectedItem);
+  console.log(selectedItem);
 
   return (
     <>
@@ -54,17 +62,20 @@ export const AutoComp = () => {
           // 'details' is provided when fetchDetails = true
           // console.log(Object.keys(data));
           setSelectedItem(data);
+          selectedItem.address_components
+            ? setCurrAddr(selectedItem.address_components)
+            : "";
         }}
         query={{
-          key: "",
+          key: `${appKey}`,
           language: "en",
         }}
       />
       <MapView
         style={styles.mapStyle}
         initialRegion={{
-          latitude: latCurrent,
-          longitude: lngCurrent,
+          latitude: 52.2296756,
+          longitude: 21.0122287,
           latitudeDelta: 0.05,
           longitudeDelta: 0.05,
         }}
@@ -73,8 +84,8 @@ export const AutoComp = () => {
         <Marker
           draggable
           coordinate={{
-            latitude: 37.78825,
-            longitude: -122.4324,
+            latitude: latCurrent,
+            longitude: lngCurrent,
           }}
           onDragEnd={(e) => alert(JSON.stringify(e.nativeEvent.coordinate))}
           title={"Test Marker"}
