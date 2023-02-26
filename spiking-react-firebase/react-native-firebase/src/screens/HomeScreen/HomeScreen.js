@@ -46,7 +46,7 @@ export default function HomeScreen({ props, extraData }) {
   useEffect(() => {
     getPets();
   }, []);
-  
+
   const handlePress = (pet) => {
     navigation.navigate("PetSingle", { pet: pet });
   };
@@ -92,7 +92,6 @@ export default function HomeScreen({ props, extraData }) {
             keyExtractor={(item) => item.id}
           />
         </View>
-        <View></View>
 
         <Footer />
       </>

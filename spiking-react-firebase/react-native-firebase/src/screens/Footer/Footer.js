@@ -26,15 +26,20 @@ export default function HomeScreen({ props }) {
     footer: {
       backgroundColor: "yellow",
       padding: 40,
+      flexDirection: "row",
     },
   });
 
   const navigation = useNavigation();
   const goToSearch = () => {
-    navigation.navigate('Search');
+    navigation.navigate("Search");
   };
   const goToUserProfile = () => {
-    navigation.navigate('UserProfile');
+    navigation.navigate("UserProfile");
+  };
+
+  const goToMap = () => {
+    navigation.navigate("Map");
   };
 
   return (
@@ -42,6 +47,7 @@ export default function HomeScreen({ props }) {
       <Button title="Inbox"></Button>
       <Button title="Search" onPress={() => goToSearch()}></Button>
       <Button title="User Profile" onPress={() => goToUserProfile()}></Button>
+      <Button title="Map" onPress={() => goToMap()} />
     </View>
   );
 }
