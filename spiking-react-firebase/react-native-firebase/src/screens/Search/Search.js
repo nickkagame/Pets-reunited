@@ -21,7 +21,7 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 export default function Search({ props }) {
   const [pets, setPets] = useState([]);
   const db = firebase.firestore();
-  const appKey = ""; // here app key
+  const appKey = "AIzaSyBMITvTV2eJuNap5mXGzkPgMJiQyuf9SRc"; // here app key 
   const handlePetTypeSelection = async (petType) => {
     const storage = getStorage();
     const queryPets = await db
@@ -35,8 +35,18 @@ export default function Search({ props }) {
 
       newPets.push(pet);
     });
-    setPets(newPets);
+    if(location){
+      const formattedPets = newPets.filter((pet)=>{
+return pet.location === location;
+      })
+      setPets(formattedPets)
+    }else{
+       setPets(newPets);
+    }
+   
   };
+
+ 
 
   const petTypes = ["Cat", "Dog", "Rabbit", "Bird", "other"];
 
@@ -47,7 +57,6 @@ export default function Search({ props }) {
   const [location, setLocation] = useState("");
 
   const handleSelectItem = (data) => {
-    console.log(data, "<<<<<<<<<< DATA");
     fetch(
       `https://maps.googleapis.com/maps/api/place/details/json?key=${appKey}&place_id=${data.place_id}`
     ).then((response) => {
@@ -77,7 +86,6 @@ export default function Search({ props }) {
       <GooglePlacesAutocomplete
         placeholder="Search"
         onPress={(data, details = null) => {
-          console.log(data, "<<<<<<<<<<<<");
           handleSelectItem(data);
         }}
         query={{
@@ -109,26 +117,20 @@ export default function Search({ props }) {
           />
 
           {pets.map((pet) => {
-            return (
-              <>
-                {console.log(location, "<<< LOCATION")}
-                {location && pet.location === location ? (
-                  <>
-                    <Text style={styles.petName} key={pet.id}>
-                      {pet.your_name}
-                    </Text>
-                    <Image
-                      source={{
-                        uri: pet.picture,
-                      }}
-                      style={styles.image}
-                    />
-                  </>
-                ) : (
-                  <Text>TESTTTTTTTTTTTTTTTTTT</Text>
-                )}
-              </>
-            );
+              return (
+                    <>
+                      <Text style={styles.petName} key={pet.id}>
+                        {pet.your_name}
+                      </Text>
+                      <Image
+                        source={{
+                          uri: pet.picture,
+                        }}
+                        style={styles.image}
+                      />
+                    </>    
+                
+              );
           })}
         </View>
       </ScrollView>
