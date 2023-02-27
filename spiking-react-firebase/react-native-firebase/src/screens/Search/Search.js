@@ -83,7 +83,7 @@ export default function Search({ props }) {
     </>
   );
 }
-//cant get the dropdown box to centre when an option is picked
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
