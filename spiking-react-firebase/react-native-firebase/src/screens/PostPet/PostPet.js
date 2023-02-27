@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import { appKey } from "../../components/key";
 import {
   Text,
   View,
@@ -32,7 +34,32 @@ const db = getFirestore(app);
 
 
 export default function PostPet({ extraData }) {
-  console.log(extraData, "--------");
+
+  const handleSelectItem = (data) => {
+    fetch(`https://maps.googleapis.com/maps/api/place/details/json?key=${appKey}&place_id=${data.place_id}`)
+    .then((response)=> {
+       response.json().then((responseData) => {
+         // console.log(data);
+         const { lat, lng } = responseData.result.geometry.location;
+         console.log("Latitude:", lat);
+         console.log("Longitude:", lng);
+ 
+         const town = responseData.result.address_components.find(
+           (component) =>
+             component.types.includes("locality") ||
+             component.types.includes("postal_town")
+         )?.long_name;
+         const postcode = responseData.result.address_components.find((component) =>
+           component.types.includes("postal_code")
+         )?.long_name;
+         console.log("Town:", town);
+         console.log("Postcode:", postcode);
+         console.log(responseData.result.address_components);
+       })
+    })
+   
+ 
+   };
 
 
   const [pet_name, setPet_name] = useState("");
@@ -148,15 +175,17 @@ export default function PostPet({ extraData }) {
           setEmail(e);
         }}
       />
-
-      <TextInput
-        style={styles.input}
-        placeholder="Enter home address"
-        value={home_address}
-        onChangeText={(e) => {
-          setHome_address(e);
-        }}
-      />
+    <GooglePlacesAutocomplete
+      placeholder="Search"
+      onPress={(data, details = null) => {
+        console.log(data, '<<<<<<<<<<<<')
+        handleSelectItem(data) 
+      }}
+      query={{
+        key: `${appKey}`,
+        language: "en",
+      }}
+    />
       <TextInput
         style={styles.input}
         placeholder="Enter location where the pet was lost"
