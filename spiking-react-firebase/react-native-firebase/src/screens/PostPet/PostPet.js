@@ -29,6 +29,8 @@ import { app } from "../../firebase/config";
 import Footer from "../Footer/Footer";
 import CalendarPopUp from "../Calendar.js/Calendar";
 import { AutoComp } from "../../components/AutoComp";
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import { appKey } from "../../components/key";
 
 const db = getFirestore(app);
 
@@ -47,6 +49,7 @@ export default function PostPet({ extraData }) {
   const [uploading, setUploading] = useState(null);
   const [selectedStartDate, setSelectedStartDate] = useState("");
   const [isClicked, setIsClicked] = useState(false);
+  const [testState, setTest] = useState("test");
 
   const dayjs = require("dayjs");
   const date = dayjs(selectedStartDate).format("MMMM DD YYYY");
@@ -125,6 +128,8 @@ export default function PostPet({ extraData }) {
     }
   };
 
+  console.log(testState);
+
   return (
     <>
       {/* <ScrollView style={styles.container}> */}
@@ -132,7 +137,11 @@ export default function PostPet({ extraData }) {
 
       {/* </ScrollView> */}
 
-      <ScrollView horizontal={false} style={styles.container}>
+      <ScrollView
+        keyboardShouldPersistTaps={"handled"}
+        horizontal={false}
+        style={styles.container}
+      >
         {/* </ScrollView> */}
         <Text style={styles.title}>Report a lost pet</Text>
         <TextInput
@@ -167,15 +176,32 @@ export default function PostPet({ extraData }) {
             setHome_address(e);
           }}
         /> */}
-        <AutoComp />
-        <TextInput
+        <ScrollView
+          keyboardShouldPersistTaps={"handled"}
+          horizontal={true}
+          style={styles.inputAuto}
+        >
+          <AutoComp setTest={setTest} />
+          {/* <GooglePlacesAutocomplete
+            placeholder="Search"
+            onPress={(data, details = null) => {
+              console.log(data, "<<<<<<<<<<<<");
+              handleSelectItem(data);
+            }}
+            query={{
+              key: `${appKey}`,
+              language: "en",
+            }}
+          /> */}
+        </ScrollView>
+        {/* <TextInput
           style={styles.input}
           placeholder="Enter location where the pet was lost"
           value={location}
           onChangeText={(e) => {
             setLocation(e);
           }}
-        />
+        /> */}
         <TextInput
           style={styles.input}
           placeholder="Enter chip id"
@@ -235,6 +261,7 @@ export default function PostPet({ extraData }) {
           <Text style={styles.buttonText}>Submit</Text>
         </TouchableOpacity>
       </ScrollView>
+
       <Footer />
     </>
   );

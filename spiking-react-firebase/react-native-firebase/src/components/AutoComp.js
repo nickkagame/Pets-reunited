@@ -4,7 +4,7 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 import { appKey } from "./key";
 // import axios from 'axios'
 
-export const AutoComp = () => {
+export const AutoComp = ({ setTest }) => {
   const [selectedItem, setSelectedItem] = useState("");
   const [currPlaceId, setPlaceId] = useState("ChIJAZ-GmmbMHkcR_NPqiCq-8HI");
 
@@ -31,11 +31,12 @@ export const AutoComp = () => {
         console.log(responseData.result.address_components);
       });
     });
+    setTest("hello");
   };
 
   return (
     <GooglePlacesAutocomplete
-      placeholder="Search"
+      placeholder="Enter location where the pet was lost"
       onPress={(data, details = null) => {
         console.log(data, "<<<<<<<<<<<<");
         handleSelectItem(data);
