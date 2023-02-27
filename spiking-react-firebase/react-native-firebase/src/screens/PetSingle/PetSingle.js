@@ -7,7 +7,7 @@ import {
   View,
   TouchableOpacity,
 } from "react-native";
-import Footer from "../Footer/Footer"
+import Footer from "../Footer/Footer";
 
 export default function PetSingle({ route, extraData }) {
   const { pet } = route.params;
@@ -16,7 +16,6 @@ export default function PetSingle({ route, extraData }) {
     Linking.openURL(`mailto:${pet.email}?subject=Regarding ${pet.pet_name}`);
   };
 
-  // console.log(pet);
   return (
     <>
       <View style={styles.container}>
@@ -32,7 +31,7 @@ export default function PetSingle({ route, extraData }) {
           <Text style={styles.buttonText}>Contact owner</Text>
         </TouchableOpacity>
       </View>
-      <Footer/>
+      <Footer />
     </>
   );
 }
