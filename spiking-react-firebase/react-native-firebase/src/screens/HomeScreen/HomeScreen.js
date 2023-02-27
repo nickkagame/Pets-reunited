@@ -11,13 +11,10 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { collection, getDocs, QuerySnapshot } from "@firebase/firestore";
-import firebase from "firebase/compat";
 import { ScrollView } from "react-native-gesture-handler";
-import { getStorage } from "firebase/storage";
 import { useNavigation } from "@react-navigation/native";
 import Footer from "../Footer/Footer";
-
-const db = firebase.firestore();
+import { getPets } from "../../components/api";
 
 export default function HomeScreen({ props, extraData }) {
   const [pets, setPets] = useState([]);
@@ -30,21 +27,8 @@ export default function HomeScreen({ props, extraData }) {
     navigation.navigate("PostPet");
   };
 
-  const getPets = async () => {
-    const storage = getStorage();
-    const queryPets = await db.collection("lost_pets").get();
-    const newPets = [];
-    const newURL = [];
-    queryPets.forEach((doc) => {
-      const pet = { ...doc.data(), id: doc.id };
-      newPets.push(pet);
-      newURL.push(pet.picture);
-    });
-
-    setPets(newPets);
-  };
   useEffect(() => {
-    getPets();
+    getPets().then((newPets) => setPets(newPets));
   }, []);
 
   const handlePress = (pet) => {

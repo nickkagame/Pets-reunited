@@ -7,7 +7,8 @@ import {
   View,
   TouchableOpacity,
 } from "react-native";
-import Footer from "../Footer/Footer"
+import Footer from "../Footer/Footer";
+import { AutoComp } from "../../components/AutoComp";
 
 export default function PetSingle({ route, extraData }) {
   const { pet } = route.params;
@@ -20,7 +21,8 @@ export default function PetSingle({ route, extraData }) {
   return (
     <>
       <View style={styles.container}>
-        <Text style={styles.title}>{pet.pet_name}</Text>
+        <AutoComp />
+        {/* <Text style={styles.title}>{pet.pet_name}</Text>
         <Image source={{ uri: pet.picture }} style={styles.image} />
         <Text style={styles.heading}>Hello! My name is {pet.pet_name}</Text>
         <Text style={styles.text}>My home is in {pet.description}.</Text>
@@ -30,9 +32,9 @@ export default function PetSingle({ route, extraData }) {
         <Text style={styles.text}>I really miss my owner {pet.your_name}.</Text>
         <TouchableOpacity style={styles.buttonContainer} onPress={sendEmail}>
           <Text style={styles.buttonText}>Contact owner</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
-      <Footer/>
+      <Footer />
     </>
   );
 }

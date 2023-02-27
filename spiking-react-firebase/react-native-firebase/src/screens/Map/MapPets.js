@@ -1,22 +1,30 @@
 import MapView, { Marker } from "react-native-maps";
 import { StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { getPets } from "../../components/api";
 
 export const MapPets = () => {
+  const navigation = useNavigation();
   const markersTest = [
     { name: "London", lat: 51.509865, lon: -0.118092 },
-    { name: "MAnchester", lat: 53.483959, lon: -2.244644 },
+    { name: "Manchester", lat: 53.483959, lon: -2.244644 },
     { name: "Middlewich", lat: 53.194087, lon: -2.44413 },
     { name: "Birmingham", lat: 52.489471, lon: -1.898575 },
     { name: "Chester", lat: 53.189999, lon: -2.89 },
   ];
+  const handlePressMarker = () => {
+    // getPets().then((pets) => {
+    //   navigation.navigate("PetSingle", { pet: pets[0] });
+    // });
+  };
   return (
     <MapView
       style={styles.mapStyle}
       initialRegion={{
         latitude: 51.509865,
         longitude: -0.118092,
-        latitudeDelta: 0.05,
-        longitudeDelta: 0.05,
+        latitudeDelta: 6,
+        longitudeDelta: 0.001,
       }}
       customMapStyle={mapStyle}
     >
@@ -25,7 +33,10 @@ export const MapPets = () => {
           key={marker.name}
           coordinate={{ latitude: marker.lat, longitude: marker.lon }}
           title={marker.name}
-          description={"a lost per placeholder"}
+          description={
+            "a lost pet placeholder, here we can render some description. Or maybe we want to go to the PetSingle screen on click?"
+          }
+          onPress={() => handlePressMarker(marker)}
         />
       ))}
       {/* <Marker
