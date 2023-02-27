@@ -8,6 +8,7 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  Touchable,
 } from "react-native";
 import uuid from "react-native-uuid";
 import {
@@ -25,15 +26,13 @@ import "@firebase/firestore";
 import "@firebase/storage";
 import "@firebase/storage-compat";
 import { app } from "../../firebase/config";
-import CalendarPicker from "react-native-calendar-picker";
 import Footer from "../Footer/Footer";
+import CalendarPopUp from "../Calendar.js/Calendar";
 
 const db = getFirestore(app);
 
-
 export default function PostPet({ extraData }) {
   console.log(extraData, "--------");
-
 
   const [pet_name, setPet_name] = useState("");
   const [your_name, setYour_name] = useState("");
@@ -46,6 +45,10 @@ export default function PostPet({ extraData }) {
   const [image, setImage] = useState("");
   const [uploading, setUploading] = useState(null);
   const [selectedStartDate, setSelectedStartDate] = useState("");
+  const [isClicked, setIsClicked] = useState(false);
+
+  const dayjs = require("dayjs");
+  const date = dayjs(selectedStartDate).format("MMMM DD YYYY");
 
   const uploadImage = async () => {
     const blob = await new Promise((resolve, reject) => {
@@ -115,6 +118,7 @@ export default function PostPet({ extraData }) {
         userProfileEmail: extraData.email,
         userProfileName: extraData.fullName,
       });
+      setIsClicked(false); // trying to reset the calendar to not appear on submit
     } catch (e) {
       console.error(e);
     }
@@ -122,92 +126,108 @@ export default function PostPet({ extraData }) {
 
   return (
     <>
-    <ScrollView style={styles.container}>
-      <Text style={styles.title}>Report a lost pet</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter pet name"
-        value={pet_name}
-        onChangeText={(e) => {
-          setPet_name(e);
-        }}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Enter your name"
-        value={your_name}
-        onChangeText={(e) => {
-          setYour_name(e);
-        }}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Enter email"
-        value={email}
-        onChangeText={(e) => {
-          setEmail(e);
-        }}
-      />
+      <ScrollView style={styles.container}>
+        <Text style={styles.title}>Report a lost pet</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Enter pet name"
+          value={pet_name}
+          onChangeText={(e) => {
+            setPet_name(e);
+          }} // req
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Enter your name"
+          value={your_name}
+          onChangeText={(e) => {
+            setYour_name(e);
+          }}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Enter email"
+          value={email}
+          onChangeText={(e) => {
+            setEmail(e);
+          }}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Enter home address"
+          value={home_address}
+          onChangeText={(e) => {
+            setHome_address(e);
+          }}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Enter location where the pet was lost"
+          value={location}
+          onChangeText={(e) => {
+            setLocation(e);
+          }}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Enter chip id"
+          value={chipId}
+          onChangeText={(e) => {
+            setChipId(e);
+          }}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Enter pet type"
+          value={pet_type}
+          onChangeText={(e) => {
+            setPet_type(e);
+          }}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="More details of lost pet"
+          value={description}
+          onChangeText={(e) => {
+            setDescription(e);
+          }}
+        />
+        <Text style={styles.datePicked}>
+          {date.toString() === "Invalid Date"
+            ? "Please pick a date"
+            : date.toString()}
+        </Text>
+        {console.log(date.toString())}
+        <TouchableOpacity
+          style={styles.calendarContainer}
+          onPress={() => {
+            setIsClicked(true);
+          }}
+        >
+          {isClicked ? (
+            <CalendarPopUp setSelectedStartDate={setSelectedStartDate} />
+          ) : (
+            ""
+          )}
+          <Text style={styles.buttonText}>Pick date lost</Text>
+        </TouchableOpacity>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Enter home address"
-        value={home_address}
-        onChangeText={(e) => {
-          setHome_address(e);
-        }}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Enter location where the pet was lost"
-        value={location}
-        onChangeText={(e) => {
-          setLocation(e);
-        }}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Enter chip id"
-        value={chipId}
-        onChangeText={(e) => {
-          setChipId(e);
-        }}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Enter pet type"
-        value={pet_type}
-        onChangeText={(e) => {
-          setPet_type(e);
-        }}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="More details of lost pet"
-        value={description}
-        onChangeText={(e) => {
-          setDescription(e);
-        }}
-      />
-      <Text style={styles.datePicked}>{selectedStartDate.toString()}</Text>
-      <CalendarPicker onDateChange={setSelectedStartDate} />
+        <TouchableOpacity style={styles.buttonContainer} onPress={pickImage}>
+          <Text style={styles.buttonText}>Choose pic</Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity style={styles.buttonContainer} onPress={pickImage}>
-        <Text style={styles.buttonText}>Choose pic</Text>
-      </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonContainer} onPress={uploadImage}>
+          <Text style={styles.buttonText}>Upload Image</Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity style={styles.buttonContainer} onPress={uploadImage}>
-        <Text style={styles.buttonText}>Upload Image</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.buttonContainerBottom}
-        onPress={handleSubmit}
-      >
-        <Text style={styles.buttonText}>Submit</Text>
-      </TouchableOpacity>
-    </ScrollView>
-    <Footer/>
+        <TouchableOpacity
+          style={styles.buttonContainerBottom}
+          onPress={handleSubmit}
+        >
+          <Text style={styles.buttonText}>Submit</Text>
+        </TouchableOpacity>
+      </ScrollView>
+      <Footer />
     </>
   );
 }
@@ -238,6 +258,8 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
   },
   buttonContainer: {
+    marginRight: 7,
+    marginLeft: 7,
     marginTop: 10,
     marginBottom: 7,
     elevation: 8,
@@ -253,6 +275,8 @@ const styles = StyleSheet.create({
     shadowColor: "black",
   },
   buttonContainerBottom: {
+    marginRight: 7,
+    marginLeft: 7,
     marginTop: 10,
     marginBottom: 30,
     elevation: 8,
@@ -279,5 +303,21 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginTop: 5,
     marginBottom: 5,
+  },
+  calendarContainer: {
+    marginRight: 7,
+    marginLeft: 7,
+    marginTop: 10,
+    marginBottom: 7,
+    elevation: 8,
+    backgroundColor: "#788eec",
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: "black",
+    shadowRadius: 1.5,
+    shadowOpacity: 0.5,
+    shadowColor: "black",
   },
 });
