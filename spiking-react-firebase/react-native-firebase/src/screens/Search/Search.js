@@ -21,7 +21,7 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 export default function Search({ props }) {
   const [pets, setPets] = useState([]);
   const db = firebase.firestore();
-  const appKey = "AIzaSyBMITvTV2eJuNap5mXGzkPgMJiQyuf9SRc"; // here app key
+  const appKey = ""; // here app key
   const handlePetTypeSelection = async (petType) => {
     const storage = getStorage();
     const queryPets = await db
