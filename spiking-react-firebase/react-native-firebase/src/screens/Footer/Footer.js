@@ -39,7 +39,7 @@ export default function HomeScreen({ props }) {
   };
 
   const goToMap = () => {
-    navigation.navigate("Map");
+    navigation.navigate("MapPets");
   };
 
   return (
