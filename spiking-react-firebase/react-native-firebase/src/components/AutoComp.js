@@ -2,54 +2,44 @@ import { useState, useEffect } from "react";
 import { StyleSheet } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { appKey } from "./key";
+import axios from 'axios'
 
 export const AutoComp = () => {
   const [selectedItem, setSelectedItem] = useState("");
   const [currPlaceId, setPlaceId] = useState("ChIJAZ-GmmbMHkcR_NPqiCq-8HI");
-  useEffect(() => {
-    fetch(
-      `https://maps.googleapis.com/maps/api/place/details/json?key=${appKey}&place_id=${currPlaceId}`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        // console.log(data);
-        const { lat, lng } = data.result.geometry.location;
-        // console.log("Latitude:", lat);
-        // console.log("Longitude:", lng);
 
-        // console.log(data.result.address_components);
-        const town = data.result.address_components.find(
+  const handleSelectItem = (data) => {
+   fetch(`https://maps.googleapis.com/maps/api/place/details/json?key=${appKey}&place_id=${data.place_id}`)
+   .then((response)=> {
+      response.json().then((responseData) => {
+        // console.log(data);
+        const { lat, lng } = responseData.result.geometry.location;
+        console.log("Latitude:", lat);
+        console.log("Longitude:", lng);
+
+        const town = responseData.result.address_components.find(
           (component) =>
             component.types.includes("locality") ||
             component.types.includes("postal_town")
         )?.long_name;
-        const postcode = data.result.address_components.find((component) =>
+        const postcode = responseData.result.address_components.find((component) =>
           component.types.includes("postal_code")
         )?.long_name;
-        // console.log("Town:", town);
-        // console.log("Postcode:", postcode);
+        console.log("Town:", town);
+        console.log("Postcode:", postcode);
+        console.log(responseData.result.address_components);
       })
-      .catch((error) => console.error(error));
-  }, [selectedItem]);
+   })
+  
 
-  //   console.log(selectedItem);
-
-  const handleSelectItem = (data) => {
-    setSelectedItem(data);
-    console.log(selectedItem);
   };
 
   return (
     <GooglePlacesAutocomplete
       placeholder="Search"
       onPress={(data, details = null) => {
-        // 'details' is provided when fetchDetails = true
-        // console.log(Object.keys(data));
-        data ? handleSelectItem(data) : "";
-        // handleSelectItem(data);
-        // selectedItem.address_components
-        //   ? ""
-        //   : console.log("false", selectedItem.address_components);
+        console.log(data, '<<<<<<<<<<<<')
+        handleSelectItem(data) 
       }}
       query={{
         key: `${appKey}`,
@@ -59,4 +49,3 @@ export const AutoComp = () => {
   );
 };
 
-// setCurrAddr(selectedItem.address_components)
