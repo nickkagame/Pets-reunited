@@ -28,6 +28,7 @@ import "@firebase/storage-compat";
 import { app } from "../../firebase/config";
 import Footer from "../Footer/Footer";
 import CalendarPopUp from "../Calendar.js/Calendar";
+import { AutoComp } from "../../components/AutoComp";
 
 const db = getFirestore(app);
 
@@ -126,7 +127,13 @@ export default function PostPet({ extraData }) {
 
   return (
     <>
-      <ScrollView style={styles.container}>
+      {/* <ScrollView style={styles.container}> */}
+      {/* <ScrollView horizontal={true} style={styles.inputAuto}> */}
+
+      {/* </ScrollView> */}
+
+      <ScrollView horizontal={false} style={styles.container}>
+        {/* </ScrollView> */}
         <Text style={styles.title}>Report a lost pet</Text>
         <TextInput
           style={styles.input}
@@ -152,14 +159,15 @@ export default function PostPet({ extraData }) {
             setEmail(e);
           }}
         />
-        <TextInput
+        {/* <TextInput
           style={styles.input}
           placeholder="Enter home address"
           value={home_address}
           onChangeText={(e) => {
             setHome_address(e);
           }}
-        />
+        /> */}
+        <AutoComp />
         <TextInput
           style={styles.input}
           placeholder="Enter location where the pet was lost"
@@ -250,6 +258,17 @@ const styles = StyleSheet.create({
     height: 48,
     borderRadius: 5,
     overflow: "hidden",
+    backgroundColor: "white",
+    marginTop: 6,
+    marginBottom: 6,
+    marginLeft: 30,
+    marginRight: 30,
+    paddingLeft: 16,
+  },
+  inputAuto: {
+    height: "auto",
+    borderRadius: 5,
+    // overflow: "visible",
     backgroundColor: "white",
     marginTop: 6,
     marginBottom: 6,
