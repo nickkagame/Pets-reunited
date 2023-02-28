@@ -15,13 +15,20 @@ import Icon from "react-native-vector-icons/FontAwesome";
 
 const db = firebase.firestore();
 
-export default function HomeScreen({ props }) {
+export default function HomeScreen({ props, pets }) {
+  // console.log(pets);
   const navigation = useNavigation();
   const goToSearch = () => {
     navigation.navigate("Search");
   };
   const goToUserProfile = () => {
     navigation.navigate("UserProfile");
+  };
+
+  const goToMapPage = () => {
+    navigation.navigate("MapPage", {
+      pets: pets,
+    });
   };
 
   return (
@@ -43,6 +50,12 @@ export default function HomeScreen({ props }) {
           onPress={() => goToUserProfile()}
         >
           <Icon name="user-circle-o" size={35} color="#900" />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.iconContainer}
+          onPress={() => goToMapPage()}
+        >
+          <Icon name="map-marker" size={35} color="#900" />
         </TouchableOpacity>
       </View>
     </View>

@@ -17,7 +17,7 @@ import { getStorage } from "firebase/storage";
 import { useNavigation } from "@react-navigation/native";
 import Footer from "../Footer/Footer";
 
-const db = firebase.firestore();
+export const db = firebase.firestore();
 
 export default function HomeScreen({ props, extraData }) {
   const [pets, setPets] = useState([]);
@@ -82,7 +82,7 @@ export default function HomeScreen({ props, extraData }) {
             keyExtractor={(item) => item.id}
           />
         </View>
-        <Footer />
+        <Footer pets={pets} />
       </>
     );
   }
