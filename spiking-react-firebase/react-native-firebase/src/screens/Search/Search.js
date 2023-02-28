@@ -104,8 +104,8 @@ export default function Search({ props }) {
 
   return (
     <>
-      <ScrollView
-        keyboardShouldPersistTaps={"handled"}
+      <View
+        // keyboardShouldPersistTaps={"handled"}
         horzionatal="false"
         style={styles.container}
       >
@@ -134,8 +134,8 @@ export default function Search({ props }) {
             }}
           />
         </ScrollView>
-        <FlatList
-          keyboardShouldPersistTaps={"handled"}
+        {/* <FlatList
+          // keyboardShouldPersistTaps={"handled"}
           horzionatal="false"
           showsVerticalScrollIndicator={false}
           data={pets}
@@ -153,8 +153,23 @@ export default function Search({ props }) {
             </TouchableOpacity>
           )}
           keyExtractor={(item) => item.id}
-        />
-      </ScrollView>
+        /> */}
+        <ScrollView  keyboardShouldPersistTaps={"handled"} horzionatal="false">
+          {pets.map((pet) => {
+            return (
+              <>
+                <Text key={pet.id}>{pet.your_name}</Text>
+                <Image
+                  source={{
+                    uri: pet.picture,
+                  }}
+                  style={{ width: 200, height: 200 }}
+                />
+              </>
+            );
+          })}
+        </ScrollView>
+      </View>
       <Footer />
     </>
   );
