@@ -60,24 +60,36 @@ export default function Search({ props }) {
     ).then((response) => {
       response.json().then((responseData) => {
         const { lat, lng } = responseData.result.geometry.location;
-        console.log("Latitude:", lat);
-        console.log("Longitude:", lng);
-
         const town = responseData.result.address_components.find(
           (component) =>
             component.types.includes("locality") ||
             component.types.includes("postal_town")
         )?.long_name;
-        const postcode = responseData.result.address_components.find(
-          (component) => component.types.includes("postal_code")
-        )?.long_name;
-        setLocation(town);
-        console.log("Town:", town);
-        console.log("Postcode:", postcode);
-        console.log(responseData.result.address_components);
+         setLocation(town);
+      }).then(()=>{
+
+console.log(location, "LOCATION")
+        db
+          .collection("lost_pets")
+          .where("town", "==", location)
+          .get().then((res)=>{
+            const newPets = [];
+            res.forEach((doc) => {
+              const pet = { ...doc.data(), id: doc.id };
+              
+              newPets.push(pet);
+              
+            });
+            
+            console.log(newPets)
+            setPets(newPets);
       });
     });
+    
+      });
+
   };
+
   // ^^
   return (
     <>
