@@ -8,8 +8,8 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  Touchable,
 } from "react-native";
+import SelectDropdown from "react-native-select-dropdown";
 import uuid from "react-native-uuid";
 import {
   collection,
@@ -99,6 +99,10 @@ export default function PostPet({ extraData }) {
     );
   };
 
+  const handlePetTypeSelection = () => {
+
+  }
+
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -144,6 +148,7 @@ export default function PostPet({ extraData }) {
     }
   };
 
+  const petTypes = ["Cat", "Dog", "Rabbit", "Bird", "other"];
 
   return (
     <>
@@ -202,14 +207,19 @@ export default function PostPet({ extraData }) {
             setChipId(e);
           }}
         />
-        <TextInput
-          style={styles.input}
-          placeholder="Enter pet type (required)"
-          value={pet_type}
-          onChangeText={(e) => {
-            setPet_type(e);
-          }}
-        />
+        <SelectDropdown
+            style={styles.input}
+            data={petTypes}
+            onSelect={(selectedItem, index) => {
+              setPet_type(selectedItem);
+            }}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              return selectedItem;
+            }}
+            rowTextForSelection={(item, index) => {
+              return item;
+            }}
+          />
         <TextInput
           style={styles.input}
           placeholder="More details of lost pet (required)"
