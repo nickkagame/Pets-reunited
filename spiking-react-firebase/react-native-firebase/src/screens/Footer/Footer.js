@@ -15,7 +15,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 
 const db = firebase.firestore();
 
-export default function HomeScreen({ props, pets }) {
+export default function HomeScreen({ props, pets, pet }) {
   // console.log(pets);
   const navigation = useNavigation();
   const goToSearch = () => {
@@ -28,6 +28,7 @@ export default function HomeScreen({ props, pets }) {
   const goToMapPage = () => {
     navigation.navigate("MapPage", {
       pets: pets,
+      pet: pet,
     });
   };
 

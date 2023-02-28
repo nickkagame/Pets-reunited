@@ -8,15 +8,9 @@ import { useState, useEffect } from "react";
 export const MapPage = ({ route }) => {
   const { pet, pets } = route.params;
   const [petsData, setPetsData] = useState([]);
-  const markersTest = [
-    { name: "London", lat: 51.509865, lon: -0.118092 },
-    { name: "Manchester", lat: 53.483959, lon: -2.244644 },
-    { name: "Manchester2", lat: 53.483999, lon: -2.241644 },
-    { name: "Middlewich", lat: 53.194087, lon: -2.44413 },
-    { name: "Birmingham", lat: 52.489471, lon: -1.898575 },
-    { name: "Chester", lat: 53.189999, lon: -2.89 },
-  ];
   console.log(pet);
+
+  pets.forEach((pet) => console.log(pet.coordinates));
   const getPets = async () => {
     const storage = getStorage();
     const queryPets = await db.collection("lost_pets").get();
@@ -40,9 +34,9 @@ export const MapPage = ({ route }) => {
     <MapView
       style={styles.mapStyle}
       initialRegion={{
-        latitude: 53.483959,
-        longitude: -2.244644,
-        latitudeDelta: 3.05,
+        latitude: pet ? pet.coordinates.lat : 53.483959,
+        longitude: pet ? pet.coordinates.lng : -2.244644,
+        latitudeDelta: 1.05,
         longitudeDelta: 0.05,
       }}
     >
@@ -56,14 +50,15 @@ export const MapPage = ({ route }) => {
         title={"Test Marker"}
         description={"This is a description of the marker"}
       /> */}
-      {markersTest.map((marker) => (
+      {pets.map((pet) => (
         <Marker
-          key={marker.name}
-          coordinate={{ latitude: marker.lat, longitude: marker.lon }}
-          title={marker.name}
-          description={
-            "a lost pet placeholder, here we can render some description. Or maybe we want to go to the PetSingle screen on click?"
-          }
+          key={pet.id}
+          coordinate={{
+            latitude: pet.coordinates.lat,
+            longitude: pet.coordinates.lng,
+          }}
+          title={pet.pet_name}
+          description={`a ${pet.pet_type} missing`}
           //   onPress={() => handlePressMarker(marker)}
         />
       ))}
