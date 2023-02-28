@@ -21,7 +21,7 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 export default function Search({ props }) {
   const [pets, setPets] = useState([]);
   const db = firebase.firestore();
-  const appKey = "AIzaSyBMITvTV2eJuNap5mXGzkPgMJiQyuf9SRc"; // here app key 
+  const appKey = "AIzaSyBMITvTV2eJuNap5mXGzkPgMJiQyuf9SRc"; // here app key
   const handlePetTypeSelection = async (petType) => {
     const storage = getStorage();
     const queryPets = await db
@@ -35,18 +35,16 @@ export default function Search({ props }) {
 
       newPets.push(pet);
     });
-    if(location){
-      const formattedPets = newPets.filter((pet)=>{
-return pet.location === location;
-      })
-      setPets(formattedPets)
-    }else{
-       setPets(newPets);
+    if (location) {
+      const formattedPets = newPets.filter((pet) => {
+        return pet.location === location;
+      });
+      setPets(formattedPets);
+    } else {
+      setPets(newPets);
     }
-   
+    //seperate out so can use both seperately
   };
-
- 
 
   const petTypes = ["Cat", "Dog", "Rabbit", "Bird", "other"];
 
@@ -117,20 +115,19 @@ return pet.location === location;
           />
 
           {pets.map((pet) => {
-              return (
-                    <>
-                      <Text style={styles.petName} key={pet.id}>
-                        {pet.your_name}
-                      </Text>
-                      <Image
-                        source={{
-                          uri: pet.picture,
-                        }}
-                        style={styles.image}
-                      />
-                    </>    
-                
-              );
+            return (
+              <>
+                <Text style={styles.petName} key={pet.id}>
+                  {pet.your_name}
+                </Text>
+                <Image
+                  source={{
+                    uri: pet.picture,
+                  }}
+                  style={styles.image}
+                />
+              </>
+            );
           })}
         </View>
       </ScrollView>
