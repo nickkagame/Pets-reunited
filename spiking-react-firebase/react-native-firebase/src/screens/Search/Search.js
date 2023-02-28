@@ -10,7 +10,7 @@ import {
   FlatList,
   TextInput,
   VirtualizedList,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 import firebase from "firebase/compat";
 import { useNavigation } from "@react-navigation/native";
@@ -24,15 +24,14 @@ export default function Search({ props }) {
   const [selectedItem, setSelectedItem] = useState("");
   const [currPlaceId, setPlaceId] = useState("ChIJAZ-GmmbMHkcR_NPqiCq-8HI");
   const [location, setLocation] = useState("");
-  const [typeChosen, setTypeChosen] = useState("false")
-  const [petType, setPetType] = useState('')
+  const [typeChosen, setTypeChosen] = useState("false");
+  const [petType, setPetType] = useState("");
 
   const db = firebase.firestore();
   const appKey = "AIzaSyBMITvTV2eJuNap5mXGzkPgMJiQyuf9SRc"; // here app key
 
-
   const handlePetTypeSelection = async (petType) => {
-    setPetType(petType)
+    setPetType(petType);
     const storage = getStorage();
     const queryPets = await db
       .collection("lost_pets")
@@ -52,17 +51,14 @@ export default function Search({ props }) {
       setPets(formattedPets);
     } else {
       setPets(newPets);
-      setTypeChosen(true)
+      setTypeChosen(true);
     }
     //seperate out so can use both seperately
   };
 
   const petTypes = ["Cat", "Dog", "Rabbit", "Bird", "other"];
 
- 
- 
-
-  console.log(location, " <------")
+  console.log(location, " <------");
 
   const handleSelectItem = (data) => {
     fetch(
@@ -76,16 +72,15 @@ export default function Search({ props }) {
             component.types.includes("postal_town")
         )?.long_name;
 
-        db
-          .collection("lost_pets")
+        db.collection("lost_pets")
           .where("town", "==", town)
-          .get().then((res)=>{
+          .get()
+          .then((res) => {
             const newPets = [];
             res.forEach((doc) => {
               const pet = { ...doc.data(), id: doc.id };
-              
+
               newPets.push(pet);
-              
             });
             setLocation(town);
             if (petType) {
@@ -96,9 +91,9 @@ export default function Search({ props }) {
             } else {
               setPets(newPets);
             }
+          });
       });
-      })
-      });
+    });
   };
 
   const navigation = useNavigation();
@@ -109,61 +104,56 @@ export default function Search({ props }) {
 
   return (
     <>
-      <GooglePlacesAutocomplete
-        placeholder="Search"
-        onPress={(data, details = null) => {
-          handleSelectItem(data);
-        }}
-        query={{
-          key: `${appKey}`,
-          language: "en",
-        }}
-      />
-      <ScrollView style={styles.container}>
-        <View style={styles.dropDown}>
-          <TextInput
-            editable
-            multiline
-            numberOfLines={4}
-            maxLength={40}
-            style={{ padding: 10 }}
-          />
-          <SelectDropdown
-            style={styles.dropDown}
-            data={petTypes}
-            onSelect={(selectedItem, index) => {
-              handlePetTypeSelection(selectedItem);
+      <ScrollView
+        keyboardShouldPersistTaps={"handled"}
+        horzionatal="false"
+        style={styles.container}
+      >
+        <SelectDropdown
+          style={styles.dropDown}
+          data={petTypes}
+          onSelect={(selectedItem, index) => {
+            handlePetTypeSelection(selectedItem);
+          }}
+          buttonTextAfterSelection={(selectedItem, index) => {
+            return selectedItem;
+          }}
+          rowTextForSelection={(item, index) => {
+            return item;
+          }}
+        />
+        <ScrollView keyboardShouldPersistTaps={"handled"} horzionatal="true">
+          <GooglePlacesAutocomplete
+            placeholder="Search by Location"
+            onPress={(data, details = null) => {
+              handleSelectItem(data);
             }}
-            buttonTextAfterSelection={(selectedItem, index) => {
-              return selectedItem;
-            }}
-            rowTextForSelection={(item, index) => {
-              return item;
+            query={{
+              key: `${appKey}`,
+              language: "en",
             }}
           />
-
-<FlatList
-            showsVerticalScrollIndicator={false}
-            data={pets}
-            renderItem={({ item }) => (
-              <TouchableOpacity onPress={() => handlePress(item)}>
-                <>
-                  <Text style={styles.petName}>{item.pet_name}</Text>
-                  <Image
-                    source={{
-                      uri: item.picture,
-                    }}
-                    style={styles.image}
-                  />
-                </>
-              </TouchableOpacity>
-            )}
-            keyExtractor={(item) => item.id}
-          />
-        </View>
-        <Footer />
-
-      
+        </ScrollView>
+        <FlatList
+          keyboardShouldPersistTaps={"handled"}
+          horzionatal="false"
+          showsVerticalScrollIndicator={false}
+          data={pets}
+          renderItem={({ item }) => (
+            <TouchableOpacity onPress={() => handlePress(item)}>
+              <>
+                <Text style={styles.petName}>{item.pet_name}</Text>
+                <Image
+                  source={{
+                    uri: item.picture,
+                  }}
+                  style={styles.image}
+                />
+              </>
+            </TouchableOpacity>
+          )}
+          keyExtractor={(item) => item.id}
+        />
       </ScrollView>
       <Footer />
     </>
