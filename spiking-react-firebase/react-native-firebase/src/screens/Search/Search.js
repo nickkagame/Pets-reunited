@@ -7,9 +7,10 @@ import {
   Image,
   ScrollView,
   StyleSheet,
-  Button,
+  FlatList,
   TextInput,
   VirtualizedList,
+  TouchableOpacity
 } from "react-native";
 import firebase from "firebase/compat";
 import { useNavigation } from "@react-navigation/native";
@@ -20,9 +21,18 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 
 export default function Search({ props }) {
   const [pets, setPets] = useState([]);
+  const [selectedItem, setSelectedItem] = useState("");
+  const [currPlaceId, setPlaceId] = useState("ChIJAZ-GmmbMHkcR_NPqiCq-8HI");
+  const [location, setLocation] = useState("");
+  const [typeChosen, setTypeChosen] = useState("false")
+  const [petType, setPetType] = useState('')
+
   const db = firebase.firestore();
   const appKey = "AIzaSyBMITvTV2eJuNap5mXGzkPgMJiQyuf9SRc"; // here app key
+
+
   const handlePetTypeSelection = async (petType) => {
+    setPetType(petType)
     const storage = getStorage();
     const queryPets = await db
       .collection("lost_pets")
@@ -37,22 +47,22 @@ export default function Search({ props }) {
     });
     if (location) {
       const formattedPets = newPets.filter((pet) => {
-        return pet.location === location;
+        return pet.town === location;
       });
       setPets(formattedPets);
     } else {
       setPets(newPets);
+      setTypeChosen(true)
     }
     //seperate out so can use both seperately
   };
 
   const petTypes = ["Cat", "Dog", "Rabbit", "Bird", "other"];
 
-  // below;
-  // const AutoComp = () => {
-  const [selectedItem, setSelectedItem] = useState("");
-  const [currPlaceId, setPlaceId] = useState("ChIJAZ-GmmbMHkcR_NPqiCq-8HI");
-  const [location, setLocation] = useState("");
+ 
+ 
+
+  console.log(location, " <------")
 
   const handleSelectItem = (data) => {
     fetch(
@@ -65,13 +75,10 @@ export default function Search({ props }) {
             component.types.includes("locality") ||
             component.types.includes("postal_town")
         )?.long_name;
-         setLocation(town);
-      }).then(()=>{
 
-console.log(location, "LOCATION")
         db
           .collection("lost_pets")
-          .where("town", "==", location)
+          .where("town", "==", town)
           .get().then((res)=>{
             const newPets = [];
             res.forEach((doc) => {
@@ -80,17 +87,26 @@ console.log(location, "LOCATION")
               newPets.push(pet);
               
             });
-            
-            console.log(newPets)
-            setPets(newPets);
+            setLocation(town);
+            if (petType) {
+              const formattedPets = newPets.filter((pet) => {
+                return pet.pet_type === petType;
+              });
+              setPets(formattedPets);
+            } else {
+              setPets(newPets);
+            }
       });
-    });
-    
+      })
       });
-
   };
 
-  // ^^
+  const navigation = useNavigation();
+
+  const handlePress = (pet) => {
+    navigation.navigate("PetSingle", { pet: pet });
+  };
+
   return (
     <>
       <GooglePlacesAutocomplete
@@ -126,22 +142,28 @@ console.log(location, "LOCATION")
             }}
           />
 
-          {pets.map((pet) => {
-            return (
-              <>
-                <Text style={styles.petName} key={pet.id}>
-                  {pet.your_name}
-                </Text>
-                <Image
-                  source={{
-                    uri: pet.picture,
-                  }}
-                  style={styles.image}
-                />
-              </>
-            );
-          })}
+<FlatList
+            showsVerticalScrollIndicator={false}
+            data={pets}
+            renderItem={({ item }) => (
+              <TouchableOpacity onPress={() => handlePress(item)}>
+                <>
+                  <Text style={styles.petName}>{item.pet_name}</Text>
+                  <Image
+                    source={{
+                      uri: item.picture,
+                    }}
+                    style={styles.image}
+                  />
+                </>
+              </TouchableOpacity>
+            )}
+            keyExtractor={(item) => item.id}
+          />
         </View>
+        <Footer />
+
+      
       </ScrollView>
       <Footer />
     </>
