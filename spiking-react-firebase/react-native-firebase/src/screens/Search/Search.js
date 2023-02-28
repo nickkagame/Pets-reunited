@@ -3,7 +3,7 @@ import {
   Pressable,
   SafeAreaView,
   Text,
-  View,
+  Button,
   Image,
   ScrollView,
   StyleSheet,
@@ -15,6 +15,7 @@ import SelectDropdown from "react-native-select-dropdown";
 import { getStorage } from "firebase/storage";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import uuid from "react-native-uuid";
 
 export default function Search({ props }) {
   const [pets, setPets] = useState([]);
@@ -23,6 +24,7 @@ export default function Search({ props }) {
   const [location, setLocation] = useState("");
   const [typeChosen, setTypeChosen] = useState("false");
   const [petType, setPetType] = useState("");
+ 
 
   const db = firebase.firestore();
   const appKey = "AIzaSyBMITvTV2eJuNap5mXGzkPgMJiQyuf9SRc"; // here app key
@@ -49,15 +51,23 @@ export default function Search({ props }) {
     } else {
       setPets(newPets);
       setTypeChosen(true);
+      // setLocation('')
     }
     //seperate out so can use both seperately
   };
+    const navigation = useNavigation();
+
+  const reset = () =>  {
+    setPets([])
+    setPetType('')
+    setLocation('')
+    navigation.navigate('Search', {location, petType, pets})
+  }
 
   const petTypes = ["Cat", "Dog", "Rabbit", "Bird", "other"];
 
-  console.log(location, " <------");
-
   const handleSelectItem = (data) => {
+    setLocation('')
     fetch(
       `https://maps.googleapis.com/maps/api/place/details/json?key=${appKey}&place_id=${data.place_id}`
     ).then((response) => {
@@ -93,7 +103,7 @@ export default function Search({ props }) {
     });
   };
 
-  const navigation = useNavigation();
+
 
   const handlePress = (pet) => {
     navigation.navigate("PetSingle", { pet: pet });
@@ -106,6 +116,7 @@ export default function Search({ props }) {
         horizontal={false}
         style={styles.container}
       >
+      
         <SelectDropdown
           keyboardShouldPersistTaps={"handled"}
           horzionatal="false"
@@ -129,6 +140,7 @@ export default function Search({ props }) {
           <GooglePlacesAutocomplete
             placeholder="Search by Location"
             onPress={(data, details = null) => {
+              console.log(data)
               handleSelectItem(data);
             }}
             query={{
@@ -137,6 +149,8 @@ export default function Search({ props }) {
             }}
           />
         </ScrollView>
+        <Button title="reset"
+        onPress={reset}></Button>
         {/* <FlatList
           // keyboardShouldPersistTaps={"handled"}
           horzionatal="false"
@@ -161,7 +175,7 @@ export default function Search({ props }) {
           {pets.map((pet) => {
             return (
               <TouchableOpacity onPress={() => handlePress(pet)}>
-                <Text key={pet.id}>{pet.pet_name}</Text>
+                <Text key={uuid.v4()}>{pet.pet_name}</Text>
                 <Image
                   source={{
                     uri: pet.picture,
