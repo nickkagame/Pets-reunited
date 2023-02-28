@@ -7,10 +7,6 @@ import {
   Image,
   ScrollView,
   StyleSheet,
-  FlatList,
-  TextInput,
-  VirtualizedList,
-  TouchableOpacity,
 } from "react-native";
 import firebase from "firebase/compat";
 import { useNavigation } from "@react-navigation/native";
@@ -104,12 +100,12 @@ export default function Search({ props }) {
 
   return (
     <>
-      <View
-        // keyboardShouldPersistTaps={"handled"}
-        horzionatal="false"
+      <ScrollView
+        keyboardShouldPersistTaps={"handled"} horzionatal="true"
         style={styles.container}
       >
         <SelectDropdown
+        keyboardShouldPersistTaps={"handled"} horzionatal="false"
           style={styles.dropDown}
           data={petTypes}
           onSelect={(selectedItem, index) => {
@@ -122,7 +118,7 @@ export default function Search({ props }) {
             return item;
           }}
         />
-        <ScrollView keyboardShouldPersistTaps={"handled"} horzionatal="true">
+        <ScrollView keyboardShouldPersistTaps={"handled"} horzionatal="false">
           <GooglePlacesAutocomplete
             placeholder="Search by Location"
             onPress={(data, details = null) => {
@@ -169,7 +165,7 @@ export default function Search({ props }) {
             );
           })}
         </ScrollView>
-      </View>
+      </ScrollView>
       <Footer />
     </>
   );
