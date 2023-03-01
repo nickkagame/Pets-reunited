@@ -187,7 +187,7 @@ export default function Search({ props }) {
           })}
         </>
       </ScrollView>
-      <Footer />
+      <Footer pets = {pets}/>
     </>
   );
 }

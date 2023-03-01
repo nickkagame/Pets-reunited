@@ -21,7 +21,8 @@ import Footer from '../Footer/Footer'
 const db = firebase.firestore();
 
 export default function EditPost({ route, extraData }) {
-  const { pet } = route.params;
+  const { pet, pets } = route.params;
+  console.log(pets)
   const [pet_name, setPet_name] = useState(pet.pet_name);
   const [your_name, setYour_name] = useState(pet.your_name);
   const [email, setEmail] = useState(pet.email);
@@ -93,7 +94,6 @@ export default function EditPost({ route, extraData }) {
         } 
       });
     });
-  
   };
 
   const petTypes = ["Cat", "Dog", "Rabbit", "Bird", "other"];
@@ -101,7 +101,7 @@ export default function EditPost({ route, extraData }) {
   return (
     <>
       <ScrollView keyboardShouldPersistTaps={"handled"}
-        horizontal={false}>
+        horizontal={false} style={styles.container}>
         <View style={styles.container} key={pet.id}>
           <TextInput
           style={styles.input}
@@ -129,12 +129,13 @@ export default function EditPost({ route, extraData }) {
             }}
           />
           <ScrollView
+          value={location}
           keyboardShouldPersistTaps={"handled"}
           horizontal={true}
           style={styles.inputAuto}
         >
           <GooglePlacesAutocomplete
-      placeholder="Enter location where the pet was lost"
+      placeholder="Edit location where the pet was lost"
       onPress={(data, details = null) => {
         setLocation(data.description);
         handleSelectItem(data);
@@ -181,7 +182,7 @@ export default function EditPost({ route, extraData }) {
          
         </View>
       </ScrollView>
-      <Footer/>
+      <Footer pets = {pets} pet = {pet}/>
     </>
   );
 }

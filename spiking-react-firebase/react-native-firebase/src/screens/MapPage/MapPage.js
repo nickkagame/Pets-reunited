@@ -8,8 +8,7 @@ import { useState, useEffect } from "react";
 export const MapPage = ({ route }) => {
   const { pet, pets } = route.params;
   const [petsData, setPetsData] = useState([]);
-  console.log(pet);
-
+ 
   pets.forEach((pet) => console.log(pet.coordinates));
   const getPets = async () => {
     const storage = getStorage();

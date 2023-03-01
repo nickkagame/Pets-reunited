@@ -13,7 +13,6 @@ import {
 import firebase from "firebase/compat";
 import { useNavigation } from "@react-navigation/native";
 import Footer from "../Footer/Footer";
-import SelectDropdown from "react-native-select-dropdown";
 import { getStorage } from "firebase/storage";
 import uuid from 'react-native-uuid';
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -44,12 +43,14 @@ export default function UserProfile({ route, extraData }) {
     getUserPost();
   }, [route]);
 
+
+  const {pet} = route.params
   const goToChangeProfile = () => {
-    navigation.navigate(`EditProfile`);
+    navigation.navigate(`EditProfile`, {pets: pets});
   };
 
   const goToChangePost = (pet) => {
-    navigation.navigate(`Edit Post`, {pet: pet});
+    navigation.navigate(`Edit Post`, {pet: pet, pets: pets});
   };
 
   return (<>
@@ -67,7 +68,7 @@ export default function UserProfile({ route, extraData }) {
 
                 </TouchableOpacity>
                 </View>
-        <Text style={styles.user} >Your lost pet posts:</Text>
+        <Text style={styles.user} >Your lost pets:</Text>
         {pets.map((pet) => {
           return (
               <View style={styles.container} key={uuid.v4()}>
@@ -86,14 +87,14 @@ export default function UserProfile({ route, extraData }) {
                <Text style={styles.editButtonText}>Edit Post</Text>
 
                 </TouchableOpacity>
-        
+  
               </View>
   
           );
         })}
       
     </ScrollView>
-    <Footer />
+    <Footer pets = {pets} pet = {pet}/>
   </>
 
   );
@@ -102,7 +103,7 @@ export default function UserProfile({ route, extraData }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ecf0f1",
+    backgroundColor: "#5cc8d7",
     textAlign: "center"
   },
   content: {
