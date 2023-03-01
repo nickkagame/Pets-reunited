@@ -19,10 +19,16 @@ export default function HomeScreen({ props, pets, pet }) {
   // console.log(pets);
   const navigation = useNavigation();
   const goToSearch = () => {
-    navigation.navigate("Search");
+    navigation.navigate("Search", {
+      pets: pets,
+      pet: pet,
+    }) ;
   };
   const goToUserProfile = () => {
-    navigation.navigate("UserProfile");
+    navigation.navigate("UserProfile", {
+      pets: pets,
+      pet: pet,
+    });
   };
 
   const goToMapPage = () => {
