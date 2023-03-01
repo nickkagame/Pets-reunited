@@ -17,12 +17,12 @@ import { getStorage } from "firebase/storage";
 import { useNavigation } from "@react-navigation/native";
 import Footer from "../Footer/Footer";
 
-const db = firebase.firestore();
+export const db = firebase.firestore();
 
 export default function HomeScreen({ props, extraData }) {
   const [pets, setPets] = useState([]);
 
-  console.log(extraData);
+  // console.log(extraData);
 
   const navigation = useNavigation();
 
@@ -47,8 +47,9 @@ export default function HomeScreen({ props, extraData }) {
     getPets();
   }, []);
 
-  const handlePress = (pet) => {
-    navigation.navigate("PetSingle", { pet: pet });
+  const handlePress = (pet, pets) => {
+    // console.log("====>  ", pets);
+    navigation.navigate("PetSingle", { pet: pet, pets: pets });
   };
 
   if (pets.length === 0) {
@@ -67,7 +68,7 @@ export default function HomeScreen({ props, extraData }) {
             showsVerticalScrollIndicator={false}
             data={pets}
             renderItem={({ item }) => (
-              <TouchableOpacity onPress={() => handlePress(item)}>
+              <TouchableOpacity onPress={() => handlePress(item, pets)}>
                 <>
                   <Text style={styles.petName}>{item.pet_name}</Text>
                   <Image
@@ -82,7 +83,7 @@ export default function HomeScreen({ props, extraData }) {
             keyExtractor={(item) => item.id}
           />
         </View>
-        <Footer />
+        <Footer pets={pets} />
       </>
     );
   }
