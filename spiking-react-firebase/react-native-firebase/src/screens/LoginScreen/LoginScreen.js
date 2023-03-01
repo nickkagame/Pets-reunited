@@ -143,6 +143,8 @@ const styles = StyleSheet.create({
     marginRight: 30,
     paddingLeft: 16,
     opacity: 0.8,
+    borderColor: "#ccc",
+    borderWidth: 1,
   },
   button: {
     backgroundColor: "#788eec",
@@ -154,6 +156,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     alignItems: "center",
     justifyContent: "center",
+    borderColor: "#ccc",
+    borderWidth: 1,
   },
   buttonTitle: {
     color: "white",
