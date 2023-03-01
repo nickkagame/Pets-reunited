@@ -52,6 +52,17 @@ export default function HomeScreen({ props, extraData }) {
     navigation.navigate("PetSingle", { pet: pet, pets: pets });
   };
 
+  const postListSorted = pets.sort((a, b) => {
+    return b.your_name.localeCompare(a.your_name);
+  });
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
+
   if (pets.length === 0) {
     return <ActivityIndicator />;
   } else {
@@ -66,7 +77,7 @@ export default function HomeScreen({ props, extraData }) {
           </TouchableOpacity>
           <FlatList
             showsVerticalScrollIndicator={false}
-            data={pets}
+            data={postListSorted}
             renderItem={({ item }) => (
               <TouchableOpacity onPress={() => handlePress(item, pets)}>
                 <>
@@ -81,6 +92,9 @@ export default function HomeScreen({ props, extraData }) {
               </TouchableOpacity>
             )}
             keyExtractor={(item) => item.id}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
           />
         </View>
         <Footer pets={pets} />
