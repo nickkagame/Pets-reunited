@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#ecf0f1",
+    textAlign: "center"
   },
   content: {
     flex: 1,
@@ -74,4 +75,41 @@ const styles = StyleSheet.create({
     backgroundColor: "yellow",
     padding: 40,
   },
+  editButtonContainer: {
+    backgroundColor: "#788eec",
+    borderRadius: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 50,
+    borderWidth: 1,
+    borderColor: "black",
+    marginTop: 10,
+    marginBottom: 15,
+    shadowRadius: 1.5,
+    shadowOpacity: 0.5,
+    shadowColor: "black",
+  },
+  editButtonText: {
+    fontSize: 18,
+    color: "#fff",
+    fontWeight: "bold",
+    alignSelf: "center",
+    textTransform: "uppercase",
+  },
+  user: {
+    fontWeight: "bold",
+    margin: 10,
+    fontSize: 20, 
+    textAlign: "center",
+  },
+  title: {
+    fontWeight: "bold",
+    margin: 10,
+    textAlign: "center",
+  },
+  bodyText: {
+    fontWeight: "bold",
+    margin: 10,
+    textAlign: "centre",
+  },
+
 });

@@ -17,7 +17,6 @@ export default function PetSingle({ route, extraData }) {
     Linking.openURL(`mailto:${pet.email}?subject=Regarding ${pet.pet_name}`);
   };
 
-  // console.log(pet);
   return (
     <>
       <View style={styles.container}>

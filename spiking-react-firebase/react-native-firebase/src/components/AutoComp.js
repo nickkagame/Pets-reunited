@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { StyleSheet } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { appKey } from "./key";
-// import axios from 'axios'
+
+
 
 export const AutoComp = ({ setLocation, setPostcode, setTown, setCoordinates }) => {
   const [selectedItem, setSelectedItem] = useState("");
