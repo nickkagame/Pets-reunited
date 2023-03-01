@@ -11,16 +11,12 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-// import firebase from "firebase/compat";
-// import { useNavigation } from "@react-navigation/native";
+import firebase from "firebase/compat";
 import Footer from "../Footer/Footer";
-import { db } from "../HomeScreen/HomeScreen";
 
 export default function EditProfile({ route, extraData, setUser }) {
   const { pets } = route.params;
-  // console.log(extraData);
-  // const db = firebase.firestore();
-  // const navigation = useNavigation();
+  const db = firebase.firestore();
 
   const [newName, setNewName] = useState(extraData.fullName);
   const [newEmail, setNewEmail] = useState(extraData.email);
