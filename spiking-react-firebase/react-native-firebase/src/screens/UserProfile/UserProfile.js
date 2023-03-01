@@ -14,9 +14,8 @@ import firebase from "firebase/compat";
 import { useNavigation } from "@react-navigation/native";
 import Footer from "../Footer/Footer";
 import { getStorage } from "firebase/storage";
-import uuid from 'react-native-uuid';
+import uuid from "react-native-uuid";
 import { TouchableOpacity } from "react-native-gesture-handler";
-
 
 export default function UserProfile({ route, extraData }) {
   const [pets, setPets] = useState([]);
@@ -43,60 +42,49 @@ export default function UserProfile({ route, extraData }) {
     getUserPost();
   }, [route]);
 
-
-  const {pet} = route.params
+  const { pet } = route.params;
   const goToChangeProfile = () => {
-    navigation.navigate(`EditProfile`, {pets: pets});
+    navigation.navigate(`EditProfile`, { pets: pets });
   };
 
   const goToChangePost = (pet) => {
-    navigation.navigate(`Edit Post`, {pet: pet, pets: pets});
+    navigation.navigate(`Edit Post`, { pet: pet, pets: pets });
   };
 
-  return (<>
-    <ScrollView styles ={styles.container}>
-      <View key={uuid.v4()}>
-        {/* <Text style={styles.user} >Profile information: </Text> */}
-        <Text style={styles.bodyText}> Your name:            {extraData.fullName}   </Text>
-        <Text style={styles.bodyText}> UserID:  {extraData.id}   </Text>
-        <Text style={styles.bodyText}> {extraData.email}  </Text>
-        <TouchableOpacity
-                  style={styles.editButtonContainer}
-                  onPress={() => goToChangeProfile()}
-                >
-               <Text style={styles.editButtonText}>Edit Profile</Text>
-
-                </TouchableOpacity>
-                </View>
-        <Text style={styles.user} >Your lost pets:</Text>
+  return (
+    <>
+      <ScrollView styles={styles.container}>
+        <View key={uuid.v4()}>
+          {/* <Text style={styles.user} >Profile information: </Text> */}
+          <Text style={styles.bodyText}> Your name: {extraData.fullName} </Text>
+          <Text style={styles.bodyText}> UserID: {extraData.id} </Text>
+          <Text style={styles.bodyText}> {extraData.email} </Text>
+          <TouchableOpacity
+            style={styles.editButtonContainer}
+            onPress={() => goToChangeProfile()}
+          >
+            <Text style={styles.editButtonText}>Edit Profile</Text>
+          </TouchableOpacity>
+        </View>
+        <Text style={styles.user}>Your lost pets:</Text>
         {pets.map((pet) => {
           return (
-              <View style={styles.container} key={uuid.v4()}>
-                <Text style={styles.title}>
-                  {pet.pet_name} 
-                </Text>
-                <Image
-                  source={{ uri: pet.picture }}
-                  style={styles.postImage}
-                />
-                <TouchableOpacity
-                  style={styles.editButtonContainer}
-                  onPress={() => goToChangePost(pet)}
-                  title="Edit Post"
-                >
-               <Text style={styles.editButtonText}>Edit Post</Text>
-
-                </TouchableOpacity>
-  
-              </View>
-  
+            <View style={styles.container} key={uuid.v4()}>
+              <Text style={styles.title}>{pet.pet_name}</Text>
+              <Image source={{ uri: pet.picture }} style={styles.postImage} />
+              <TouchableOpacity
+                style={styles.editButtonContainer}
+                onPress={() => goToChangePost(pet)}
+                title="Edit Post"
+              >
+                <Text style={styles.editButtonText}>Edit Post</Text>
+              </TouchableOpacity>
+            </View>
           );
         })}
-      
-    </ScrollView>
-    <Footer pets = {pets} pet = {pet}/>
-  </>
-
+      </ScrollView>
+      <Footer pets={pets} pet={pet} />
+    </>
   );
 }
 
@@ -104,7 +92,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#5cc8d7",
-    textAlign: "center"
+    textAlign: "center",
   },
   content: {
     flex: 1,
@@ -136,7 +124,7 @@ const styles = StyleSheet.create({
   user: {
     fontWeight: "bold",
     margin: 10,
-    fontSize: 20, 
+    fontSize: 20,
     textAlign: "center",
   },
   title: {
@@ -147,7 +135,7 @@ const styles = StyleSheet.create({
   bodyText: {
     fontWeight: "bold",
     margin: 10,
-    textAlign: "centre",
+    textAlign: "center",
   },
 
   postImage: {
@@ -157,6 +145,5 @@ const styles = StyleSheet.create({
     margin: 30,
     borderRadius: 30,
     marginTop: 6,
-  }
+  },
 });
-
