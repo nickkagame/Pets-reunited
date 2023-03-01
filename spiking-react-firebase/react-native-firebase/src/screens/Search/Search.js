@@ -50,16 +50,25 @@ export default function Search({ props }) {
     } else {
       setPets(newPets);
       setTypeChosen(true);
-      // setLocation('')
     }
   };
   const navigation = useNavigation();
 
+  // const reset = () => {
+  //   setPets([]);
+  //   // setPetType("");
+  //   // setLocation("");
+  //   navigation.navigate("Search", { location, petType, pets });
+  // };
+
   const reset = () => {
     setPets([]);
-    // setPetType("");
-    // setLocation("");
-    navigation.navigate("Search", { location, petType, pets });
+    setSelectedItem("");
+    setLocation("");
+    setTypeChosen("false");
+    setPetType("");
+    ref.current.setAddressText("");
+    navigation.navigate("Search", { location: "", petType: "", pets: [] });
   };
 
   const petTypes = ["Cat", "Dog", "Rabbit", "Bird", "other"];
@@ -118,10 +127,9 @@ export default function Search({ props }) {
         >
           <GooglePlacesAutocomplete
             placeholder="Search by Location"
-            style={styles.googleMapsDD} //
+            style={styles.googleMapsDD}
             onPress={(data, details = null) => {
               handleSelectItem(data);
-              ref.current.setAddressText(""); //
             }}
             query={{
               key: `${appKey}`,
@@ -147,7 +155,6 @@ export default function Search({ props }) {
               return item;
             }}
           />
-          {/* {Clear search does not clear the ANimal type filter above ^^ Did it before?? } */}
           <TouchableOpacity style={styles.clearSearchButton} onPress={reset}>
             <Text style={styles.buttonTitle}>Clear search</Text>
           </TouchableOpacity>
