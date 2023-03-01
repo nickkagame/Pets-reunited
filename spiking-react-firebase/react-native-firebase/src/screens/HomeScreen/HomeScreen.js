@@ -22,6 +22,7 @@ export const db = firebase.firestore();
 
 export default function HomeScreen({ props, extraData }) {
   const [pets, setPets] = useState([]);
+  const [refreshing, setRefreshing] = React.useState(false);
 
   // console.log(extraData);
 
@@ -54,7 +55,7 @@ export default function HomeScreen({ props, extraData }) {
   };
 
   const postListSorted = pets.sort((a, b) => {
-    return b.your_name.localeCompare(a.your_name);
+    return b.lastSeenDate.localeCompare(a.lastSeenDate);
   });
 
   const onRefresh = React.useCallback(() => {
@@ -63,6 +64,7 @@ export default function HomeScreen({ props, extraData }) {
       setRefreshing(false);
     }, 2000);
   }, []);
+  console.log("*");
 
   if (pets.length === 0) {
     return <ActivityIndicator />;
