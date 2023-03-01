@@ -4,7 +4,7 @@ import {
   Linking,
   Button,
   StyleSheet,
-  View,
+  ScrollView,
   TouchableOpacity,
 } from "react-native";
 import Footer from "../Footer/Footer";
@@ -14,12 +14,16 @@ export default function PetSingle({ route, extraData }) {
   // console.log(pet);
   // console.log(route.params.pets);
   const sendEmail = () => {
-    Linking.openURL(`mailto:${pet.email}?subject=Regarding ${pet.pet_name}`);
-  };
+    Linking.openURL(`mailto:${pet.email}?subject=Regarding ${pet.pet_name}`).catch((err)=> {
+      console.log(err)
+      alert("Local email application not setup!")
+      return
+    });
+  }
 
   return (
     <>
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <Text style={styles.title}>{pet.pet_name}</Text>
         <Image source={{ uri: pet.picture }} style={styles.image} />
         <Text style={styles.heading}>Hello! My name is {pet.pet_name}</Text>
@@ -31,7 +35,7 @@ export default function PetSingle({ route, extraData }) {
         <TouchableOpacity style={styles.buttonContainer} onPress={sendEmail}>
           <Text style={styles.buttonText}>Contact owner</Text>
         </TouchableOpacity>
-      </View>
+      </ScrollView>
       <Footer pet={pet} pets={pets} />
     </>
   );

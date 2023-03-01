@@ -29,7 +29,9 @@ export const AutoComp = ({ setLocation, setPostcode, setTown, setCoordinates }) 
           (component) => component.types.includes("postal_code")
         )?.long_name;
         setTown(town);
-        setPostcode(postcode);
+        if (postcode) {
+          setPostcode(postcode);
+        } 
       });
     });
   
