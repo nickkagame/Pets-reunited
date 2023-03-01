@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  Pressable,
-  SafeAreaView,
   Text,
   View,
   Image,
@@ -9,21 +7,23 @@ import {
   StyleSheet,
   FlatList,
   ActivityIndicator,
+  RefreshControl,
 } from "react-native";
-import { collection, getDocs, QuerySnapshot } from "@firebase/firestore";
 import firebase from "firebase/compat";
-import { ScrollView } from "react-native-gesture-handler";
-import { getStorage } from "firebase/storage";
 import { useNavigation } from "@react-navigation/native";
 import Footer from "../Footer/Footer";
+// import { query, orderBy, limit } from "firebase/firestore";
+import SelectDropdown from "react-native-select-dropdown";
+
+// const q = query(citiesRef, orderBy("name"), limit(3));
 
 
 export const db = firebase.firestore();
 
 export default function HomeScreen({ props, extraData }) {
   const [pets, setPets] = useState([]);
-
-  // console.log(extraData);
+  const [refreshing, setRefreshing] = React.useState(false);
+  const [sortBy, setSortBy] = useState("pet_name");
 
   const navigation = useNavigation();
 
@@ -32,8 +32,10 @@ export default function HomeScreen({ props, extraData }) {
   };
 
   const getPets = async () => {
-    const storage = getStorage();
-    const queryPets = await db.collection("lost_pets").get();
+    const queryPets = await db
+      .collection("lost_pets")
+      .orderBy(sortBy, "desc")
+      .get();
     const newPets = [];
     const newURL = [];
     queryPets.forEach((doc) => {
@@ -46,12 +48,31 @@ export default function HomeScreen({ props, extraData }) {
   };
   useEffect(() => {
     getPets();
-  }, []);
+  }, [sortBy]);
 
   const handlePress = (pet, pets) => {
-    // console.log("====>  ", pets);
     navigation.navigate("PetSingle", { pet: pet, pets: pets });
   };
+
+  // const postListSorted = pets.sort((a, b) => {
+  //   return b.lastSeenDate
+  //     .slice(8, 15)
+  //     .localeCompare(a.lastSeenDate.slice(8, 15));
+  // });
+
+  // pets.forEach((pet) => console.log(pet.lastSeenDate));
+  const handleSort = (sort) => {
+    setSortBy(sort);
+  };
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
+  console.log("*");
+  // pets.forEach((pet) => console.log(pet.pet_name));
 
   if (pets.length === 0) {
     return <ActivityIndicator />;
@@ -59,6 +80,21 @@ export default function HomeScreen({ props, extraData }) {
     return (
       <>
         <View style={styles.container}>
+          <SelectDropdown
+            keyboardShouldPersistTaps={"handled"}
+            horzionatal="false"
+            // style={styles.dropDown}
+            data={["lastSeenDate", "pet_name"]}
+            onSelect={(selectedItem, index) => {
+              handleSort(selectedItem);
+            }}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              return selectedItem;
+            }}
+            rowTextForSelection={(item, index) => {
+              return item;
+            }}
+          />
           <TouchableOpacity
             style={styles.reportButtonContainer}
             onPress={() => onPostButtonPress()}
@@ -66,6 +102,7 @@ export default function HomeScreen({ props, extraData }) {
             <Text style={styles.reportButtonText}>Report a lost pet</Text>
           </TouchableOpacity>
           <FlatList
+            maxToRenderPerBatch={1}
             showsVerticalScrollIndicator={false}
             data={pets}
             renderItem={({ item }) => (
@@ -82,6 +119,9 @@ export default function HomeScreen({ props, extraData }) {
               </TouchableOpacity>
             )}
             keyExtractor={(item) => item.id}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
           />
         </View>
         <Footer pets={pets} />
