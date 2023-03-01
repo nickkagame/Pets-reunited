@@ -116,7 +116,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    // backgroundColor: "#5cc8d7",
   },
   image: {
     flex: 1,
@@ -173,6 +172,7 @@ const styles = StyleSheet.create({
   footerLink: {
     color: "white",
     fontWeight: "bold",
-    fontSize: 16,
+    fontSize: 18,
+    textDecorationLine: "underline",
   },
 });

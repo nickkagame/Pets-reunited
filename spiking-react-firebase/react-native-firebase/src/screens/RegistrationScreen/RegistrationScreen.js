@@ -142,8 +142,8 @@ const styles = StyleSheet.create({
     width: 300,
     alignSelf: "center",
     margin: 10,
-    marginBottom: 50,
     marginTop: 20,
+    marginBottom: 20,
   },
   input: {
     height: 48,
@@ -162,6 +162,7 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     marginRight: 30,
     marginTop: 20,
+    marginBottom: 20,
     height: 48,
     borderRadius: 5,
     alignItems: "center",
@@ -184,6 +185,7 @@ const styles = StyleSheet.create({
   footerLink: {
     color: "white",
     fontWeight: "bold",
-    fontSize: 16,
+    fontSize: 18,
+    textDecorationLine: "underline",
   },
 });
