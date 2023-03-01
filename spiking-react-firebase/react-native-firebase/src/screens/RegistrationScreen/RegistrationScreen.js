@@ -52,7 +52,8 @@ export default function RegistrationScreen({ navigation }) {
         alert(error);
       });
   };
-  // /home/ronnieone/northcoders/projects/Pets-reunited/spiking-react-firebase/react-native-firebase/wireframe/PetsLogoTest.jpg
+
+  // /home/ronnieone/northcoders/projects/Pets-reunited/spiking-react-firebase/react-native-firebase/assets/MaybeFinalLogo.png
   return (
     <ImageBackground
       source={require("../../../wireframe/wp6560668.jpg")}
@@ -63,7 +64,10 @@ export default function RegistrationScreen({ navigation }) {
           style={{ flex: 1, width: "100%" }}
           keyboardShouldPersistTaps="always"
         >
-          <Image style={styles.logo} source={require("")} />
+          <Image
+            style={styles.logo}
+            source={require("../../../assets/MaybeFinalLogo.png")}
+          />
           <TextInput
             style={styles.input}
             placeholder="Full Name"
@@ -135,12 +139,11 @@ const styles = StyleSheet.create({
   title: {},
   logo: {
     flex: 1,
-    height: 250,
-    width: 250,
+    height: 300,
+    width: 300,
     alignSelf: "center",
-    margin: 30,
-    // borderRadius: 90,
-    marginBottom: 100,
+    margin: 10,
+    marginBottom: 50,
   },
   input: {
     height: 48,
