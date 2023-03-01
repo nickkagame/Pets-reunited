@@ -53,7 +53,6 @@ export default function RegistrationScreen({ navigation }) {
       });
   };
 
-  // /home/ronnieone/northcoders/projects/Pets-reunited/spiking-react-firebase/react-native-firebase/assets/MaybeFinalLogo.png
   return (
     <ImageBackground
       source={require("../../../wireframe/wp6560668.jpg")}
@@ -144,6 +143,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     margin: 10,
     marginBottom: 50,
+    marginTop: 20,
   },
   input: {
     height: 48,
@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
   },
   buttonTitle: {
     color: "white",
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: "bold",
   },
   footerView: {
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   footerText: {
-    fontSize: 16,
+    fontSize: 18,
     color: "white",
   },
   footerLink: {

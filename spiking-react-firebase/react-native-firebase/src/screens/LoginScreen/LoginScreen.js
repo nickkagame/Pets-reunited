@@ -6,9 +6,9 @@ import {
   TouchableOpacity,
   View,
   StyleSheet,
+  ImageBackground,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-// import styles from "./styles";
 import { firebase } from "../../firebase/config";
 import "firebase/firestore";
 import "firebase/compat/firestore";
@@ -22,9 +22,7 @@ export default function LoginScreen({ navigation }) {
   const [pets, setPets] = useState([]);
 
   entityRef.get().then((snapshot) => {
-    snapshot.docs.forEach((doc) => {
-      // console.log(doc.data());
-    });
+    snapshot.docs.forEach((doc) => {});
   });
 
   const [email, setEmail] = useState("");
@@ -62,47 +60,55 @@ export default function LoginScreen({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
-      <KeyboardAwareScrollView
-        style={{ flex: 1, width: "100%" }}
-        keyboardShouldPersistTaps="always"
-      >
-        <Image
-          style={styles.logo}
-          source={require("../../../wireframe/kitty-hand-drawn-vector-illustration-cartoon-comic-style-lost-lettering-label-187134965.jpg")}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="E-mail"
-          placeholderTextColor="#aaaaaa"
-          onChangeText={(text) => setEmail(text)}
-          value={email}
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
-        />
-        <TextInput
-          style={styles.input}
-          placeholderTextColor="#aaaaaa"
-          secureTextEntry
-          placeholder="Password"
-          onChangeText={(text) => setPassword(text)}
-          value={password}
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
-        />
-        <TouchableOpacity style={styles.button} onPress={() => onLoginPress()}>
-          <Text style={styles.buttonTitle}>Log in</Text>
-        </TouchableOpacity>
-        <View style={styles.footerView}>
-          <Text style={styles.footerText}>
-            Don't have an account?{" "}
-            <Text onPress={onFooterLinkPress} style={styles.footerLink}>
-              Sign up
+    <ImageBackground
+      source={require("../../../wireframe/wp6560668.jpg")}
+      style={styles.image}
+    >
+      <View style={styles.container}>
+        <KeyboardAwareScrollView
+          style={{ flex: 1, width: "100%" }}
+          keyboardShouldPersistTaps="always"
+        >
+          <Image
+            style={styles.logo}
+            source={require("../../../assets/MaybeFinalLogo.png")}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="E-mail"
+            placeholderTextColor="#aaaaaa"
+            onChangeText={(text) => setEmail(text)}
+            value={email}
+            underlineColorAndroid="transparent"
+            autoCapitalize="none"
+          />
+          <TextInput
+            style={styles.input}
+            placeholderTextColor="#aaaaaa"
+            secureTextEntry
+            placeholder="Password"
+            onChangeText={(text) => setPassword(text)}
+            value={password}
+            underlineColorAndroid="transparent"
+            autoCapitalize="none"
+          />
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => onLoginPress()}
+          >
+            <Text style={styles.buttonTitle}>Log in</Text>
+          </TouchableOpacity>
+          <View style={styles.footerView}>
+            <Text style={styles.footerText}>
+              Don't have an account?{" "}
+              <Text onPress={onFooterLinkPress} style={styles.footerLink}>
+                Sign up
+              </Text>
             </Text>
-          </Text>
-        </View>
-      </KeyboardAwareScrollView>
-    </View>
+          </View>
+        </KeyboardAwareScrollView>
+      </View>
+    </ImageBackground>
   );
 }
 
@@ -110,17 +116,22 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    backgroundColor: "#5cc8d7",
+    // backgroundColor: "#5cc8d7",
+  },
+  image: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
   },
   title: {},
   logo: {
     flex: 1,
-    height: 250,
-    width: 250,
+    height: 300,
+    width: 300,
     alignSelf: "center",
-    margin: 30,
-    borderRadius: 90,
-    marginBottom: 100,
+    margin: 10,
+    marginTop: 20,
+    marginBottom: 80,
   },
   input: {
     height: 48,
@@ -132,12 +143,14 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     marginRight: 30,
     paddingLeft: 16,
+    opacity: 0.8,
   },
   button: {
     backgroundColor: "#788eec",
     marginLeft: 30,
     marginRight: 30,
     marginTop: 20,
+    marginBottom: 20,
     height: 48,
     borderRadius: 5,
     alignItems: "center",
@@ -145,7 +158,7 @@ const styles = StyleSheet.create({
   },
   buttonTitle: {
     color: "white",
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: "bold",
   },
   footerView: {
@@ -154,11 +167,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   footerText: {
-    fontSize: 16,
-    color: "#2e2e2d",
+    fontSize: 18,
+    color: "white",
   },
   footerLink: {
-    color: "#2e2e2d",
+    color: "white",
     fontWeight: "bold",
     fontSize: 16,
   },
