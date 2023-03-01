@@ -30,7 +30,10 @@ export default function PetSingle({ route, extraData }) {
         <Image source={{ uri: pet.picture }} style={styles.image} />
         <Text style={styles.heading}>Hello! My name is {pet.pet_name}.</Text>
                <Text style={styles.text}>
-          I was last seen on {dateString} around the {pet.location} area :(.
+          I was last seen on {dateString}. 
+        </Text>
+        <Text style={styles.text}>
+          My last known location was {pet.location} :(.
         </Text>
         <Text style={styles.text}>I really miss my owner {pet.your_name}.</Text>
         <Text style={styles.text}>More details : {pet.description}.</Text><TouchableOpacity style={styles.buttonContainer} onPress={sendEmail}>
