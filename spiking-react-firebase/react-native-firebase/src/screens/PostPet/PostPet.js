@@ -67,7 +67,7 @@ export default function PostPet({ extraData }) {
         const photoFileId = uuid.v4();
         const ref = firebase.storage().ref().child(`Pictures/${photoFileId}`);
         const snapshot = ref.put(blob);
-  
+
         snapshot.on(
           firebase.storage.TaskEvent.STATE_CHANGED,
           () => {
@@ -102,7 +102,6 @@ export default function PostPet({ extraData }) {
       xhr.send(null);
     });
   };
-  
 
   const pickImage = () => {
     ImagePicker.launchImageLibraryAsync({
@@ -111,17 +110,16 @@ export default function PostPet({ extraData }) {
       aspect: [4, 3],
       quality: 1,
     })
-    .then((result) => {
-      if (!result.canceled) {
-        setImageIsPicked(true);
-        setImage(result.assets[0].uri);
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+      .then((result) => {
+        if (!result.canceled) {
+          setImageIsPicked(true);
+          setImage(result.assets[0].uri);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
-  
 
   const handleSubmit = async () => {
     if (
@@ -172,7 +170,7 @@ export default function PostPet({ extraData }) {
         horizontal={false}
         style={styles.container}
       >
-        <Text style={styles.title}>Report a lost pet</Text>
+        <Text style={styles.title}>Report A Lost Pet 🔍</Text>
         <TextInput
           style={styles.input}
           placeholder="Enter pet name (required)"
@@ -197,14 +195,6 @@ export default function PostPet({ extraData }) {
             setEmail(e);
           }}
         />
-        {/* <TextInput
-          style={styles.input}
-          placeholder="Enter home address"
-          value={home_address}
-          onChangeText={(e) => {
-            setHome_address(e);
-          }}
-        /> */}
         <ScrollView
           keyboardShouldPersistTaps={"handled"}
           horizontal={true}
@@ -217,13 +207,30 @@ export default function PostPet({ extraData }) {
             setPostcode={setPostcode}
           />
         </ScrollView>
-      
+
+       
+        <TextInput
+          style={styles.input}
+          placeholder="More details of lost pet (required)"
+          value={description}
+          onChangeText={(e) => {
+            setDescription(e);
+          }}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Enter chip id (optional)"
+          value={chipId}
+          onChangeText={(e) => {
+            setChipId(e);
+          }}
+        /> 
         <SelectDropdown
-        defaultButtonText={'Select Pet Type'}
+          defaultButtonText={"Select Pet Type"}
           style={styles.selectinput}
+          buttonTextStyle={styles.dropdown1BtnTxtStyle}
           data={petTypes}
           buttonStyle={styles.selectinput}
-        
           onSelect={(selectedItem, index) => {
             setPet_type(selectedItem);
           }}
@@ -234,25 +241,9 @@ export default function PostPet({ extraData }) {
             return item;
           }}
         />
-        <TextInput
-          style={styles.input}
-          placeholder="More details of lost pet (required)"
-          value={description}
-          onChangeText={(e) => {
-            setDescription(e);
-          }}
-        /> 
-         <TextInput
-          style={styles.input}
-          placeholder="Enter chip id (optional)"
-          value={chipId}
-          onChangeText={(e) => {
-            setChipId(e);
-          }}
-        />
-        <Text  style={styles.inputDate}>
+        <Text style={styles.inputDate}>
           {date.toString() === "Invalid Date"
-            ? "Please pick a date"
+            ? "Please pick a date ⬇️"
             : date.toString()}
         </Text>
         {/* {console.log(date.toString())} */}
@@ -263,7 +254,10 @@ export default function PostPet({ extraData }) {
           }}
         >
           {isClicked ? (
-            <CalendarPopUp setSelectedStartDate={setSelectedStartDate} setIsClicked={setIsClicked}/>
+            <CalendarPopUp
+              setSelectedStartDate={setSelectedStartDate}
+              setIsClicked={setIsClicked}
+            />
           ) : (
             ""
           )}
@@ -300,7 +294,7 @@ export default function PostPet({ extraData }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#5cc8d7",
+    backgroundColor: "#cff7fc",
   },
   title: {
     fontSize: 25,
@@ -310,6 +304,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     alignSelf: "center",
     fontWeight: "bold",
+     textShadowColor: "#4f6df0",
+    textShadowRadius: 10,
   },
   input: {
     height: 48,
@@ -321,49 +317,19 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     marginRight: 30,
     paddingLeft: 16,
-    width: 350
-  },
-  selectinput: {
-    height: 48,
-    borderRadius: 5,
-    overflow: "hidden",
-    backgroundColor: "white",
-    marginTop: 6,
-    marginBottom: 6,
-    marginLeft: 30,
-    marginRight: 30,
-    paddingLeft: 16,
-    width: 350,
-   
   },
   inputAuto: {
-     height: 48,
+    height: "auto",
     borderRadius: 5,
-    overflow: "hidden",
-    backgroundColor: "white",
-    marginTop: 6,
-    marginBottom: 6,
-    marginLeft: 30,
-    marginRight: 30,
-    paddingTop: 2,
-    paddingLeft: 8,
-    width: 350,
-  },
-  inputDate:{
-    height: 48,
-    borderRadius: 5,
-    overflow: "hidden",
+    // overflow: "visible",
     backgroundColor: "white",
     marginTop: 6,
     marginBottom: 6,
     marginLeft: 30,
     marginRight: 30,
     paddingLeft: 16,
-    paddingTop: 15,
-    width: 350,
-    fontSize:14,
-    color:"silver"
-   
+    paddingLeft: 8,
+    fontSize: 14,
   },
   buttonContainer: {
     marginRight: 7,
@@ -406,7 +372,12 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     textTransform: "uppercase",
   },
-  
+  datePicked: {
+    alignSelf: "center",
+    fontWeight: "bold",
+    marginTop: 5,
+    marginBottom: 5,
+  },
   calendarContainer: {
     marginRight: 7,
     marginLeft: 7,
@@ -423,4 +394,36 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowColor: "black",
   },
+  selectinput: {
+    height: 48,
+    borderRadius: 5,
+    overflow: "hidden",
+    backgroundColor: "white",
+    marginTop: 6,
+    marginBottom: 6,
+    marginLeft: 30,
+    marginRight: 30,
+    paddingLeft: 16,
+    width: 350,
+    buttonStyle:""
+    , 
+  },
+  dropdown1BtnTxtStyle: { textAlign: 'left', 
+    // color: "silver",  
+    fontSize: 14},
+  inputDate: {
+    height: 48,
+    borderRadius: 5,
+    overflow: "hidden",
+    backgroundColor: "white",
+    marginTop: 6,
+    marginBottom: 6,
+    marginLeft: 30,
+    marginRight: 30,
+    paddingLeft: 16,
+    paddingTop: 15,
+    color: "silver",
+  },
+
+  
 });
