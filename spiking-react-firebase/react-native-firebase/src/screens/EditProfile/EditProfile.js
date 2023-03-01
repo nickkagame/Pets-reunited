@@ -14,11 +14,11 @@ import {
 // import firebase from "firebase/compat";
 // import { useNavigation } from "@react-navigation/native";
 import Footer from "../Footer/Footer";
-import db from "../HomeScreen/HomeScreen";
+import { db } from "../HomeScreen/HomeScreen";
 
 export default function EditProfile({ route, extraData, setUser }) {
   const { pets } = route.params;
-  console.log(extraData);
+  // console.log(extraData);
   // const db = firebase.firestore();
   // const navigation = useNavigation();
 
