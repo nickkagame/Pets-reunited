@@ -11,14 +11,16 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import firebase from "firebase/compat";
-import { useNavigation } from "@react-navigation/native";
+// import firebase from "firebase/compat";
+// import { useNavigation } from "@react-navigation/native";
 import Footer from "../Footer/Footer";
+import db from "../HomeScreen/HomeScreen";
 
 export default function EditProfile({ route, extraData, setUser }) {
-  const {pets} = route.params
-  const db = firebase.firestore();
-  const navigation = useNavigation();
+  const { pets } = route.params;
+  console.log(extraData);
+  // const db = firebase.firestore();
+  // const navigation = useNavigation();
 
   const [newName, setNewName] = useState(extraData.fullName);
   const [newEmail, setNewEmail] = useState(extraData.email);
@@ -45,9 +47,7 @@ export default function EditProfile({ route, extraData, setUser }) {
   return (
     <>
       <ScrollView style={styles.container}>
-        <Text style={styles.title} value={extraData.fullName}>
-          Your Name:{" "}
-        </Text>
+        <Text style={styles.title}>Your Name: </Text>
         <TextInput
           style={styles.input}
           onChangeText={(e) => {
@@ -72,7 +72,7 @@ export default function EditProfile({ route, extraData, setUser }) {
           <Text style={styles.buttonText}>Submit Changes</Text>
         </TouchableOpacity>
       </ScrollView>
-      <Footer pets = {pets}/>
+      <Footer pets={pets} />
     </>
   );
 }
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingVertical: 12,
     paddingHorizontal: 32,
-    alignSelf: "left",
+    alignSelf: "auto",
     fontWeight: "bold",
   },
   input: {

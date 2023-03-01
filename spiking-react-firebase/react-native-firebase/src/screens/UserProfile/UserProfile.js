@@ -43,8 +43,9 @@ export default function UserProfile({ route, extraData }) {
   }, [route]);
 
   const { pet } = route.params;
-  const goToChangeProfile = () => {
-    navigation.navigate(`EditProfile`, { pets: pets });
+  const goToChangeProfile = (pets) => {
+    navigation.navigate(`EditProfile`, { pets: pets, extraData: extraData });
+    // console.log("hello");
   };
 
   const goToChangePost = (pet) => {
@@ -61,7 +62,7 @@ export default function UserProfile({ route, extraData }) {
           <Text style={styles.bodyText}> {extraData.email} </Text>
           <TouchableOpacity
             style={styles.editButtonContainer}
-            onPress={() => goToChangeProfile()}
+            onPress={() => goToChangeProfile(pets)}
           >
             <Text style={styles.editButtonText}>Edit Profile</Text>
           </TouchableOpacity>
