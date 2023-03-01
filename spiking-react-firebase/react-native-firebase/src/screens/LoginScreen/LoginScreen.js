@@ -16,7 +16,7 @@ export default function LoginScreen({ navigation }) {
 
   entityRef.get().then((snapshot) => {
     snapshot.docs.forEach((doc) => {
-      console.log(doc.data());
+      // console.log(doc.data());
     });
   });
 
