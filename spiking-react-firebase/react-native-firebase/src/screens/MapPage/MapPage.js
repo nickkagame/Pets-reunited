@@ -1,27 +1,21 @@
 import MapView, { Marker } from "react-native-maps";
 import { StyleSheet } from "react-native";
 import { db } from "../HomeScreen/HomeScreen";
-import { collection } from "@firebase/firestore";
-import { getStorage } from "firebase/storage";
 import { useState, useEffect } from "react";
 
 export const MapPage = ({ route }) => {
-  const { pet, pets } = route.params;
+  const { pet, pets, coorQuerrt } = route.params;
   const [petsData, setPetsData] = useState([]);
+  console.log(coorQuerrt);
 
   const getPets = async () => {
-    const storage = getStorage();
     const queryPets = await db.collection("lost_pets").get();
     const newPets = [];
-    // const newURL = [];
     queryPets.forEach((doc) => {
       const pet = { ...doc.data(), id: doc.id };
       newPets.push(pet);
-      // newURL.push(pet.picture);
     });
-    // console.log(newPets[8]);
     setPetsData(newPets);
-    // console.log(petsData);
   };
 
   useEffect(() => {
@@ -32,22 +26,20 @@ export const MapPage = ({ route }) => {
     <MapView
       style={styles.mapStyle}
       initialRegion={{
-        latitude: pet ? pet.coordinates.lat : 53.483959,
-        longitude: pet ? pet.coordinates.lng : -2.244644,
+        latitude: pet
+          ? pet.coordinates.lat
+          : coorQuerrt
+          ? coorQuerrt.latitude
+          : 53.483959,
+        longitude: pet
+          ? pet.coordinates.lng
+          : coorQuerrt
+          ? coorQuerrt.longitude
+          : -2.244644,
         latitudeDelta: 1.05,
         longitudeDelta: 0.05,
       }}
     >
-      {/* <Marker
-        draggable
-        coordinate={{
-          latitude: 53.483959,
-          longitude: -2.244644,
-        }}
-        onDragEnd={(e) => alert(JSON.stringify(e.nativeEvent.coordinate))}
-        title={"Test Marker"}
-        description={"This is a description of the marker"}
-      /> */}
       {pets.map((pet) => (
         <Marker
           key={pet.id}
@@ -57,7 +49,6 @@ export const MapPage = ({ route }) => {
           }}
           title={pet.pet_name}
           description={`a ${pet.pet_type} missing`}
-          //   onPress={() => handlePressMarker(marker)}
         />
       ))}
     </MapView>
@@ -156,14 +147,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   mapStyle: {
-    // marginTop: 0,
-    // marginBottom: 100,
-    // marginLeft: 50,
-    // marginRight: 50,
     flex: 1,
-    // marginHorizontal: "20%",
-    // marginTop: "2vh",
-
     position: "absolute",
     top: 0,
     left: 0,

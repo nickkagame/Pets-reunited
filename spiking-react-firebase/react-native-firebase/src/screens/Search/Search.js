@@ -1,13 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import {
-  Pressable,
-  SafeAreaView,
-  Text,
-  Button,
-  Image,
-  ScrollView,
-  StyleSheet,
-} from "react-native";
+import { Text, Button, Image, ScrollView, StyleSheet } from "react-native";
 import firebase from "firebase/compat";
 import { useNavigation } from "@react-navigation/native";
 import Footer from "../Footer/Footer";
@@ -19,11 +11,13 @@ import uuid from "react-native-uuid";
 
 export default function Search({ props }) {
   const [pets, setPets] = useState([]);
-  const [selectedItem, setSelectedItem] = useState("");
-  const [currPlaceId, setPlaceId] = useState("ChIJAZ-GmmbMHkcR_NPqiCq-8HI");
   const [location, setLocation] = useState("");
   const [typeChosen, setTypeChosen] = useState("false");
   const [petType, setPetType] = useState("");
+  const [coorQuerrt, setCoorQuerry] = useState({
+    latitude: 53.483959,
+    longitude: -2.244644,
+  });
 
   const ref = useRef(); //
 
@@ -32,6 +26,7 @@ export default function Search({ props }) {
 
   const handlePetTypeSelection = async (petType) => {
     setPetType(petType);
+
     const storage = getStorage();
     const queryPets = await db
       .collection("lost_pets")
@@ -69,11 +64,13 @@ export default function Search({ props }) {
 
   const handleSelectItem = (data) => {
     setLocation("");
+
     fetch(
       `https://maps.googleapis.com/maps/api/place/details/json?key=${appKey}&place_id=${data.place_id}`
     ).then((response) => {
       response.json().then((responseData) => {
         const { lat, lng } = responseData.result.geometry.location;
+        setCoorQuerry({ latitude: lat, longitude: lng });
         const town = responseData.result.address_components.find(
           (component) =>
             component.types.includes("locality") ||
@@ -104,8 +101,8 @@ export default function Search({ props }) {
     });
   };
 
-  const handlePress = (pet) => {
-    navigation.navigate("PetSingle", { pet: pet });
+  const handlePress = (pet, pets) => {
+    navigation.navigate("PetSingle", { pet: pet, pets: pets });
   };
 
   return (
@@ -138,7 +135,6 @@ export default function Search({ props }) {
           <GooglePlacesAutocomplete
             placeholder="Search by Location"
             onPress={(data, details = null) => {
-              // console.log(data)
               handleSelectItem(data);
               ref.current.setAddressText(""); //
             }}
@@ -150,32 +146,13 @@ export default function Search({ props }) {
           />
         </ScrollView>
         <Button title="reset" onPress={reset}></Button>
-        {/* <FlatList
-          // keyboardShouldPersistTaps={"handled"}
-          horzionatal="false"
-          showsVerticalScrollIndicator={false}
-          data={pets}
-          renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => handlePress(item)}>
-              <>
-                <Text style={styles.petName}>{item.pet_name}</Text>
-                <Image
-                  source={{
-                    uri: item.picture,
-                  }}
-                  style={styles.image}
-                />
-              </>
-            </TouchableOpacity>
-          )}
-          keyExtractor={(item) => item.id}
-        /> */}
+
         <>
           {pets.map((pet) => {
             return (
               <TouchableOpacity
                 key={uuid.v4()}
-                onPress={() => handlePress(pet)}
+                onPress={() => handlePress(pet, pets)}
               >
                 <Text>{pet.pet_name}</Text>
                 <Image
@@ -189,7 +166,7 @@ export default function Search({ props }) {
           })}
         </>
       </ScrollView>
-      <Footer pets = {pets}/>
+      <Footer pets={pets} coorQuerrt={coorQuerrt} />
     </>
   );
 }

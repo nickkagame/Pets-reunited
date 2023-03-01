@@ -15,14 +15,13 @@ import Icon from "react-native-vector-icons/FontAwesome";
 
 const db = firebase.firestore();
 
-export default function HomeScreen({ props, pets, pet }) {
-  // console.log(pets);
+export default function HomeScreen({ props, pets, pet, coorQuerrt }) {
   const navigation = useNavigation();
   const goToSearch = () => {
     navigation.navigate("Search", {
       pets: pets,
       pet: pet,
-    }) ;
+    });
   };
   const goToUserProfile = () => {
     navigation.navigate("UserProfile", {
@@ -35,6 +34,7 @@ export default function HomeScreen({ props, pets, pet }) {
     navigation.navigate("MapPage", {
       pets: pets,
       pet: pet,
+      coorQuerrt: coorQuerrt,
     });
   };
 
