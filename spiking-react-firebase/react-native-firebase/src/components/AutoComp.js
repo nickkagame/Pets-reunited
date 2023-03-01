@@ -3,6 +3,8 @@ import { StyleSheet } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { appKey } from "./key";
 
+
+
 export const AutoComp = ({ setLocation, setPostcode, setTown, setCoordinates }) => {
   const [selectedItem, setSelectedItem] = useState("");
   const [currPlaceId, setPlaceId] = useState("ChIJAZ-GmmbMHkcR_NPqiCq-8HI");

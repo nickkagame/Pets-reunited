@@ -14,6 +14,7 @@ import Search from "./src/screens/Search/Search";
 import UserProfile from "./src/screens/UserProfile/UserProfile";
 import EditProfile from "./src/screens/EditProfile/EditProfile";
 import EditPost from "./src/screens/EditPost/EditPost";
+import { MapPage } from "./src/screens/MapPage/MapPage";
 
 if (!global.btoa) {
   global.btoa = encode;
@@ -81,6 +82,11 @@ export default function App() {
             <Stack.Screen name="Edit Post">
               {(props) => (
                 <EditPost {...props} extraData={user} setUser={setUser} />
+              )}
+            </Stack.Screen>
+            <Stack.Screen name="MapPage">
+              {(props) => (
+                <MapPage {...props} extraData={user} setUser={setUser} />
               )}
             </Stack.Screen>
           </>

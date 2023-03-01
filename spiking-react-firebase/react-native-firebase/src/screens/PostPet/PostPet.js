@@ -8,8 +8,8 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  Touchable,
 } from "react-native";
+import SelectDropdown from "react-native-select-dropdown";
 import uuid from "react-native-uuid";
 import {
   collection,
@@ -28,17 +28,21 @@ import "@firebase/storage-compat";
 import { app } from "../../firebase/config";
 import Footer from "../Footer/Footer";
 import CalendarPopUp from "../Calendar.js/Calendar";
+import { AutoComp } from "../../components/AutoComp";
+import { ActivityIndicator } from "react-native";
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import { appKey } from "../../components/key";
+import { useNavigation } from "@react-navigation/native";
 
 const db = getFirestore(app);
 
 export default function PostPet({ extraData }) {
-  console.log(extraData, "--------");
+  const navigation = useNavigation();
 
   const [pet_name, setPet_name] = useState("");
   const [your_name, setYour_name] = useState("");
   const [email, setEmail] = useState("");
   const [home_address, setHome_address] = useState("");
-  const [location, setLocation] = useState("");
   const [chipId, setChipId] = useState("");
   const [pet_type, setPet_type] = useState("");
   const [description, setDescription] = useState("");
@@ -46,6 +50,11 @@ export default function PostPet({ extraData }) {
   const [uploading, setUploading] = useState(null);
   const [selectedStartDate, setSelectedStartDate] = useState("");
   const [isClicked, setIsClicked] = useState(false);
+  const [location, setLocation] = useState("");
+  const [coordinates, setCoordinates] = useState({})
+  const [town, setTown] = useState('')
+  const [postcode, setPostcode] = useState('')
+  const [imageIsPicked, setImageIsPicked] = useState(false)
 
   const dayjs = require("dayjs");
   const date = dayjs(selectedStartDate).format("MMMM DD YYYY");
@@ -81,6 +90,7 @@ export default function PostPet({ extraData }) {
         snapshot.snapshot.ref.getDownloadURL().then((url) => {
           setUploading(false);
           console.log("Download URL: ", url);
+          alert("image successfully uploaded")
           setImage(url);
           blob.close();
           return url;
@@ -88,6 +98,10 @@ export default function PostPet({ extraData }) {
       }
     );
   };
+
+  const handlePetTypeSelection = () => {
+
+  }
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -97,16 +111,21 @@ export default function PostPet({ extraData }) {
       quality: 1,
     });
     if (!result.canceled) {
+      setImageIsPicked(true)
       setImage(result.assets[0].uri);
     }
   };
 
   const handleSubmit = async () => {
+  if(pet_name.length === 0 || email.length === 0 || location.length === 0 || pet_type.length === 0 || your_name.length === 0 || uploading === true || imageIsPicked === false){
+    alert("Please complete all required field, and upload an image")
+    return 
+  }
+
     try {
       const submitRef = await addDoc(collection(db, "lost_pets"), {
         description: description,
         email: email,
-        home_address: home_address,
         lastSeenDate: selectedStartDate.toString(),
         chipId: chipId,
         location: location,
@@ -117,20 +136,32 @@ export default function PostPet({ extraData }) {
         userID: extraData.id,
         userProfileEmail: extraData.email,
         userProfileName: extraData.fullName,
+        postcode,
+        coordinates,
+        town
       });
-      setIsClicked(false); // trying to reset the calendar to not appear on submit
+      setIsClicked(false); 
+      alert("Post successful!")
+      navigation.navigate("Home");
     } catch (e) {
       console.error(e);
     }
   };
 
+  const petTypes = ["Cat", "Dog", "Rabbit", "Bird", "other"];
+
   return (
     <>
-      <ScrollView style={styles.container}>
+
+      <ScrollView
+        keyboardShouldPersistTaps={"handled"}
+        horizontal={false}
+        style={styles.container}
+      >
         <Text style={styles.title}>Report a lost pet</Text>
         <TextInput
           style={styles.input}
-          placeholder="Enter pet name"
+          placeholder="Enter pet name (required)"
           value={pet_name}
           onChangeText={(e) => {
             setPet_name(e);
@@ -138,7 +169,7 @@ export default function PostPet({ extraData }) {
         />
         <TextInput
           style={styles.input}
-          placeholder="Enter your name"
+          placeholder="Enter your name (required)"
           value={your_name}
           onChangeText={(e) => {
             setYour_name(e);
@@ -146,47 +177,52 @@ export default function PostPet({ extraData }) {
         />
         <TextInput
           style={styles.input}
-          placeholder="Enter email"
+          placeholder="Enter email (required)"
           value={email}
           onChangeText={(e) => {
             setEmail(e);
           }}
         />
-        <TextInput
+        {/* <TextInput
           style={styles.input}
           placeholder="Enter home address"
           value={home_address}
           onChangeText={(e) => {
             setHome_address(e);
           }}
-        />
+        /> */}
+        <ScrollView
+          keyboardShouldPersistTaps={"handled"}
+          horizontal={true}
+          style={styles.inputAuto}
+        >
+          <AutoComp setLocation={setLocation} setCoordinates ={setCoordinates} setTown = {setTown} 
+  setPostcode = {setPostcode}/>
+        </ScrollView>
         <TextInput
           style={styles.input}
-          placeholder="Enter location where the pet was lost"
-          value={location}
-          onChangeText={(e) => {
-            setLocation(e);
-          }}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Enter chip id"
+          placeholder="Enter chip id (optional)"
           value={chipId}
           onChangeText={(e) => {
             setChipId(e);
           }}
         />
+        <SelectDropdown
+            style={styles.input}
+            data={petTypes}
+            onSelect={(selectedItem, index) => {
+              setPet_type(selectedItem);
+            }}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              return selectedItem;
+            }}
+            rowTextForSelection={(item, index) => {
+              return item;
+            }}
+          />
         <TextInput
           style={styles.input}
-          placeholder="Enter pet type"
-          value={pet_type}
-          onChangeText={(e) => {
-            setPet_type(e);
-          }}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="More details of lost pet"
+          placeholder="More details of lost pet (required)"
           value={description}
           onChangeText={(e) => {
             setDescription(e);
@@ -197,7 +233,7 @@ export default function PostPet({ extraData }) {
             ? "Please pick a date"
             : date.toString()}
         </Text>
-        {console.log(date.toString())}
+        {/* {console.log(date.toString())} */}
         <TouchableOpacity
           style={styles.calendarContainer}
           onPress={() => {
@@ -216,9 +252,9 @@ export default function PostPet({ extraData }) {
           <Text style={styles.buttonText}>Choose pic</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.buttonContainer} onPress={uploadImage}>
+        {!uploading ? <TouchableOpacity style={styles.buttonContainer} onPress={uploadImage}>
           <Text style={styles.buttonText}>Upload Image</Text>
-        </TouchableOpacity>
+        </TouchableOpacity>:  <ActivityIndicator size={'small'} color='black' />}
 
         <TouchableOpacity
           style={styles.buttonContainerBottom}
@@ -250,6 +286,17 @@ const styles = StyleSheet.create({
     height: 48,
     borderRadius: 5,
     overflow: "hidden",
+    backgroundColor: "white",
+    marginTop: 6,
+    marginBottom: 6,
+    marginLeft: 30,
+    marginRight: 30,
+    paddingLeft: 16,
+  },
+  inputAuto: {
+    height: "auto",
+    borderRadius: 5,
+    // overflow: "visible",
     backgroundColor: "white",
     marginTop: 6,
     marginBottom: 6,
