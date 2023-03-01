@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   Pressable,
   SafeAreaView,
@@ -24,10 +24,11 @@ export default function Search({ props }) {
   const [location, setLocation] = useState("");
   const [typeChosen, setTypeChosen] = useState("false");
   const [petType, setPetType] = useState("");
- 
+
+  const ref = useRef(); //
 
   const db = firebase.firestore();
-  const appKey = "AIzaSyBMITvTV2eJuNap5mXGzkPgMJiQyuf9SRc"; 
+  const appKey = "AIzaSyBMITvTV2eJuNap5mXGzkPgMJiQyuf9SRc";
 
   const handlePetTypeSelection = async (petType) => {
     setPetType(petType);
@@ -55,19 +56,19 @@ export default function Search({ props }) {
     }
     //seperate out so can use both seperately
   };
-    const navigation = useNavigation();
+  const navigation = useNavigation();
 
-  const reset = () =>  {
-    setPets([])
-    setPetType('')
-    setLocation('')
-    navigation.navigate('Search', {location, petType, pets})
-  }
+  const reset = () => {
+    setPets([]);
+    setPetType("");
+    setLocation("");
+    navigation.navigate("Search", { location, petType, pets });
+  };
 
   const petTypes = ["Cat", "Dog", "Rabbit", "Bird", "other"];
 
   const handleSelectItem = (data) => {
-    setLocation('')
+    setLocation("");
     fetch(
       `https://maps.googleapis.com/maps/api/place/details/json?key=${appKey}&place_id=${data.place_id}`
     ).then((response) => {
@@ -103,8 +104,6 @@ export default function Search({ props }) {
     });
   };
 
-
-
   const handlePress = (pet) => {
     navigation.navigate("PetSingle", { pet: pet });
   };
@@ -116,7 +115,6 @@ export default function Search({ props }) {
         horizontal={false}
         style={styles.container}
       >
-      
         <SelectDropdown
           keyboardShouldPersistTaps={"handled"}
           horzionatal="false"
@@ -140,17 +138,18 @@ export default function Search({ props }) {
           <GooglePlacesAutocomplete
             placeholder="Search by Location"
             onPress={(data, details = null) => {
-              console.log(data)
+              // console.log(data)
               handleSelectItem(data);
+              ref.current.setAddressText(""); //
             }}
             query={{
               key: `${appKey}`,
               language: "en",
             }}
+            ref={ref}
           />
         </ScrollView>
-        <Button title="reset"
-        onPress={reset}></Button>
+        <Button title="reset" onPress={reset}></Button>
         {/* <FlatList
           // keyboardShouldPersistTaps={"handled"}
           horzionatal="false"
@@ -174,8 +173,11 @@ export default function Search({ props }) {
         <>
           {pets.map((pet) => {
             return (
-              <TouchableOpacity key={uuid.v4()} onPress={() => handlePress(pet)}>
-                <Text >{pet.pet_name}</Text>
+              <TouchableOpacity
+                key={uuid.v4()}
+                onPress={() => handlePress(pet)}
+              >
+                <Text>{pet.pet_name}</Text>
                 <Image
                   source={{
                     uri: pet.picture,
@@ -187,7 +189,7 @@ export default function Search({ props }) {
           })}
         </>
       </ScrollView>
-      <Footer />
+      <Footer pets = {pets}/>
     </>
   );
 }
@@ -217,7 +219,7 @@ const styles = StyleSheet.create({
     marginBottom: 6,
     marginLeft: 30,
     marginRight: 30,
-    paddingLeft: 16
+    paddingLeft: 16,
   },
   image: {
     width: 200,
@@ -228,4 +230,3 @@ const styles = StyleSheet.create({
     marginTop: 6,
   },
 });
-

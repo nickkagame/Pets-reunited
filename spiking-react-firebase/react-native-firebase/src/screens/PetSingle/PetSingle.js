@@ -20,19 +20,23 @@ export default function PetSingle({ route, extraData }) {
       return
     });
   }
+  const dateString = pet.lastSeenDate.split(' ').slice(0, 4).join(' ');
+
 
   return (
     <>
       <ScrollView style={styles.container}>
         <Text style={styles.title}>{pet.pet_name}</Text>
         <Image source={{ uri: pet.picture }} style={styles.image} />
-        <Text style={styles.heading}>Hello! My name is {pet.pet_name}</Text>
-        <Text style={styles.text}>My home is in {pet.description}.</Text>
+        <Text style={styles.heading}>Hello! My name is {pet.pet_name}.</Text>
+               <Text style={styles.text}>
+          I was last seen on {dateString}. 
+        </Text>
         <Text style={styles.text}>
-          I was last seen on {} around the {pet.location} area :(.
+          My last known location was {pet.location} :(.
         </Text>
         <Text style={styles.text}>I really miss my owner {pet.your_name}.</Text>
-        <TouchableOpacity style={styles.buttonContainer} onPress={sendEmail}>
+        <Text style={styles.text}>More details : {pet.description}.</Text><TouchableOpacity style={styles.buttonContainer} onPress={sendEmail}>
           <Text style={styles.buttonText}>Contact owner</Text>
         </TouchableOpacity>
       </ScrollView>

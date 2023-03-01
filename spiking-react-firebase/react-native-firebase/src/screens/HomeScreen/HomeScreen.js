@@ -17,6 +17,7 @@ import SelectDropdown from "react-native-select-dropdown";
 
 // const q = query(citiesRef, orderBy("name"), limit(3));
 
+
 export const db = firebase.firestore();
 
 export default function HomeScreen({ props, extraData }) {
