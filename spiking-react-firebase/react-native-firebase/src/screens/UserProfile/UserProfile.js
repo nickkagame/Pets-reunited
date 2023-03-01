@@ -70,7 +70,6 @@ export default function UserProfile({ route, extraData }) {
         <Text style={styles.user} >Your lost pet posts:</Text>
         {pets.map((pet) => {
           return (
-            <>
               <View style={styles.container} key={uuid.v4()}>
                 <Text style={styles.title}>
                   {pet.pet_name} 
@@ -89,7 +88,7 @@ export default function UserProfile({ route, extraData }) {
                 </TouchableOpacity>
         
               </View>
-            </>
+  
           );
         })}
       

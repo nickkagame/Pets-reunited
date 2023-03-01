@@ -17,6 +17,7 @@ import { getStorage } from "firebase/storage";
 import { useNavigation } from "@react-navigation/native";
 import Footer from "../Footer/Footer";
 
+
 export const db = firebase.firestore();
 
 export default function HomeScreen({ props, extraData }) {

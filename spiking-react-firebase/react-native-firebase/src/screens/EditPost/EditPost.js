@@ -12,6 +12,10 @@ import { app } from "../../firebase/config";
 import { collection, addDoc, getFirestore } from "@firebase/firestore";
 import firebase from "firebase/compat";
 import { useNavigation } from '@react-navigation/native';
+import SelectDropdown from "react-native-select-dropdown";
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import { appKey } from "../../components/key";
+
 const db = firebase.firestore();
 
 export default function EditPost({ route, extraData }) {
@@ -25,15 +29,17 @@ export default function EditPost({ route, extraData }) {
   const [pet_type, setPet_type] = useState(pet.pet_type);
   const [description, setDescription] = useState(pet.description);
   const [image, setImage] = useState(pet.picture);
+  const [coordinates, setCoordinates] = useState(pet.coordinates);
+  const [postcode, setPostcode] = useState(pet.postcode);
+  const [town, setTown] = useState(pet.town)
   const [uploading, setUploading] = useState(null);
   const [selectedStartDate, setSelectedStartDate] = useState(pet.lastSeenDate);
-  const navigation = useNavigation();
+  const navigation = useNavigation();  
   
   const handleSubmit = () => {
     const newPostInfo = {
       description: description,
       email: email,
-      home_address: home_address,
       lastSeenDate: selectedStartDate.toString(),
       chipId: chipId,
       location: location,
@@ -41,6 +47,9 @@ export default function EditPost({ route, extraData }) {
       pet_type: pet_type,
       picture: image,
       your_name: your_name,
+      coordinates,
+      town,
+      postcode,
       userID: extraData.id,
       userProfileEmail: extraData.email,
       userProfileName: extraData.fullName,
@@ -59,9 +68,38 @@ export default function EditPost({ route, extraData }) {
       });
   };
 
+  const handleSelectItem = (data) => {
+    fetch(
+      `https://maps.googleapis.com/maps/api/place/details/json?key=${appKey}&place_id=${data.place_id}`
+    ).then((response) => {
+      response.json().then((responseData) => {
+        // console.log(data);
+        const { lat, lng } = responseData.result.geometry.location;
+        setCoordinates(responseData.result.geometry.location)
+
+        const town = responseData.result.address_components.find(
+          (component) =>
+            component.types.includes("locality") ||
+            component.types.includes("postal_town")
+        )?.long_name;
+        const postcode = responseData.result.address_components.find(
+          (component) => component.types.includes("postal_code")
+        )?.long_name;
+        setTown(town);
+        if (postcode) {
+          setPostcode(postcode);
+        } 
+      });
+    });
+  
+  };
+
+  const petTypes = ["Cat", "Dog", "Rabbit", "Bird", "other"];
+
   return (
     <>
-      <ScrollView>
+      <ScrollView keyboardShouldPersistTaps={"handled"}
+        horizontal={false}>
         <View style={styles.container} key={pet.id}>
           <TextInput
             placeholder="Enter pet name"
@@ -85,21 +123,23 @@ export default function EditPost({ route, extraData }) {
               setEmail(e);
             }}
           />
-
-          <TextInput
-            placeholder="Enter home address"
-            value={home_address}
-            onChangeText={(e) => {
-              setHome_address(e);
-            }}
-          />
-          <TextInput
-            placeholder="Enter location where the pet lost"
-            value={location}
-            onChangeText={(e) => {
-              setLocation(e);
-            }}
-          />
+          <ScrollView
+          keyboardShouldPersistTaps={"handled"}
+          horizontal={true}
+          style={styles.inputAuto}
+        >
+          <GooglePlacesAutocomplete
+      placeholder="Enter location where the pet was lost"
+      onPress={(data, details = null) => {
+        setLocation(data.description);
+        handleSelectItem(data);
+      }}
+      query={{
+        key: `${appKey}`,
+        language: "en",
+      }}
+    />
+        </ScrollView>
           <TextInput
             placeholder="Enter chip id"
             value={chipId}
@@ -107,11 +147,17 @@ export default function EditPost({ route, extraData }) {
               setChipId(e);
             }}
           />
-          <TextInput
-            placeholder="Enter pet type"
-            value={pet_type}
-            onChangeText={(e) => {
-              setPet_type(e);
+          <SelectDropdown
+            style={styles.input}
+            data={petTypes}
+            onSelect={(selectedItem, index) => {
+              setPet_type(selectedItem);
+            }}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              return selectedItem;
+            }}
+            rowTextForSelection={(item, index) => {
+              return item;
             }}
           />
           <TextInput
