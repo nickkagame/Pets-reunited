@@ -6,6 +6,7 @@ import {
   Image,
   Button,
   TextInput,
+  TouchableOpacity
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { app } from "../../firebase/config";
@@ -15,6 +16,7 @@ import { useNavigation } from '@react-navigation/native';
 import SelectDropdown from "react-native-select-dropdown";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { appKey } from "../../components/key";
+import Footer from '../Footer/Footer'
 
 const db = firebase.firestore();
 
@@ -102,6 +104,7 @@ export default function EditPost({ route, extraData }) {
         horizontal={false}>
         <View style={styles.container} key={pet.id}>
           <TextInput
+          style={styles.input}
             placeholder="Enter pet name"
             value={pet_name}
             onChangeText={(e) => {
@@ -110,6 +113,7 @@ export default function EditPost({ route, extraData }) {
           >
           </TextInput>
           <TextInput
+          style={styles.input}
             placeholder="Enter your name"
             value={your_name}
             onChangeText={(e) => {
@@ -117,6 +121,7 @@ export default function EditPost({ route, extraData }) {
             }}
           />
           <TextInput
+          style={styles.input}
             placeholder="Enter email"
             value={email}
             onChangeText={(e) => {
@@ -141,6 +146,7 @@ export default function EditPost({ route, extraData }) {
     />
         </ScrollView>
           <TextInput
+          style={styles.input}
             placeholder="Enter chip id"
             value={chipId}
             onChangeText={(e) => {
@@ -148,7 +154,8 @@ export default function EditPost({ route, extraData }) {
             }}
           />
           <SelectDropdown
-            style={styles.input}
+          defaultButtonText="Select Pet Type"
+            style={styles.inputAuto}
             data={petTypes}
             onSelect={(selectedItem, index) => {
               setPet_type(selectedItem);
@@ -161,29 +168,122 @@ export default function EditPost({ route, extraData }) {
             }}
           />
           <TextInput
+          style={styles.input}
             placeholder="More details of lost pet"
             value={description}
             onChangeText={(e) => {
               setDescription(e);
             }}
           />
-          <Button title="Submit" onPress={handleSubmit} />
+<TouchableOpacity style={styles.buttonContainer} onPress={handleSubmit} >
+  <Text style={styles.buttonText}>Submit Changes</Text>
+</TouchableOpacity>
+         
         </View>
       </ScrollView>
+      <Footer/>
     </>
   );
 }
 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ecf0f1",
+    backgroundColor: "#5cc8d7",
   },
-  content: {
-    flex: 1,
+  title: {
+    fontSize: 25,
+    color: "#000",
+    justifyContent: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    alignSelf: "center",
+    fontWeight: "bold",
   },
-  footer: {
-    backgroundColor: "yellow",
-    padding: 40,
+  input: {
+    height: 48,
+    borderRadius: 5,
+    overflow: "hidden",
+    backgroundColor: "white",
+    marginTop: 6,
+    marginBottom: 6,
+    marginLeft: 30,
+    marginRight: 30,
+    paddingLeft: 16,
+  },
+  inputAuto: {
+    height: "auto",
+    borderRadius: 5,
+    // overflow: "visible",
+    backgroundColor: "white",
+    marginTop: 6,
+    marginBottom: 6,
+    marginLeft: 30,
+    marginRight: 30,
+    paddingLeft: 16,
+  },
+  buttonContainer: {
+    marginRight: 7,
+    marginLeft: 7,
+    marginTop: 10,
+    marginBottom: 7,
+    elevation: 8,
+    backgroundColor: "#788eec",
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    borderWidth: 1,
+    borderColor: "black",
+    margin: 20,
+    shadowRadius: 1.5,
+    shadowOpacity: 0.5,
+    shadowColor: "black",
+  },
+  buttonContainerBottom: {
+    marginRight: 7,
+    marginLeft: 7,
+    marginTop: 10,
+    marginBottom: 30,
+    elevation: 8,
+    backgroundColor: "#788eec",
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    borderWidth: 1,
+    borderColor: "black",
+    margin: 20,
+    shadowRadius: 1.5,
+    shadowOpacity: 0.5,
+    shadowColor: "black",
+  },
+  buttonText: {
+    fontSize: 18,
+    color: "#fff",
+    fontWeight: "bold",
+    alignSelf: "center",
+    textTransform: "uppercase",
+  },
+  datePicked: {
+    alignSelf: "center",
+    fontWeight: "bold",
+    marginTop: 5,
+    marginBottom: 5,
+  },
+  calendarContainer: {
+    marginRight: 7,
+    marginLeft: 7,
+    marginTop: 10,
+    marginBottom: 7,
+    elevation: 8,
+    backgroundColor: "#788eec",
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: "black",
+    shadowRadius: 1.5,
+    shadowOpacity: 0.5,
+    shadowColor: "black",
   },
 });
