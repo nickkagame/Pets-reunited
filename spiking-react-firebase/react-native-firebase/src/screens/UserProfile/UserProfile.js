@@ -16,6 +16,7 @@ import Footer from "../Footer/Footer";
 import SelectDropdown from "react-native-select-dropdown";
 import { getStorage } from "firebase/storage";
 import uuid from 'react-native-uuid';
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 
 export default function UserProfile({ route, extraData }) {
@@ -51,48 +52,47 @@ export default function UserProfile({ route, extraData }) {
     navigation.navigate(`Edit Post`, {pet: pet});
   };
 
-  console.log(pets);
   return (<>
-
-    <ScrollView>
+    <ScrollView styles ={styles.container}>
       <View key={uuid.v4()}>
-        <Text>User Profile: </Text>
-        <Text >{extraData.fullName}</Text>
-        <Text>{extraData.id}</Text>
-        <Text>{extraData.email}</Text>
-        <Button
-          style={styles.button}
-          onPress={() => goToChangeProfile()}
-          title="Edit Profile"
-        />
-        <Text>Your lost pet posts:</Text>
+        {/* <Text style={styles.user} >Profile information: </Text> */}
+        <Text style={styles.bodyText}> Your name:            {extraData.fullName}   </Text>
+        <Text style={styles.bodyText}> UserID:  {extraData.id}   </Text>
+        <Text style={styles.bodyText}> {extraData.email}  </Text>
+        <TouchableOpacity
+                  style={styles.editButtonContainer}
+                  onPress={() => goToChangeProfile()}
+                >
+               <Text style={styles.editButtonText}>Edit Profile</Text>
+
+                </TouchableOpacity>
+                </View>
+        <Text style={styles.user} >Your lost pet posts:</Text>
         {pets.map((pet) => {
-          console.log(pet)
           return (
             <>
               <View style={styles.container} key={uuid.v4()}>
                 <Text style={styles.title}>
-                  Hello! My name is {pet.pet_name} the {pet.pet_type}
+                  {pet.pet_name} 
                 </Text>
                 <Image
                   source={{ uri: pet.picture }}
-                  style={{ width: 200, height: 200 }}
+                  style={styles.postImage}
                 />
-                <Text>My home is in {pet.description}.</Text>
-                <Text>
-                  I was last seen on {} around the {pet.location} area :
-                </Text>
-                <Text>I really miss my owner {pet.your_name}</Text>
-                <Button
-                  style={styles.button}
+                <TouchableOpacity
+                  style={styles.editButtonContainer}
                   onPress={() => goToChangePost(pet)}
                   title="Edit Post"
-                />
+                >
+               <Text style={styles.editButtonText}>Edit Post</Text>
+
+                </TouchableOpacity>
+        
               </View>
             </>
           );
         })}
-      </View>
+      
     </ScrollView>
     <Footer />
   </>
@@ -104,6 +104,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#ecf0f1",
+    textAlign: "center"
   },
   content: {
     flex: 1,
@@ -112,4 +113,50 @@ const styles = StyleSheet.create({
     backgroundColor: "yellow",
     padding: 40,
   },
+  editButtonContainer: {
+    backgroundColor: "#788eec",
+    borderRadius: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 50,
+    borderWidth: 1,
+    borderColor: "black",
+    marginTop: 10,
+    marginBottom: 15,
+    shadowRadius: 1.5,
+    shadowOpacity: 0.5,
+    shadowColor: "black",
+  },
+  editButtonText: {
+    fontSize: 18,
+    color: "#fff",
+    fontWeight: "bold",
+    alignSelf: "center",
+    textTransform: "uppercase",
+  },
+  user: {
+    fontWeight: "bold",
+    margin: 10,
+    fontSize: 20, 
+    textAlign: "center",
+  },
+  title: {
+    fontWeight: "bold",
+    margin: 10,
+    textAlign: "center",
+  },
+  bodyText: {
+    fontWeight: "bold",
+    margin: 10,
+    textAlign: "centre",
+  },
+
+  postImage: {
+    width: 200,
+    height: 200,
+    alignSelf: "center",
+    margin: 30,
+    borderRadius: 30,
+    marginTop: 6,
+  }
 });
+

@@ -27,7 +27,7 @@ export default function Search({ props }) {
  
 
   const db = firebase.firestore();
-  const appKey = "AIzaSyBMITvTV2eJuNap5mXGzkPgMJiQyuf9SRc"; // here app key
+  const appKey = "AIzaSyBMITvTV2eJuNap5mXGzkPgMJiQyuf9SRc"; 
 
   const handlePetTypeSelection = async (petType) => {
     setPetType(petType);
@@ -174,8 +174,8 @@ export default function Search({ props }) {
         <>
           {pets.map((pet) => {
             return (
-              <TouchableOpacity onPress={() => handlePress(pet)}>
-                <Text key={uuid.v4()}>{pet.pet_name}</Text>
+              <TouchableOpacity key={uuid.v4()} onPress={() => handlePress(pet)}>
+                <Text >{pet.pet_name}</Text>
                 <Image
                   source={{
                     uri: pet.picture,
@@ -229,151 +229,3 @@ const styles = StyleSheet.create({
   },
 });
 
-// <>
-
-// <ScrollView
-//   keyboardShouldPersistTaps={"handled"}
-//   horizontal={false}
-//   style={styles.container}
-// >
-//   <Text style={styles.title}>Report a lost pet</Text>
-//   <TextInput
-//     style={styles.input}
-//     placeholder="Enter pet name (required)"
-//     value={pet_name}
-//     onChangeText={(e) => {
-//       setPet_name(e);
-//     }} // req
-//   />
-//   <TextInput
-//     style={styles.input}
-//     placeholder="Enter your name (required)"
-//     value={your_name}
-//     onChangeText={(e) => {
-//       setYour_name(e);
-//     }}
-//   />
-//   <TextInput
-//     style={styles.input}
-//     placeholder="Enter email (required)"
-//     value={email}
-//     onChangeText={(e) => {
-//       setEmail(e);
-//     }}
-//   />
-//   {/* <TextInput
-//     style={styles.input}
-//     placeholder="Enter home address"
-//     value={home_address}
-//     onChangeText={(e) => {
-//       setHome_address(e);
-//     }}
-//   /> */}
-//   <ScrollView
-//     keyboardShouldPersistTaps={"handled"}
-//     horizontal={true}
-//     style={styles.inputAuto}
-//   >
-//     <AutoComp setLocation={setLocation} setCoordinates ={setCoordinates} setTown = {setTown}
-// setPostcode = {setPostcode}/>
-//   </ScrollView>
-//   <TextInput
-//     style={styles.input}
-//     placeholder="Enter chip id (optional)"
-//     value={chipId}
-//     onChangeText={(e) => {
-//       setChipId(e);
-//     }}
-//   />
-//   <TextInput
-//     style={styles.input}
-//     placeholder="Enter pet type (required)"
-//     value={pet_type}
-//     onChangeText={(e) => {
-//       setPet_type(e);
-//     }}
-//   />
-//   <TextInput
-//     style={styles.input}
-//     placeholder="More details of lost pet (required)"
-//     value={description}
-//     onChangeText={(e) => {
-//       setDescription(e);
-//     }}
-//   />
-//   <Text style={styles.datePicked}>
-//     {date.toString() === "Invalid Date"
-//       ? "Please pick a date"
-//       : date.toString()}
-//   </Text>
-//   {/* {console.log(date.toString())} */}
-//   <TouchableOpacity
-//     style={styles.calendarContainer}
-//     onPress={() => {
-//       setIsClicked(true);
-//     }}
-//   >
-//     {isClicked ? (
-//       <CalendarPopUp setSelectedStartDate={setSelectedStartDate} />
-//     ) : (
-//       ""
-//     )}
-//     <Text style={styles.buttonText}>Pick date lost</Text>
-//   </TouchableOpacity>
-
-//   <TouchableOpacity style={styles.buttonContainer} onPress={pickImage}>
-//     <Text style={styles.buttonText}>Choose pic</Text>
-//   </TouchableOpacity>
-
-//   {!uploading ? <TouchableOpacity style={styles.buttonContainer} onPress={uploadImage}>
-//     <Text style={styles.buttonText}>Upload Image</Text>
-//   </TouchableOpacity>:  <ActivityIndicator size={'small'} color='black' />}
-
-//   <TouchableOpacity
-//     style={styles.buttonContainerBottom}
-//     onPress={handleSubmit}
-//   >
-//     <Text style={styles.buttonText}>Submit</Text>
-//   </TouchableOpacity>
-// </ScrollView>
-// <Footer />
-// </>
-// );
-// }
-
-// const styles = StyleSheet.create({
-// container: {
-// flex: 1,
-// backgroundColor: "#5cc8d7",
-// },
-// title: {
-// fontSize: 25,
-// color: "#000",
-// justifyContent: "center",
-// paddingVertical: 12,
-// paddingHorizontal: 32,
-// alignSelf: "center",
-// fontWeight: "bold",
-// },
-// input: {
-// height: 48,
-// borderRadius: 5,
-// overflow: "hidden",
-// backgroundColor: "white",
-// marginTop: 6,
-// marginBottom: 6,
-// marginLeft: 30,
-// marginRight: 30,
-// paddingLeft: 16,
-// },
-// inputAuto: {
-// height: "auto",
-// borderRadius: 5,
-// // overflow: "visible",
-// backgroundColor: "white",
-// marginTop: 6,
-// marginBottom: 6,
-// marginLeft: 30,
-// marginRight: 30,
-// paddingLeft: 16,
-// },
