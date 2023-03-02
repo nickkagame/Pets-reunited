@@ -73,17 +73,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#5cc8d7",
     
   },
-  footer: {    
-     bottom : 25,    
-     elevation : 0,
-    // backgroundColor : '~ffffff', 
-    backgroundColor: "orange",
-    padding: 20,
+  footer: {         
+  backgroundColor: "orange",
+    padding: 25,
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
     justifyContent: "space-evenly",
-    // ...styles.shadow,   
+   
   },
   iconContainer: {
     flex : 1,
@@ -92,16 +89,3 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
   },
 });
-
-// const styles1 = StyleSheet.create({
-//   shadow: {
-//     shadowColor: "black",
-//     shadowOffset: {
-//       width : 0,
-//       height : 10,
-//   },
-//   shadowOpacity : 0.25,
-//   shadowRadius :10,
-//   elevation : 5,
-//   }
-// })
