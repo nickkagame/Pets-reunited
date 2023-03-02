@@ -76,7 +76,6 @@ export default function EditPost({ route, extraData }) {
       `https://maps.googleapis.com/maps/api/place/details/json?key=${appKey}&place_id=${data.place_id}`
     ).then((response) => {
       response.json().then((responseData) => {
-        // console.log(data);
         const { lat, lng } = responseData.result.geometry.location;
         setCoordinates(responseData.result.geometry.location);
 
@@ -97,7 +96,6 @@ export default function EditPost({ route, extraData }) {
   };
 
   const petTypes = ["Cat", "Dog", "Rabbit", "Bird", "other"];
-  console.log("*");
 
   return (
     <>

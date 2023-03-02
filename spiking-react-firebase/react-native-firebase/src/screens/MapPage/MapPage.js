@@ -6,7 +6,6 @@ import { useState, useEffect } from "react";
 export const MapPage = ({ route }) => {
   const { pet, pets, coorQuerrt } = route.params;
   const [petsData, setPetsData] = useState([]);
-  console.log(coorQuerrt);
 
   const getPets = async () => {
     const queryPets = await db.collection("lost_pets").get();
