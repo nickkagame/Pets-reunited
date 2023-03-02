@@ -43,7 +43,9 @@ export default function EditProfile({ route, extraData, setUser }) {
   return (
     <>
       <ScrollView style={styles.container}>
-        <Text style={styles.title}>Your Name: </Text>
+        <Text style={styles.bodyText} value={extraData.fullName}>
+          Name:{" "}
+        </Text>
         <TextInput
           style={styles.input}
           onChangeText={(e) => {
@@ -52,8 +54,8 @@ export default function EditProfile({ route, extraData, setUser }) {
         >
           {extraData.fullName}
         </TextInput>
-        <Text style={styles.title} value={extraData.fullName}>
-          Email:{" "}
+        <Text style={styles.bodyText} value={extraData.fullName}>
+          email:{" "}
         </Text>
         <TextInput
           onChangeText={(e) => {
@@ -64,8 +66,11 @@ export default function EditProfile({ route, extraData, setUser }) {
           {extraData.email}
         </TextInput>
 
-        <TouchableOpacity style={styles.buttonContainer} onPress={handleSubmit}>
-          <Text style={styles.buttonText}>Submit Changes</Text>
+        <TouchableOpacity
+          style={styles.editButtonContainer}
+          onPress={handleSubmit}
+        >
+          <Text style={styles.editButtonText}>Submit Changes</Text>
         </TouchableOpacity>
       </ScrollView>
       <Footer pets={pets} />
@@ -76,7 +81,7 @@ export default function EditProfile({ route, extraData, setUser }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#5cc8d7",
+    // backgroundColor: "#5cc8d7",
   },
   title: {
     fontSize: 20,
@@ -86,6 +91,34 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     alignSelf: "auto",
     fontWeight: "bold",
+  },
+  bodyText: {
+    fontWeight: "800",
+    fontSize: 18,
+    margin: 6,
+    textAlign: "auto",
+    padding: 2,
+  },
+  editButtonContainer: {
+    width: "90%",
+    alignSelf: "center",
+    // backgroundColor: "#f0f8ff",
+    borderRadius: 25,
+    paddingVertical: 8,
+    paddingHorizontal: 50,
+    borderWidth: 1,
+    borderColor: "black",
+    marginTop: 15,
+    marginBottom: 15,
+    shadowRadius: 1.5,
+    shadowOpacity: 0.5,
+    shadowColor: "black",
+  },
+  editButtonText: {
+    fontSize: 15,
+    color: "black",
+    fontWeight: "bold",
+    alignSelf: "center",
   },
   input: {
     height: 48,

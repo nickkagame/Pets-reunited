@@ -70,8 +70,8 @@ export default function UserProfile({ route, extraData }) {
         <Text style={styles.user}>Your lost pets:</Text>
         {pets.map((pet) => {
           return (
-            <View style={styles.container} key={uuid.v4()}>
-              <Text style={styles.title}>{pet.pet_name}</Text>
+            <View style={[styles.container1, styles.elevation]} key={uuid.v4()}>
+              <Text style={styles.bodyText3}>{pet.pet_name}</Text>
               <Image source={{ uri: pet.picture }} style={styles.postImage} />
               <TouchableOpacity
                 style={styles.editButtonContainer}
@@ -93,11 +93,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     // backgroundColor: "#5cc8d7",
-    textAlign: "center",
-    borderColor: "black",
-    borderWidth: 1,
-    padding: 2,
-    margin: 3,
+
     // backgroundColor: "white",
     // borderRadius: 8,
     // paddingVertical: 45,
@@ -105,11 +101,17 @@ const styles = StyleSheet.create({
     // width: "100%",
     // marginVertical: 10,
   },
-  shadowProp: {
-    shadowColor: "#171717",
-    shadowOffset: { width: -2, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
+  container1: {
+    textAlign: "center",
+    borderColor: "black",
+    borderWidth: 0,
+    padding: 2,
+    margin: 10,
+  },
+
+  elevation: {
+    elevation: 2,
+    shadowColor: "black",
   },
   content: {
     flex: 1,
@@ -168,12 +170,24 @@ const styles = StyleSheet.create({
     marginBottom: 3,
   },
 
+  bodyText3: {
+    fontWeight: "800",
+    fontSize: 18,
+    marginLeft: 6,
+    textAlign: "center",
+    padding: 2,
+    // color: `#696969`,
+    marginBottom: 3,
+  },
+
   postImage: {
-    width: 200,
-    height: 200,
+    flex: 1,
+    width: "95%",
+    height: 300,
     alignSelf: "center",
-    margin: 30,
-    borderRadius: 30,
-    marginTop: 6,
+    // resizeMode: "contain",
+    // margin: 30,
+    // borderRadius: 30,
+    // marginTop: 6,
   },
 });

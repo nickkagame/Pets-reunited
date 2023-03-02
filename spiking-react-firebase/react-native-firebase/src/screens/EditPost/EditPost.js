@@ -6,23 +6,22 @@ import {
   Image,
   Button,
   TextInput,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { app } from "../../firebase/config";
 import { collection, addDoc, getFirestore } from "@firebase/firestore";
 import firebase from "firebase/compat";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 import SelectDropdown from "react-native-select-dropdown";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { appKey } from "../../components/key";
-import Footer from '../Footer/Footer'
+import Footer from "../Footer/Footer";
 
 const db = firebase.firestore();
 
 export default function EditPost({ route, extraData }) {
   const { pet, pets } = route.params;
-  console.log(pets)
   const [pet_name, setPet_name] = useState(pet.pet_name);
   const [your_name, setYour_name] = useState(pet.your_name);
   const [email, setEmail] = useState(pet.email);
@@ -34,11 +33,11 @@ export default function EditPost({ route, extraData }) {
   const [image, setImage] = useState(pet.picture);
   const [coordinates, setCoordinates] = useState(pet.coordinates);
   const [postcode, setPostcode] = useState(pet.postcode);
-  const [town, setTown] = useState(pet.town)
+  const [town, setTown] = useState(pet.town);
   const [uploading, setUploading] = useState(null);
   const [selectedStartDate, setSelectedStartDate] = useState(pet.lastSeenDate);
-  const navigation = useNavigation();  
-  
+  const navigation = useNavigation();
+
   const handleSubmit = () => {
     const newPostInfo = {
       description: description,
@@ -62,8 +61,9 @@ export default function EditPost({ route, extraData }) {
       .set(newPostInfo)
       .then((response) => {
         alert("Post updated! 👍");
-      }).then(()=>{
-        navigation.navigate('UserProfile',{});
+      })
+      .then(() => {
+        navigation.navigate("UserProfile", {});
       })
       .catch((err) => {
         console.log(err);
@@ -78,7 +78,7 @@ export default function EditPost({ route, extraData }) {
       response.json().then((responseData) => {
         // console.log(data);
         const { lat, lng } = responseData.result.geometry.location;
-        setCoordinates(responseData.result.geometry.location)
+        setCoordinates(responseData.result.geometry.location);
 
         const town = responseData.result.address_components.find(
           (component) =>
@@ -91,29 +91,33 @@ export default function EditPost({ route, extraData }) {
         setTown(town);
         if (postcode) {
           setPostcode(postcode);
-        } 
+        }
       });
     });
   };
 
   const petTypes = ["Cat", "Dog", "Rabbit", "Bird", "other"];
+  console.log("*");
 
   return (
     <>
-      <ScrollView keyboardShouldPersistTaps={"handled"}
-        horizontal={false} style={styles.container}>
+      <ScrollView
+        keyboardShouldPersistTaps={"handled"}
+        horizontal={false}
+        style={styles.container}
+      >
+        <Text style={styles.bodyText}>Edit details: </Text>
         <View style={styles.container} key={pet.id}>
           <TextInput
-          style={styles.input}
+            style={styles.input}
             placeholder="Enter pet name"
             value={pet_name}
             onChangeText={(e) => {
               setPet_name(e);
             }}
-          >
-          </TextInput>
+          ></TextInput>
           <TextInput
-          style={styles.input}
+            style={styles.input}
             placeholder="Enter your name"
             value={your_name}
             onChangeText={(e) => {
@@ -121,7 +125,7 @@ export default function EditPost({ route, extraData }) {
             }}
           />
           <TextInput
-          style={styles.input}
+            style={styles.input}
             placeholder="Enter email"
             value={email}
             onChangeText={(e) => {
@@ -129,69 +133,103 @@ export default function EditPost({ route, extraData }) {
             }}
           />
           <ScrollView
-          value={location}
-          keyboardShouldPersistTaps={"handled"}
-          horizontal={true}
-          style={styles.inputAuto}
-        >
-          <GooglePlacesAutocomplete
-      placeholder="Edit location where the pet was lost"
-      onPress={(data, details = null) => {
-        setLocation(data.description);
-        handleSelectItem(data);
-      }}
-      query={{
-        key: `${appKey}`,
-        language: "en",
-      }}
-    />
-        </ScrollView>
+            value={location}
+            keyboardShouldPersistTaps={"handled"}
+            horizontal={true}
+            style={styles.inputAuto}
+          >
+            <GooglePlacesAutocomplete
+              // style={styles.input}
+              placeholder="Edit location where the pet was lost"
+              onPress={(data, details = null) => {
+                setLocation(data.description);
+                handleSelectItem(data);
+              }}
+              query={{
+                key: `${appKey}`,
+                language: "en",
+              }}
+            />
+          </ScrollView>
+          {/* <Text style={styles.bodyText}></Text> */}
           <TextInput
-          style={styles.input}
+            style={styles.input}
             placeholder="Enter chip id"
             value={chipId}
             onChangeText={(e) => {
               setChipId(e);
             }}
           />
-          <SelectDropdown
-          defaultButtonText="Select Pet Type"
-            style={styles.inputAuto}
-            data={petTypes}
-            onSelect={(selectedItem, index) => {
-              setPet_type(selectedItem);
-            }}
-            buttonTextAfterSelection={(selectedItem, index) => {
-              return selectedItem;
-            }}
-            rowTextForSelection={(item, index) => {
-              return item;
-            }}
-          />
+          <View style={styles.inputSelect}>
+            <SelectDropdown
+              defaultButtonText="Select Pet Type ˅"
+              style={styles.inputSelect}
+              data={petTypes}
+              onSelect={(selectedItem, index) => {
+                setPet_type(selectedItem);
+              }}
+              buttonTextAfterSelection={(selectedItem, index) => {
+                return selectedItem;
+              }}
+              rowTextForSelection={(item, index) => {
+                return item;
+              }}
+            />
+          </View>
           <TextInput
-          style={styles.input}
+            style={styles.input}
             placeholder="More details of lost pet"
             value={description}
             onChangeText={(e) => {
               setDescription(e);
             }}
           />
-<TouchableOpacity style={styles.buttonContainer} onPress={handleSubmit} >
-  <Text style={styles.buttonText}>Submit Changes</Text>
-</TouchableOpacity>
-         
+          <TouchableOpacity
+            style={styles.editButtonContainer}
+            onPress={handleSubmit}
+          >
+            <Text style={styles.editButtonText}>Submit Changes</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
-      <Footer pets = {pets} pet = {pet}/>
+      <Footer pets={pets} pet={pet} />
     </>
   );
 }
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#5cc8d7",
+    // backgroundColor: "#5cc8d7",
+  },
+  editButtonContainer: {
+    width: "90%",
+    alignSelf: "center",
+    // backgroundColor: "#f0f8ff",
+    borderRadius: 25,
+    paddingVertical: 8,
+    paddingHorizontal: 50,
+    borderWidth: 1,
+    borderColor: "black",
+    marginTop: 15,
+    marginBottom: 15,
+    shadowRadius: 1.5,
+    shadowOpacity: 0.5,
+    shadowColor: "black",
+  },
+  editButtonText: {
+    fontSize: 15,
+    color: "black",
+    fontWeight: "bold",
+    alignSelf: "center",
+  },
+  bodyText: {
+    fontWeight: "800",
+    fontSize: 18,
+    margin: 6,
+    textAlign: "auto",
+    padding: 2,
+    marginBottom: 10,
   },
   title: {
     fontSize: 25,
@@ -207,8 +245,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     overflow: "hidden",
     backgroundColor: "white",
-    marginTop: 6,
-    marginBottom: 6,
+    marginTop: 12,
+    marginBottom: 10,
     marginLeft: 30,
     marginRight: 30,
     paddingLeft: 16,
@@ -223,6 +261,23 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     marginRight: 30,
     paddingLeft: 16,
+  },
+  inputSelect: {
+    // flex: 1,
+    // justifyContent: "center",
+    alignItems: "center",
+    // height: "auto",
+    // borderRadius: 5,
+    // overflow: "visible",
+    // backgroundColor: "white",
+    marginTop: 6,
+    marginBottom: 6,
+    // marginLeft: 30,
+    // marginRight: 30,
+    // paddingLeft: 106,
+    // alignSelf: "center",
+    // width: 500,
+    // fontSize: 30,
   },
   buttonContainer: {
     marginRight: 7,
