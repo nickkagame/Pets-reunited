@@ -179,7 +179,7 @@ export default function PostPet({ extraData }) {
           value={pet_name}
           onChangeText={(e) => {
             setPet_name(e);
-          }} // req
+          }} 
         />
         <TextInput
           style={styles.input}

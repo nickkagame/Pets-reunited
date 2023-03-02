@@ -62,19 +62,19 @@ export default function App() {
             <Stack.Screen name="Home">
               {(props) => <HomeScreen {...props} extraData={user} />}
             </Stack.Screen>
-            <Stack.Screen name="PostPet">
+            <Stack.Screen name="Report Lost Pet">
               {(props) => <PostPet {...props} extraData={user} />}
             </Stack.Screen>
-            <Stack.Screen name="PetSingle">
+            <Stack.Screen name="Lost Pet">
               {(props) => <PetSingle {...props} extraData={user} />}
             </Stack.Screen>
             <Stack.Screen name="Search">
               {(props) => <Search {...props} extraData={user} />}
             </Stack.Screen>
-            <Stack.Screen name="UserProfile">
+            <Stack.Screen name="Profile">
               {(props) => <UserProfile {...props} extraData={user} />}
             </Stack.Screen>
-            <Stack.Screen name="EditProfile">
+            <Stack.Screen name="Edit Profile">
               {(props) => (
                 <EditProfile {...props} extraData={user} setUser={setUser} />
               )}
@@ -84,7 +84,7 @@ export default function App() {
                 <EditPost {...props} extraData={user} setUser={setUser} />
               )}
             </Stack.Screen>
-            <Stack.Screen name="MapPage">
+            <Stack.Screen name="Map">
               {(props) => (
                 <MapPage {...props} extraData={user} setUser={setUser} />
               )}

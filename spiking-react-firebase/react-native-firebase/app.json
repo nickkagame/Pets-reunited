@@ -7,7 +7,8 @@
     "icon": "./assets/MaybeFinalLogo.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/MaybeFinalLogo.png",
+
+      "image": "./assets/PetsLogoLoadingPic.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff",
       "plugins": [

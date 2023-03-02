@@ -42,9 +42,11 @@ export default function UserProfile({ route, extraData }) {
     getUserPost();
   }, [route]);
 
-  const { pet } = route.params;
+
+  const {pet} = route.params
   const goToChangeProfile = (pets) => {
-    navigation.navigate(`EditProfile`, { pets: pets, extraData: extraData });
+    navigation.navigate(`Edit Profile`, {pets: pets, extraData: extraData});
+
   };
 
   const goToChangePost = (pet) => {

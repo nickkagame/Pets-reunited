@@ -24,14 +24,14 @@ export default function HomeScreen({ props, pets, pet, coorQuerrt }) {
     });
   };
   const goToUserProfile = () => {
-    navigation.navigate("UserProfile", {
+    navigation.navigate("Profile", {
       pets: pets,
       pet: pet,
     });
   };
 
   const goToMapPage = () => {
-    navigation.navigate("MapPage", {
+    navigation.navigate("Map", {
       pets: pets,
       pet: pet,
       coorQuerrt: coorQuerrt,
