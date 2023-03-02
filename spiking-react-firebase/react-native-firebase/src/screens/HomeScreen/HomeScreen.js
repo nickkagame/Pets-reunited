@@ -17,7 +17,6 @@ import SelectDropdown from "react-native-select-dropdown";
 
 // const q = query(citiesRef, orderBy("name"), limit(3));
 
-
 export const db = firebase.firestore();
 
 export default function HomeScreen({ props, extraData }) {
@@ -83,7 +82,6 @@ export default function HomeScreen({ props, extraData }) {
           <SelectDropdown
             keyboardShouldPersistTaps={"handled"}
             horzionatal="false"
-            // style={styles.dropDown}
             data={["lastSeenDate", "pet_name"]}
             onSelect={(selectedItem, index) => {
               handleSort(selectedItem);
