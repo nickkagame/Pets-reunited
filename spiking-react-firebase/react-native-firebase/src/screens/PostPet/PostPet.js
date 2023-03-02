@@ -170,7 +170,7 @@ export default function PostPet({ extraData }) {
         horizontal={false}
         style={styles.container}
       >
-        <Text style={styles.title}>Report A Lost Pet 🔍</Text>
+        <Text style={styles.title}> 🔍</Text>
         <TextInput
           style={styles.input}
           placeholder="Enter pet name (required)"
@@ -231,6 +231,7 @@ export default function PostPet({ extraData }) {
           buttonTextStyle={styles.dropdown1BtnTxtStyle}
           data={petTypes}
           buttonStyle={styles.selectinput}
+          dropdownStyle={styles.dropDown}
           onSelect={(selectedItem, index) => {
             setPet_type(selectedItem);
           }}
@@ -341,12 +342,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 12,
-    borderWidth: 1,
-    borderColor: "black",
     margin: 20,
     shadowRadius: 1.5,
     shadowOpacity: 0.5,
     shadowColor: "black",
+    borderColor: "#ccc",
+    borderWidth: 1,
   },
   buttonContainerBottom: {
     marginRight: 7,
@@ -389,10 +390,9 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 10,
     borderWidth: 1,
-    borderColor: "black",
     shadowRadius: 1.5,
-    shadowOpacity: 0.5,
-    shadowColor: "black",
+    borderColor: "#ccc",
+    borderWidth: 1,
   },
   selectinput: {
     height: 48,
@@ -401,14 +401,22 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     marginTop: 6,
     marginBottom: 6,
-    marginLeft: 30,
-    marginRight: 30,
+    marginLeft: 7.5,
+    marginRight: 7.5,
     paddingLeft: 16,
     width: 350,
     buttonStyle:""
     , 
   },
-  dropdown1BtnTxtStyle: { textAlign: 'left', 
+  dropDown: { 
+    marginTop: 10,
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: "gray",
+    backgroundColor: "#788eec",
+    opacity: 0.9,
+  },
+  dropdown1BtnTxtStyle: { textAlign: 'center', 
     // color: "silver",  
     fontSize: 14},
   inputDate: {

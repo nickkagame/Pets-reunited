@@ -15,6 +15,7 @@ import { useNavigation } from "@react-navigation/native";
 import Footer from "../Footer/Footer";
 // import { query, orderBy, limit } from "firebase/firestore";
 import SelectDropdown from "react-native-select-dropdown";
+import { ScrollView } from "react-native-gesture-handler";
 
 // const q = query(citiesRef, orderBy("name"), limit(3));
 
@@ -70,12 +71,12 @@ export default function HomeScreen({ props, extraData }) {
   } else {
     return (
       
-      
-      
-        <ImageBackground
+      <>
+      {/* <View styles={styles.container}> */}
+        {/* <ImageBackground
       source={require("../../../wireframe/wp6560668.jpg")}
-      styles={styles.backgroundImage}
-    >
+      styles={styles.container}
+    > */}
         
           <TouchableOpacity
             style={styles.reportButtonContainer}
@@ -100,12 +101,13 @@ export default function HomeScreen({ props, extraData }) {
               return item;
             }}
           />
-          <FlatList
+          <FlatList style={[styles.container1, styles.elevation]}
             maxToRenderPerBatch={1}
             showsVerticalScrollIndicator={false}
             data={pets}
             renderItem={({ item }) => (
-              <TouchableOpacity onPress={() => handlePress(item, pets)}>
+              <TouchableOpacity style={[styles.container1, styles.elevation]}
+              onPress={() => handlePress(item, pets)}>
                 <>
                   <Text style={styles.petName}>{item.pet_name}</Text>
                   <Image
@@ -122,9 +124,14 @@ export default function HomeScreen({ props, extraData }) {
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
           />
-          <Footer pets={pets} />
+
        
-          </ImageBackground>
+          {/* </ImageBackground> */}
+        
+ 
+      <Footer pets={pets} />
+
+      </>
   
         
     );
@@ -136,8 +143,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#5cc8d7",
-    margin: 'auto'
+    margin: 'auto',
+    backgroundColor: "red"
   },
   backgroundImage: {  
     flex: 1,
@@ -147,15 +154,31 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     margin: 'auto'
   },
+  container1: {
+    textAlign: "center",
+    borderColor: "black",
+    borderWidth: 0,
+    padding: 2,
+    margin: 10,
+  },
+
+  elevation: {
+    elevation: 2,
+    shadowColor: "black",
+  },
+  content: {
+    flex: 1,
+  },
   reportButtonContainer: {
     backgroundColor: "#788eec",
     borderRadius: 5,
     paddingVertical: 8,
     paddingHorizontal: 50,
     borderWidth: 1,
-    borderColor: "black",
     marginTop: 10,
     marginBottom: 15,
+    borderColor: "#ccc",
+    borderWidth: 1,
   },
   reportButtonText: {
     fontSize: 18,
@@ -166,17 +189,20 @@ const styles = StyleSheet.create({
     textShadowRadius: 100
   },
   petName: {
+    fontSize: 20,
+    color: "#000",
+    justifyContent: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    alignSelf: "center",
     fontWeight: "bold",
-    margin: 10,
-    textAlign: "center",
+
   },
   image: {
-    width: 200,
-    height: 200,
+    flex: 1,
+    width: "95%",
+    height: 300,
     alignSelf: "center",
-    margin: 15,
-    borderRadius: 30,
-    marginTop: 3,
   },
   sortby: { 
     fontSize: 18,
