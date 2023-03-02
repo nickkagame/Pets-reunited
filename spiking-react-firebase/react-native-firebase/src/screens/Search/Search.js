@@ -14,7 +14,7 @@ import { getStorage } from "firebase/storage";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import uuid from "react-native-uuid";
-import { LogBox } from 'react-native';
+import { LogBox } from "react-native";
 
 export default function Search({ props }) {
   const [pets, setPets] = useState([]);
@@ -31,10 +31,9 @@ export default function Search({ props }) {
   const db = firebase.firestore();
   const appKey = "AIzaSyBMITvTV2eJuNap5mXGzkPgMJiQyuf9SRc";
 
-
   useEffect(() => {
-    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-}, [])
+    LogBox.ignoreLogs(["VirtualizedLists should never be nested"]);
+  }, []);
 
   const handlePetTypeSelection = async (petType) => {
     setPetType(petType);
@@ -127,7 +126,8 @@ export default function Search({ props }) {
   return (
     <>
       <ImageBackground
-        source={require("../../../wireframe/wp6560668.jpg")}
+        // source={require("../../../wireframe/wp6560668.jpg")}
+        source={require("../../../assets/StagPicSearch.png")}
         style={styles.container}
       >
         <ScrollView
@@ -147,7 +147,7 @@ export default function Search({ props }) {
             }}
             ref={ref}
           />
-          <ScrollView/>
+          <ScrollView />
           <SelectDropdown
             defaultButtonText="Select animal type"
             buttonTextStyle={styles.buttonTextStyle}
