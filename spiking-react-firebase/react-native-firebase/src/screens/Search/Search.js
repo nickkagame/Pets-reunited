@@ -126,7 +126,6 @@ export default function Search({ props }) {
   return (
     <>
       <ImageBackground
-        // source={require("../../../wireframe/wp6560668.jpg")}
         source={require("../../../assets/StagPicSearch.png")}
         style={styles.container}
       >

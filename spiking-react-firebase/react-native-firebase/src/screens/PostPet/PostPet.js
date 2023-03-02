@@ -8,6 +8,7 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  ImageBackground,
 } from "react-native";
 import SelectDropdown from "react-native-select-dropdown";
 import uuid from "react-native-uuid";
@@ -165,128 +166,134 @@ export default function PostPet({ extraData }) {
 
   return (
     <>
-      <ScrollView
-        keyboardShouldPersistTaps={"handled"}
-        horizontal={false}
+      <ImageBackground
+        // source={require("../../../wireframe/wp6560668.jpg")}
+        // source={require("../../../assets/StagPicSearch.png")}
+        source={require("../../../assets/PinkTrees.png")}
         style={styles.container}
       >
-        <Text style={styles.title}> 🔍</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter pet name (required)"
-          value={pet_name}
-          onChangeText={(e) => {
-            setPet_name(e);
-          }} 
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Enter your name (required)"
-          value={your_name}
-          onChangeText={(e) => {
-            setYour_name(e);
-          }}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Enter email (required)"
-          value={email}
-          onChangeText={(e) => {
-            setEmail(e);
-          }}
-        />
         <ScrollView
           keyboardShouldPersistTaps={"handled"}
-          horizontal={true}
-          style={styles.inputAuto}
+          horizontal={false}
+          style={styles.container}
         >
-          <AutoComp
-            setLocation={setLocation}
-            setCoordinates={setCoordinates}
-            setTown={setTown}
-            setPostcode={setPostcode}
+          <Text style={styles.title}> 🔍 </Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter pet name (required)"
+            value={pet_name}
+            onChangeText={(e) => {
+              setPet_name(e);
+            }}
           />
-        </ScrollView>
-
-       
-        <TextInput
-          style={styles.input}
-          placeholder="More details of lost pet (required)"
-          value={description}
-          onChangeText={(e) => {
-            setDescription(e);
-          }}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Enter chip id (optional)"
-          value={chipId}
-          onChangeText={(e) => {
-            setChipId(e);
-          }}
-        /> 
-        <SelectDropdown
-          defaultButtonText={"Select Pet Type"}
-          style={styles.selectinput}
-          buttonTextStyle={styles.dropdown1BtnTxtStyle}
-          data={petTypes}
-          buttonStyle={styles.selectinput}
-          dropdownStyle={styles.dropDown}
-          onSelect={(selectedItem, index) => {
-            setPet_type(selectedItem);
-          }}
-          buttonTextAfterSelection={(selectedItem, index) => {
-            return selectedItem;
-          }}
-          rowTextForSelection={(item, index) => {
-            return item;
-          }}
-        />
-        <Text style={styles.inputDate}>
-          {date.toString() === "Invalid Date"
-            ? "Please pick a date ⬇️"
-            : date.toString()}
-        </Text>
-        {/* {console.log(date.toString())} */}
-        <TouchableOpacity
-          style={styles.calendarContainer}
-          onPress={() => {
-            setIsClicked(true);
-          }}
-        >
-          {isClicked ? (
-            <CalendarPopUp
-              setSelectedStartDate={setSelectedStartDate}
-              setIsClicked={setIsClicked}
-            />
-          ) : (
-            ""
-          )}
-          <Text style={styles.buttonText}>Pick date lost</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.buttonContainer} onPress={pickImage}>
-          <Text style={styles.buttonText}>Choose pic</Text>
-        </TouchableOpacity>
-
-        {!uploading ? (
-          <TouchableOpacity
-            style={styles.buttonContainer}
-            onPress={uploadImage}
+          <TextInput
+            style={styles.input}
+            placeholder="Enter your name (required)"
+            value={your_name}
+            onChangeText={(e) => {
+              setYour_name(e);
+            }}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Enter email (required)"
+            value={email}
+            onChangeText={(e) => {
+              setEmail(e);
+            }}
+          />
+          <ScrollView
+            keyboardShouldPersistTaps={"handled"}
+            horizontal={true}
+            style={styles.inputAuto}
           >
-            <Text style={styles.buttonText}>Upload Image</Text>
-          </TouchableOpacity>
-        ) : (
-          <ActivityIndicator size={"small"} color="black" />
-        )}
+            <AutoComp
+              setLocation={setLocation}
+              setCoordinates={setCoordinates}
+              setTown={setTown}
+              setPostcode={setPostcode}
+            />
+          </ScrollView>
 
-        <TouchableOpacity
-          style={styles.buttonContainerBottom}
-          onPress={handleSubmit}
-        >
-          <Text style={styles.buttonText}>Submit</Text>
-        </TouchableOpacity>
-      </ScrollView>
+          <TextInput
+            style={styles.input}
+            placeholder="More details of lost pet (required)"
+            value={description}
+            onChangeText={(e) => {
+              setDescription(e);
+            }}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Enter chip id (optional)"
+            value={chipId}
+            onChangeText={(e) => {
+              setChipId(e);
+            }}
+          />
+          <SelectDropdown
+            defaultButtonText={"Select Pet Type"}
+            buttonTextStyle={styles.dropdown1BtnTxtStyle}
+            buttonStyle={styles.selectinput}
+            // style={styles.selectinput}
+            dropdownStyle={styles.dropDown}
+            data={petTypes}
+            onSelect={(selectedItem, index) => {
+              setPet_type(selectedItem);
+            }}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              return selectedItem;
+            }}
+            rowTextForSelection={(item, index) => {
+              return item;
+            }}
+          />
+          <Text style={styles.inputDate}>
+            {date.toString() === "Invalid Date"
+              ? "Please pick a date ⬇️"
+              : date.toString()}
+          </Text>
+          {/* {console.log(date.toString())} */}
+          <TouchableOpacity
+            style={styles.calendarContainer}
+            onPress={() => {
+              setIsClicked(true);
+            }}
+          >
+            {isClicked ? (
+              <CalendarPopUp
+                setSelectedStartDate={setSelectedStartDate}
+                setIsClicked={setIsClicked}
+              />
+            ) : (
+              ""
+            )}
+            <Text style={styles.buttonText}>Pick date lost</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.buttonContainer} onPress={pickImage}>
+            <Text style={styles.buttonText}>Choose pic</Text>
+          </TouchableOpacity>
+
+          {!uploading ? (
+            <TouchableOpacity
+              style={styles.buttonContainer}
+              onPress={uploadImage}
+            >
+              <Text style={styles.buttonText}>Upload Image</Text>
+            </TouchableOpacity>
+          ) : (
+            <ActivityIndicator size={"small"} color="black" />
+          )}
+
+          <TouchableOpacity
+            style={styles.buttonContainerBottom}
+            onPress={handleSubmit}
+          >
+            <Text style={styles.buttonText}>Submit</Text>
+          </TouchableOpacity>
+        </ScrollView>
+      </ImageBackground>
       <Footer />
     </>
   );
@@ -295,7 +302,7 @@ export default function PostPet({ extraData }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#cff7fc",
+    // backgroundColor: "#cff7fc",
   },
   title: {
     fontSize: 25,
@@ -305,7 +312,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     alignSelf: "center",
     fontWeight: "bold",
-     textShadowColor: "#4f6df0",
+    textShadowColor: "#4f6df0",
     textShadowRadius: 10,
   },
   input: {
@@ -355,7 +362,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 30,
     elevation: 8,
-    backgroundColor: "#788eec",
+    backgroundColor: "green",
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 12,
@@ -399,16 +406,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     overflow: "hidden",
     backgroundColor: "white",
+    width: 350,
     marginTop: 6,
     marginBottom: 6,
-    marginLeft: 7.5,
-    marginRight: 7.5,
-    paddingLeft: 16,
-    width: 350,
-    buttonStyle:""
-    , 
+    alignSelf: "center",
   },
-  dropDown: { 
+  dropDown: {
     marginTop: 10,
     borderWidth: 1,
     borderRadius: 5,
@@ -416,9 +419,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#788eec",
     opacity: 0.9,
   },
-  dropdown1BtnTxtStyle: { textAlign: 'center', 
-    // color: "silver",  
-    fontSize: 14},
+  dropdown1BtnTxtStyle: {
+    textAlign: "center",
+    fontSize: 14,
+  },
   inputDate: {
     height: 48,
     borderRadius: 5,
@@ -432,6 +436,4 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     color: "silver",
   },
-
-  
 });

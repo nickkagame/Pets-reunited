@@ -10,6 +10,7 @@ import {
   Button,
   TextInput,
   TouchableOpacity,
+  ImageBackground,
 } from "react-native";
 import firebase from "firebase/compat";
 import Footer from "../Footer/Footer";
@@ -42,37 +43,42 @@ export default function EditProfile({ route, extraData, setUser }) {
 
   return (
     <>
-      <ScrollView style={styles.container}>
-        <Text style={styles.bodyText} value={extraData.fullName}>
-          Name:{" "}
-        </Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={(e) => {
-            setNewName(e);
-          }}
-        >
-          {extraData.fullName}
-        </TextInput>
-        <Text style={styles.bodyText} value={extraData.fullName}>
-          email:{" "}
-        </Text>
-        <TextInput
-          onChangeText={(e) => {
-            setNewEmail(e);
-          }}
-          style={styles.input}
-        >
-          {extraData.email}
-        </TextInput>
+      <ImageBackground
+        source={require("../../../assets/PinkTrees.png")}
+        style={styles.container}
+      >
+        <ScrollView style={styles.container}>
+          <Text style={styles.bodyText} value={extraData.fullName}>
+            Name:{" "}
+          </Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={(e) => {
+              setNewName(e);
+            }}
+          >
+            {extraData.fullName}
+          </TextInput>
+          <Text style={styles.bodyText} value={extraData.fullName}>
+            email:{" "}
+          </Text>
+          <TextInput
+            onChangeText={(e) => {
+              setNewEmail(e);
+            }}
+            style={styles.input}
+          >
+            {extraData.email}
+          </TextInput>
 
-        <TouchableOpacity
-          style={styles.editButtonContainer}
-          onPress={handleSubmit}
-        >
-          <Text style={styles.editButtonText}>Submit Changes</Text>
-        </TouchableOpacity>
-      </ScrollView>
+          <TouchableOpacity
+            style={styles.editButtonContainer}
+            onPress={handleSubmit}
+          >
+            <Text style={styles.editButtonText}>Submit Changes</Text>
+          </TouchableOpacity>
+        </ScrollView>
+      </ImageBackground>
       <Footer pets={pets} />
     </>
   );
@@ -116,7 +122,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     alignSelf: "center",
     textTransform: "uppercase",
-    textShadowRadius: 100
+    textShadowRadius: 100,
   },
   input: {
     height: 48,
