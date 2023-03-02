@@ -8,7 +8,7 @@ import {
   FlatList,
   ActivityIndicator,
   RefreshControl,
-  ImageBackground
+  ImageBackground,
 } from "react-native";
 import firebase from "firebase/compat";
 import { useNavigation } from "@react-navigation/native";
@@ -70,14 +70,13 @@ export default function HomeScreen({ props, extraData }) {
     return <ActivityIndicator />;
   } else {
     return (
-      
       <>
-      {/* <View styles={styles.container}> */}
+        {/* <View styles={styles.container}> */}
         {/* <ImageBackground
       source={require("../../../wireframe/wp6560668.jpg")}
       styles={styles.container}
     > */}
-        
+        <View style={styles.container}>
           <TouchableOpacity
             style={styles.reportButtonContainer}
             onPress={() => onPostButtonPress()}
@@ -85,11 +84,13 @@ export default function HomeScreen({ props, extraData }) {
             <Text style={styles.reportButtonText}>Report a lost pet</Text>
           </TouchableOpacity>
           <SelectDropdown
-          style={styles.sortby}
+            defaultButtonText={"Sort pets by..."}
+            buttonTextStyle={styles.buttonTextStyle}
             keyboardShouldPersistTaps={"handled"}
             horzionatal="false"
-            defaultButtonText={"Sort Pets by..."}
-            
+            buttonStyle={styles.selectDropdown}
+            dropdownStyle={styles.dropDown}
+            // style={styles.sortby}
             data={["lastSeenDate", "pet_name"]}
             onSelect={(selectedItem, index) => {
               handleSort(selectedItem);
@@ -101,13 +102,16 @@ export default function HomeScreen({ props, extraData }) {
               return item;
             }}
           />
-          <FlatList style={[styles.container1, styles.elevation]}
+          <FlatList
+            style={[styles.container1, styles.elevation]}
             maxToRenderPerBatch={1}
             showsVerticalScrollIndicator={false}
             data={pets}
             renderItem={({ item }) => (
-              <TouchableOpacity style={[styles.container1, styles.elevation]}
-              onPress={() => handlePress(item, pets)}>
+              <TouchableOpacity
+                style={[styles.container1, styles.elevation]}
+                onPress={() => handlePress(item, pets)}
+              >
                 <>
                   <Text style={styles.petName}>{item.pet_name}</Text>
                   <Image
@@ -125,15 +129,10 @@ export default function HomeScreen({ props, extraData }) {
             }
           />
 
-       
           {/* </ImageBackground> */}
-        
- 
-      <Footer pets={pets} />
-
+        </View>
+        <Footer pets={pets} />
       </>
-  
-        
     );
   }
 }
@@ -141,18 +140,15 @@ export default function HomeScreen({ props, extraData }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    margin: 'auto',
-    backgroundColor: "red"
+    backgroundColor: "lightgrey",
   },
-  backgroundImage: {  
+  backgroundImage: {
     flex: 1,
     resizeMode: "cover",
     justifyContent: "center",
     alignItems: "center",
     justifyContent: "center",
-    margin: 'auto'
+    margin: "auto",
   },
   container1: {
     textAlign: "center",
@@ -161,13 +157,25 @@ const styles = StyleSheet.create({
     padding: 2,
     margin: 10,
   },
-
+  buttonTextStyle: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 18,
+  },
   elevation: {
     elevation: 2,
     shadowColor: "black",
   },
   content: {
     flex: 1,
+  },
+  dropDown: {
+    marginTop: 10,
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: "gray",
+    backgroundColor: "#788eec",
+    opacity: 0.9,
   },
   reportButtonContainer: {
     backgroundColor: "#788eec",
@@ -180,13 +188,22 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     borderWidth: 1,
   },
+  selectDropdown: {
+    backgroundColor: "#788eec",
+    borderColor: "#ccc",
+    borderWidth: 1,
+    borderRadius: 5,
+    marginTop: 1,
+    alignSelf: "center",
+    height: 40,
+  },
   reportButtonText: {
     fontSize: 18,
     color: "#fff",
     fontWeight: "bold",
     alignSelf: "center",
     textTransform: "uppercase",
-    textShadowRadius: 100
+    textShadowRadius: 100,
   },
   petName: {
     fontSize: 20,
@@ -196,7 +213,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     alignSelf: "center",
     fontWeight: "bold",
-
   },
   image: {
     flex: 1,
@@ -204,11 +220,12 @@ const styles = StyleSheet.create({
     height: 300,
     alignSelf: "center",
   },
-  sortby: { 
+  sortby: {
     fontSize: 18,
     color: "#fff",
     fontWeight: "bold",
     alignSelf: "center",
     textTransform: "uppercase",
-    textShadowRadius: 100},
+    textShadowRadius: 100,
+  },
 });
