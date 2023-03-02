@@ -63,7 +63,7 @@ export default function EditPost({ route, extraData }) {
       .then((response) => {
         alert("Post updated! 👍");
       }).then(()=>{
-        navigation.navigate('UserProfile',{});
+        navigation.navigate('Profile',{});
       })
       .catch((err) => {
         console.log(err);

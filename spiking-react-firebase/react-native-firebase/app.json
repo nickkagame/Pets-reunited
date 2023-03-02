@@ -8,6 +8,7 @@
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/PetsLogoLoadingPic.png",
+
       "resizeMode": "contain",
       "backgroundColor": "#ffffff",
       "plugins": [

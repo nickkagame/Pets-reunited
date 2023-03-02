@@ -8,6 +8,7 @@ import {
   FlatList,
   ActivityIndicator,
   RefreshControl,
+  ImageBackground
 } from "react-native";
 import firebase from "firebase/compat";
 import { useNavigation } from "@react-navigation/native";
@@ -27,7 +28,7 @@ export default function HomeScreen({ props, extraData }) {
   const navigation = useNavigation();
 
   const onPostButtonPress = () => {
-    navigation.navigate("PostPet");
+    navigation.navigate("Report Lost Pet");
   };
 
   const getPets = async () => {
@@ -50,16 +51,9 @@ export default function HomeScreen({ props, extraData }) {
   }, [sortBy]);
 
   const handlePress = (pet, pets) => {
-    navigation.navigate("PetSingle", { pet: pet, pets: pets });
+    navigation.navigate("Lost Pet", { pet: pet, pets: pets });
   };
 
-  // const postListSorted = pets.sort((a, b) => {
-  //   return b.lastSeenDate
-  //     .slice(8, 15)
-  //     .localeCompare(a.lastSeenDate.slice(8, 15));
-  // });
-
-  // pets.forEach((pet) => console.log(pet.lastSeenDate));
   const handleSort = (sort) => {
     setSortBy(sort);
   };
@@ -70,18 +64,31 @@ export default function HomeScreen({ props, extraData }) {
       setRefreshing(false);
     }, 2000);
   }, []);
-  console.log("*");
-  // pets.forEach((pet) => console.log(pet.pet_name));
 
   if (pets.length === 0) {
     return <ActivityIndicator />;
   } else {
     return (
-      <>
-        <View style={styles.container}>
+      
+      
+      
+        <ImageBackground
+      source={require("../../../wireframe/wp6560668.jpg")}
+      styles={styles.backgroundImage}
+    >
+        
+          <TouchableOpacity
+            style={styles.reportButtonContainer}
+            onPress={() => onPostButtonPress()}
+          >
+            <Text style={styles.reportButtonText}>Report a lost pet</Text>
+          </TouchableOpacity>
           <SelectDropdown
+          style={styles.sortby}
             keyboardShouldPersistTaps={"handled"}
             horzionatal="false"
+            defaultButtonText={"Sort Pets by..."}
+            
             data={["lastSeenDate", "pet_name"]}
             onSelect={(selectedItem, index) => {
               handleSort(selectedItem);
@@ -93,12 +100,6 @@ export default function HomeScreen({ props, extraData }) {
               return item;
             }}
           />
-          <TouchableOpacity
-            style={styles.reportButtonContainer}
-            onPress={() => onPostButtonPress()}
-          >
-            <Text style={styles.reportButtonText}>Report a lost pet</Text>
-          </TouchableOpacity>
           <FlatList
             maxToRenderPerBatch={1}
             showsVerticalScrollIndicator={false}
@@ -121,9 +122,11 @@ export default function HomeScreen({ props, extraData }) {
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
           />
-        </View>
-        <Footer pets={pets} />
-      </>
+          <Footer pets={pets} />
+       
+          </ImageBackground>
+  
+        
     );
   }
 }
@@ -134,19 +137,25 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#5cc8d7",
+    margin: 'auto'
+  },
+  backgroundImage: {  
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
+    alignItems: "center",
+    justifyContent: "center",
+    margin: 'auto'
   },
   reportButtonContainer: {
     backgroundColor: "#788eec",
-    borderRadius: 10,
+    borderRadius: 5,
     paddingVertical: 8,
     paddingHorizontal: 50,
     borderWidth: 1,
     borderColor: "black",
     marginTop: 10,
     marginBottom: 15,
-    shadowRadius: 1.5,
-    shadowOpacity: 0.5,
-    shadowColor: "black",
   },
   reportButtonText: {
     fontSize: 18,
@@ -154,6 +163,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     alignSelf: "center",
     textTransform: "uppercase",
+    textShadowRadius: 100
   },
   petName: {
     fontWeight: "bold",
@@ -164,8 +174,15 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
     alignSelf: "center",
-    margin: 30,
+    margin: 15,
     borderRadius: 30,
-    marginTop: 6,
+    marginTop: 3,
   },
+  sortby: { 
+    fontSize: 18,
+    color: "#fff",
+    fontWeight: "bold",
+    alignSelf: "center",
+    textTransform: "uppercase",
+    textShadowRadius: 100},
 });
