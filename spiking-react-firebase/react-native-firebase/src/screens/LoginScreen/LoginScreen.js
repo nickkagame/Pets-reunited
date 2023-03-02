@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Image,
   Text,
@@ -13,13 +13,9 @@ import { firebase } from "../../firebase/config";
 import "firebase/firestore";
 import "firebase/compat/firestore";
 import "@firebase/firestore";
-const db = firebase.firestore();
 
 export default function LoginScreen({ navigation }) {
   const entityRef = firebase.firestore().collection("Pet-pics");
-  const docRef = entityRef.doc("PET-A");
-
-  const [pets, setPets] = useState([]);
 
   entityRef.get().then((snapshot) => {
     snapshot.docs.forEach((doc) => {});

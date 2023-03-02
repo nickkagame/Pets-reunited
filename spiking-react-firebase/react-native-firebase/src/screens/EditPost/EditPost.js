@@ -3,14 +3,12 @@ import {
   StyleSheet,
   View,
   Text,
-  Image,
-  Button,
   TextInput,
   TouchableOpacity,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { app } from "../../firebase/config";
-import { collection, addDoc, getFirestore } from "@firebase/firestore";
+// import { app } from "../../firebase/config";
+// import { collection, addDoc, getFirestore } from "@firebase/firestore";
 import firebase from "firebase/compat";
 import { useNavigation } from "@react-navigation/native";
 import SelectDropdown from "react-native-select-dropdown";
@@ -25,7 +23,6 @@ export default function EditPost({ route, extraData }) {
   const [pet_name, setPet_name] = useState(pet.pet_name);
   const [your_name, setYour_name] = useState(pet.your_name);
   const [email, setEmail] = useState(pet.email);
-  const [home_address, setHome_address] = useState(pet.home_address);
   const [location, setLocation] = useState(pet.location);
   const [chipId, setChipId] = useState(pet.chipId);
   const [pet_type, setPet_type] = useState(pet.pet_type);
@@ -34,7 +31,6 @@ export default function EditPost({ route, extraData }) {
   const [coordinates, setCoordinates] = useState(pet.coordinates);
   const [postcode, setPostcode] = useState(pet.postcode);
   const [town, setTown] = useState(pet.town);
-  const [uploading, setUploading] = useState(null);
   const [selectedStartDate, setSelectedStartDate] = useState(pet.lastSeenDate);
   const navigation = useNavigation();
 
@@ -61,8 +57,9 @@ export default function EditPost({ route, extraData }) {
       .set(newPostInfo)
       .then((response) => {
         alert("Post updated! 👍");
-      }).then(()=>{
-        navigation.navigate('Profile',{});
+      })
+      .then(() => {
+        navigation.navigate("Profile", {});
       })
       .catch((err) => {
         console.log(err);
@@ -136,7 +133,6 @@ export default function EditPost({ route, extraData }) {
             style={styles.inputAuto}
           >
             <GooglePlacesAutocomplete
-              // style={styles.input}
               placeholder="Edit location where the pet was lost"
               onPress={(data, details = null) => {
                 setLocation(data.description);
@@ -148,7 +144,6 @@ export default function EditPost({ route, extraData }) {
               }}
             />
           </ScrollView>
-          {/* <Text style={styles.bodyText}></Text> */}
           <TextInput
             style={styles.input}
             placeholder="Enter chip id"
@@ -197,7 +192,6 @@ export default function EditPost({ route, extraData }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: "#5cc8d7",
   },
   editButtonContainer: {
     backgroundColor: "#788eec",
@@ -216,7 +210,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     alignSelf: "center",
     textTransform: "uppercase",
-    textShadowRadius: 100
+    textShadowRadius: 100,
   },
   bodyText: {
     fontWeight: "800",
@@ -249,7 +243,7 @@ const styles = StyleSheet.create({
   inputAuto: {
     height: "auto",
     borderRadius: 5,
-    // overflow: "visible",
+
     backgroundColor: "white",
     marginTop: 6,
     marginBottom: 6,
@@ -258,21 +252,9 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
   },
   inputSelect: {
-    // flex: 1,
-    // justifyContent: "center",
     alignItems: "center",
-    // height: "auto",
-    // borderRadius: 5,
-    // overflow: "visible",
-    // backgroundColor: "white",
     marginTop: 6,
     marginBottom: 6,
-    // marginLeft: 30,
-    // marginRight: 30,
-    // paddingLeft: 106,
-    // alignSelf: "center",
-    // width: 500,
-    // fontSize: 30,
   },
   buttonContainer: {
     marginRight: 7,

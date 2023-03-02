@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Image,
   Text,
@@ -9,7 +9,6 @@ import {
   ImageBackground,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-// import styles from "./styles";
 import { firebase } from "../../firebase/config";
 
 export default function RegistrationScreen({ navigation }) {

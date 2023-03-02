@@ -8,16 +8,12 @@ import {
   FlatList,
   ActivityIndicator,
   RefreshControl,
-  ImageBackground,
 } from "react-native";
 import firebase from "firebase/compat";
 import { useNavigation } from "@react-navigation/native";
 import Footer from "../Footer/Footer";
-// import { query, orderBy, limit } from "firebase/firestore";
-import SelectDropdown from "react-native-select-dropdown";
-import { ScrollView } from "react-native-gesture-handler";
 
-// const q = query(citiesRef, orderBy("name"), limit(3));
+import SelectDropdown from "react-native-select-dropdown";
 
 export const db = firebase.firestore();
 
@@ -71,11 +67,6 @@ export default function HomeScreen({ props, extraData }) {
   } else {
     return (
       <>
-        {/* <View styles={styles.container}> */}
-        {/* <ImageBackground
-      source={require("../../../wireframe/wp6560668.jpg")}
-      styles={styles.container}
-    > */}
         <View style={styles.container}>
           <TouchableOpacity
             style={styles.reportButtonContainer}
@@ -90,7 +81,6 @@ export default function HomeScreen({ props, extraData }) {
             horzionatal="false"
             buttonStyle={styles.selectDropdown}
             dropdownStyle={styles.dropDown}
-            // style={styles.sortby}
             data={["lastSeenDate", "pet_name"]}
             onSelect={(selectedItem, index) => {
               handleSort(selectedItem);
@@ -128,8 +118,6 @@ export default function HomeScreen({ props, extraData }) {
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
           />
-
-          {/* </ImageBackground> */}
         </View>
         <Footer pets={pets} />
       </>

@@ -2,7 +2,6 @@ import {
   Text,
   Image,
   Linking,
-  Button,
   StyleSheet,
   ScrollView,
   TouchableOpacity,
@@ -12,8 +11,6 @@ import Footer from "../Footer/Footer";
 
 export default function PetSingle({ route, extraData }) {
   const { pet, pets } = route.params;
-  // console.log(pet);
-  // console.log(route.params.pets);
   const sendEmail = () => {
     Linking.openURL(
       `mailto:${pet.email}?subject=Regarding ${pet.pet_name}`
@@ -36,7 +33,9 @@ export default function PetSingle({ route, extraData }) {
             My last known location was {pet.location} :(. I really miss my owner{" "}
             {pet.your_name}.
           </Text>
-          <Text style={styles.petDetails}>More details : {pet.description}.</Text>
+          <Text style={styles.petDetails}>
+            More details : {pet.description}.
+          </Text>
         </View>
         <TouchableOpacity style={styles.buttonContainer} onPress={sendEmail}>
           <Text style={styles.buttonText}>Contact owner</Text>
@@ -63,7 +62,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textShadowColor: "#4769fc",
     textShadowRadius: 10,
-    
   },
   petDetailsContainer: {
     backgroundColor: "white",
@@ -78,7 +76,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 32,
     alignSelf: "center",
-    fontSize:18,
+    fontSize: 18,
     lineHeight: 24,
   },
 
@@ -88,7 +86,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     alignSelf: "center",
     lineHeight: 2,
-    fontSize:18
+    fontSize: 18,
   },
 
   image: {

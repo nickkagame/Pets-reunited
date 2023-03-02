@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   Text,
-  View,
-  Button,
   TextInput,
-  Image,
   StyleSheet,
   ScrollView,
   TouchableOpacity,
@@ -12,13 +9,7 @@ import {
 } from "react-native";
 import SelectDropdown from "react-native-select-dropdown";
 import uuid from "react-native-uuid";
-import {
-  collection,
-  addDoc,
-  getDocs,
-  QuerySnapshot,
-  getFirestore,
-} from "@firebase/firestore";
+import { collection, addDoc, getFirestore } from "@firebase/firestore";
 import * as ImagePicker from "expo-image-picker";
 import { firebase } from "../../firebase/config";
 import "firebase/firestore";
@@ -31,8 +22,6 @@ import Footer from "../Footer/Footer";
 import CalendarPopUp from "../Calendar.js/Calendar";
 import { AutoComp } from "../../components/AutoComp";
 import { ActivityIndicator } from "react-native";
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import { appKey } from "../../components/key";
 import { useNavigation } from "@react-navigation/native";
 
 const db = getFirestore(app);
@@ -72,18 +61,15 @@ export default function PostPet({ extraData }) {
         snapshot.on(
           firebase.storage.TaskEvent.STATE_CHANGED,
           () => {
-            // Uploading state
             setUploading(true);
           },
           (error) => {
-            // Error state
             setUploading(false);
             console.log(error);
             blob.close();
             reject(new TypeError("Network request failed"));
           },
           () => {
-            // Success state
             snapshot.snapshot.ref.getDownloadURL().then((url) => {
               setUploading(false);
               console.log("Download URL: ", url);
@@ -167,8 +153,6 @@ export default function PostPet({ extraData }) {
   return (
     <>
       <ImageBackground
-        // source={require("../../../wireframe/wp6560668.jpg")}
-        // source={require("../../../assets/StagPicSearch.png")}
         source={require("../../../assets/PinkTrees.png")}
         style={styles.container}
       >
@@ -235,7 +219,6 @@ export default function PostPet({ extraData }) {
             defaultButtonText={"Select Pet Type"}
             buttonTextStyle={styles.dropdown1BtnTxtStyle}
             buttonStyle={styles.selectinput}
-            // style={styles.selectinput}
             dropdownStyle={styles.dropDown}
             data={petTypes}
             onSelect={(selectedItem, index) => {
@@ -253,7 +236,6 @@ export default function PostPet({ extraData }) {
               ? "Please pick a date ⬇️"
               : date.toString()}
           </Text>
-          {/* {console.log(date.toString())} */}
           <TouchableOpacity
             style={styles.calendarContainer}
             onPress={() => {
@@ -302,7 +284,6 @@ export default function PostPet({ extraData }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: "#cff7fc",
   },
   title: {
     fontSize: 25,
@@ -329,7 +310,6 @@ const styles = StyleSheet.create({
   inputAuto: {
     height: "auto",
     borderRadius: 5,
-    // overflow: "visible",
     backgroundColor: "white",
     marginTop: 6,
     marginBottom: 6,

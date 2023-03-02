@@ -62,13 +62,6 @@ export default function Search({ props }) {
   };
   const navigation = useNavigation();
 
-  // const reset = () => {
-  //   setPets([]);
-  //   // setPetType("");
-  //   // setLocation("");
-  //   navigation.navigate("Search", { location, petType, pets });
-  // };
-
   const reset = () => {
     setPets([]);
     setLocation("");

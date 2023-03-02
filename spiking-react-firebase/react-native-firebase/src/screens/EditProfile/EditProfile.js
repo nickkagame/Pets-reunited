@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from "react";
 import {
-  Pressable,
-  SafeAreaView,
   Text,
-  View,
-  Image,
   ScrollView,
   StyleSheet,
-  Button,
   TextInput,
   TouchableOpacity,
   ImageBackground,
@@ -87,7 +82,6 @@ export default function EditProfile({ route, extraData, setUser }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: "#5cc8d7",
   },
   title: {
     fontSize: 20,
@@ -138,7 +132,6 @@ const styles = StyleSheet.create({
   inputAuto: {
     height: "auto",
     borderRadius: 5,
-    // overflow: "visible",
     backgroundColor: "white",
     marginTop: 6,
     marginBottom: 6,

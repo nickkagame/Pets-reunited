@@ -1,19 +1,8 @@
 import React, { useEffect, useState } from "react";
-import {
-  Pressable,
-  SafeAreaView,
-  Text,
-  View,
-  Image,
-  ScrollView,
-  StyleSheet,
-  Button,
-  TextInput,
-} from "react-native";
+import { Text, View, Image, ScrollView, StyleSheet } from "react-native";
 import firebase from "firebase/compat";
 import { useNavigation } from "@react-navigation/native";
 import Footer from "../Footer/Footer";
-import { getStorage } from "firebase/storage";
 import uuid from "react-native-uuid";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
@@ -23,13 +12,11 @@ export default function UserProfile({ route, extraData }) {
   const navigation = useNavigation();
 
   const getUserPost = async () => {
-    const storage = getStorage();
     const queryPets = await db
       .collection("lost_pets")
       .where("userID", "==", extraData.id)
       .get();
     const newPets = [];
-    const newURL = []; //
     queryPets.forEach((doc) => {
       const pet = { ...doc.data(), id: doc.id };
 
@@ -42,11 +29,9 @@ export default function UserProfile({ route, extraData }) {
     getUserPost();
   }, [route]);
 
-
-  const {pet} = route.params
+  const { pet } = route.params;
   const goToChangeProfile = (pets) => {
-    navigation.navigate(`Edit Profile`, {pets: pets, extraData: extraData});
-
+    navigation.navigate(`Edit Profile`, { pets: pets, extraData: extraData });
   };
 
   const goToChangePost = (pet) => {
@@ -57,7 +42,6 @@ export default function UserProfile({ route, extraData }) {
     <>
       <ScrollView styles={styles.container}>
         <View key={uuid.v4()}>
-          {/* <Text style={styles.user} >Profile information: </Text> */}
           <Text style={styles.bodyText}> Name: </Text>
           <Text style={styles.bodyText2}> {extraData.fullName} </Text>
           <Text style={styles.bodyText}> email: </Text>
@@ -94,14 +78,6 @@ export default function UserProfile({ route, extraData }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: "#5cc8d7",
-
-    // backgroundColor: "white",
-    // borderRadius: 8,
-    // paddingVertical: 45,
-    // paddingHorizontal: 25,
-    // width: "100%",
-    // marginVertical: 10,
   },
   container1: {
     textAlign: "center",
@@ -139,7 +115,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     alignSelf: "center",
     textTransform: "uppercase",
-    textShadowRadius: 100
+    textShadowRadius: 100,
   },
   user: {
     fontWeight: "bold",
@@ -175,7 +151,6 @@ const styles = StyleSheet.create({
     marginLeft: 6,
     textAlign: "center",
     padding: 2,
-    // color: `#696969`,
     marginBottom: 3,
   },
 
@@ -184,9 +159,5 @@ const styles = StyleSheet.create({
     width: "95%",
     height: 300,
     alignSelf: "center",
-    // resizeMode: "contain",
-    // margin: 30,
-    // borderRadius: 30,
-    // marginTop: 6,
   },
 });

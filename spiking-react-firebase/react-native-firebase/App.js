@@ -3,12 +3,11 @@ import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { LoginScreen, HomeScreen, RegistrationScreen } from "./src/screens";
-import { firebase } from "./src/firebase/config"; //
+import { firebase } from "./src/firebase/config";
 import { decode, encode } from "base-64";
-import { Text } from "react-native"; //
+import { Text, StyleSheet } from "react-native";
 import PostPet from "./src/screens/PostPet/PostPet.js";
 import PetSingle from "./src/screens/PetSingle/PetSingle";
-import { StyleSheet } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import Search from "./src/screens/Search/Search";
 import UserProfile from "./src/screens/UserProfile/UserProfile";
@@ -28,7 +27,7 @@ const Stack = createStackNavigator();
 export default function App() {
   const [loading, setLoading] = useState(null);
   const [user, setUser] = useState(null);
-  console.log(user, "<____");
+
   if (loading) {
     return <Text>loading ...</Text>;
   }

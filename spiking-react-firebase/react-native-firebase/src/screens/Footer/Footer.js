@@ -1,20 +1,6 @@
-import React, { useEffect, useState } from "react";
-import {
-  Pressable,
-  SafeAreaView,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-  Button,
-  TouchableWithoutFeedback,
-} from "react-native";
-import firebase from "firebase/compat";
+import { View, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome";
-
-const db = firebase.firestore();
 
 export default function HomeScreen({ props, pets, pet, coorQuerrt }) {
   const navigation = useNavigation();
@@ -41,8 +27,7 @@ export default function HomeScreen({ props, pets, pet, coorQuerrt }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.footer}>      
-
+      <View style={styles.footer}>
         <TouchableOpacity
           style={styles.iconContainer}
           onPress={() => goToSearch()}
@@ -71,19 +56,17 @@ const styles = StyleSheet.create({
   container: {
     flexend: 0,
     backgroundColor: "#5cc8d7",
-    
   },
-  footer: {         
-  backgroundColor: "orange",
+  footer: {
+    backgroundColor: "orange",
     padding: 25,
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
     justifyContent: "space-evenly",
-   
   },
   iconContainer: {
-    flex : 1,
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     justifyContent: "space-evenly",

@@ -1,24 +1,21 @@
-import { useState, useEffect } from "react";
-import { StyleSheet } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { appKey } from "./key";
 
-
-
-export const AutoComp = ({ setLocation, setPostcode, setTown, setCoordinates }) => {
-  const [selectedItem, setSelectedItem] = useState("");
-  const [currPlaceId, setPlaceId] = useState("ChIJAZ-GmmbMHkcR_NPqiCq-8HI");
-
+export const AutoComp = ({
+  setLocation,
+  setPostcode,
+  setTown,
+  setCoordinates,
+}) => {
   const handleSelectItem = (data) => {
     fetch(
       `https://maps.googleapis.com/maps/api/place/details/json?key=${appKey}&place_id=${data.place_id}`
     ).then((response) => {
       response.json().then((responseData) => {
-        // console.log(data);
         const { lat, lng } = responseData.result.geometry.location;
         console.log("Latitude:", lat);
         console.log("Longitude:", lng);
-        setCoordinates(responseData.result.geometry.location)
+        setCoordinates(responseData.result.geometry.location);
 
         const town = responseData.result.address_components.find(
           (component) =>
@@ -31,10 +28,9 @@ export const AutoComp = ({ setLocation, setPostcode, setTown, setCoordinates }) 
         setTown(town);
         if (postcode) {
           setPostcode(postcode);
-        } 
+        }
       });
     });
-  
   };
 
   return (
