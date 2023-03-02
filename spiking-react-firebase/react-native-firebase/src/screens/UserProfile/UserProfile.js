@@ -14,9 +14,8 @@ import firebase from "firebase/compat";
 import { useNavigation } from "@react-navigation/native";
 import Footer from "../Footer/Footer";
 import { getStorage } from "firebase/storage";
-import uuid from 'react-native-uuid';
+import uuid from "react-native-uuid";
 import { TouchableOpacity } from "react-native-gesture-handler";
-
 
 export default function UserProfile({ route, extraData }) {
   const [pets, setPets] = useState([]);
@@ -45,66 +44,76 @@ export default function UserProfile({ route, extraData }) {
 
 
   const {pet} = route.params
-  const goToChangeProfile = () => {
-    navigation.navigate(`Edit Profile`, {pets: pets});
+  const goToChangeProfile = (pets) => {
+    navigation.navigate(`Edit Profile`, {pets: pets, extraData: extraData});
+
   };
 
   const goToChangePost = (pet) => {
-    navigation.navigate(`Edit Post`, {pet: pet, pets: pets});
+    navigation.navigate(`Edit Post`, { pet: pet, pets: pets });
   };
 
-  return (<>
-    <ScrollView styles ={styles.container}>
-      <View key={uuid.v4()}>
-        {/* <Text style={styles.user} >Profile information: </Text> */}
-        <Text style={styles.bodyText}> Your name:            {extraData.fullName}   </Text>
-        <Text style={styles.bodyText}> UserID:  {extraData.id}   </Text>
-        <Text style={styles.bodyText}> {extraData.email}  </Text>
-        <TouchableOpacity
-                  style={styles.editButtonContainer}
-                  onPress={() => goToChangeProfile()}
-                >
-               <Text style={styles.editButtonText}>Edit Profile</Text>
-
-                </TouchableOpacity>
-                </View>
-        <Text style={styles.user} >Your lost pets:</Text>
+  return (
+    <>
+      <ScrollView styles={styles.container}>
+        <View key={uuid.v4()}>
+          {/* <Text style={styles.user} >Profile information: </Text> */}
+          <Text style={styles.bodyText}> Name: </Text>
+          <Text style={styles.bodyText2}> {extraData.fullName} </Text>
+          <Text style={styles.bodyText}> email: </Text>
+          <Text style={styles.bodyText2}> {extraData.email} </Text>
+          <TouchableOpacity
+            style={styles.editButtonContainer}
+            onPress={() => goToChangeProfile(pets)}
+          >
+            <Text style={styles.editButtonText}>Edit Profile</Text>
+          </TouchableOpacity>
+        </View>
+        <Text style={styles.user}>Your lost pets:</Text>
         {pets.map((pet) => {
           return (
-              <View style={styles.container} key={uuid.v4()}>
-                <Text style={styles.title}>
-                  {pet.pet_name} 
-                </Text>
-                <Image
-                  source={{ uri: pet.picture }}
-                  style={styles.postImage}
-                />
-                <TouchableOpacity
-                  style={styles.editButtonContainer}
-                  onPress={() => goToChangePost(pet)}
-                  title="Edit Post"
-                >
-               <Text style={styles.editButtonText}>Edit Post</Text>
-
-                </TouchableOpacity>
-  
-              </View>
-  
+            <View style={[styles.container1, styles.elevation]} key={uuid.v4()}>
+              <Text style={styles.bodyText3}>{pet.pet_name}</Text>
+              <Image source={{ uri: pet.picture }} style={styles.postImage} />
+              <TouchableOpacity
+                style={styles.editButtonContainer}
+                onPress={() => goToChangePost(pet)}
+                title="Edit Post"
+              >
+                <Text style={styles.editButtonText}>Edit Post</Text>
+              </TouchableOpacity>
+            </View>
           );
         })}
-      
-    </ScrollView>
-    <Footer pets = {pets} pet = {pet}/>
-  </>
-
+      </ScrollView>
+      <Footer pets={pets} pet={pet} />
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#5cc8d7",
-    textAlign: "center"
+    // backgroundColor: "#5cc8d7",
+
+    // backgroundColor: "white",
+    // borderRadius: 8,
+    // paddingVertical: 45,
+    // paddingHorizontal: 25,
+    // width: "100%",
+    // marginVertical: 10,
+  },
+  container1: {
+    textAlign: "center",
+    borderColor: "black",
+    borderWidth: 0,
+    padding: 2,
+    margin: 10,
+  },
+
+  elevation: {
+    elevation: 2,
+    shadowColor: "black",
   },
   content: {
     flex: 1,
@@ -114,29 +123,31 @@ const styles = StyleSheet.create({
     padding: 40,
   },
   editButtonContainer: {
-    backgroundColor: "#788eec",
-    borderRadius: 10,
+    width: "90%",
+    alignSelf: "center",
+    // backgroundColor: "#f0f8ff",
+    borderRadius: 25,
     paddingVertical: 8,
     paddingHorizontal: 50,
     borderWidth: 1,
     borderColor: "black",
-    marginTop: 10,
+    marginTop: 15,
     marginBottom: 15,
     shadowRadius: 1.5,
     shadowOpacity: 0.5,
     shadowColor: "black",
   },
   editButtonText: {
-    fontSize: 18,
-    color: "#fff",
+    fontSize: 15,
+    color: "black",
     fontWeight: "bold",
     alignSelf: "center",
-    textTransform: "uppercase",
+    // textTransform: "uppercase",
   },
   user: {
     fontWeight: "bold",
     margin: 10,
-    fontSize: 20, 
+    fontSize: 20,
     textAlign: "center",
   },
   title: {
@@ -145,18 +156,40 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   bodyText: {
-    fontWeight: "bold",
-    margin: 10,
-    textAlign: "centre",
+    fontWeight: "800",
+    fontSize: 18,
+    margin: 6,
+    textAlign: "auto",
+    padding: 2,
+  },
+  bodyText2: {
+    fontWeight: "600",
+    fontSize: 16,
+    marginLeft: 6,
+    textAlign: "auto",
+    padding: 2,
+    color: `#696969`,
+    marginBottom: 3,
+  },
+
+  bodyText3: {
+    fontWeight: "800",
+    fontSize: 18,
+    marginLeft: 6,
+    textAlign: "center",
+    padding: 2,
+    // color: `#696969`,
+    marginBottom: 3,
   },
 
   postImage: {
-    width: 200,
-    height: 200,
+    flex: 1,
+    width: "95%",
+    height: 300,
     alignSelf: "center",
-    margin: 30,
-    borderRadius: 30,
-    marginTop: 6,
-  }
+    // resizeMode: "contain",
+    // margin: 30,
+    // borderRadius: 30,
+    // marginTop: 6,
+  },
 });
-
