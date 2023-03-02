@@ -1,12 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import {
-  Pressable,
-  SafeAreaView,
   Text,
-  Button,
   Image,
   ScrollView,
   StyleSheet,
+  ImageBackground,
 } from "react-native";
 import firebase from "firebase/compat";
 import { useNavigation } from "@react-navigation/native";
@@ -52,17 +50,25 @@ export default function Search({ props }) {
     } else {
       setPets(newPets);
       setTypeChosen(true);
-      // setLocation('')
     }
-    //seperate out so can use both seperately
   };
   const navigation = useNavigation();
 
+  // const reset = () => {
+  //   setPets([]);
+  //   // setPetType("");
+  //   // setLocation("");
+  //   navigation.navigate("Search", { location, petType, pets });
+  // };
+
   const reset = () => {
     setPets([]);
-    setPetType("");
+    setSelectedItem("");
     setLocation("");
-    navigation.navigate("Search", { location, petType, pets });
+    setTypeChosen("false");
+    setPetType("");
+    ref.current.setAddressText("");
+    navigation.navigate("Search", { location: "", petType: "", pets: [] });
   };
 
   const petTypes = ["Cat", "Dog", "Rabbit", "Bird", "other"];
@@ -110,37 +116,20 @@ export default function Search({ props }) {
 
   return (
     <>
-      <ScrollView
-        keyboardShouldPersistTaps={"handled"}
-        horizontal={false}
+      <ImageBackground
+        source={require("../../../wireframe/wp6560668.jpg")}
         style={styles.container}
       >
-        <SelectDropdown
-          keyboardShouldPersistTaps={"handled"}
-          horzionatal="false"
-          style={styles.dropDown}
-          data={petTypes}
-          onSelect={(selectedItem, index) => {
-            handlePetTypeSelection(selectedItem);
-          }}
-          buttonTextAfterSelection={(selectedItem, index) => {
-            return selectedItem;
-          }}
-          rowTextForSelection={(item, index) => {
-            return item;
-          }}
-        />
         <ScrollView
           keyboardShouldPersistTaps={"handled"}
-          horizontal={true}
-          style={styles.inputAuto}
+          horizontal={false}
+          style={styles.scrollContainer}
         >
           <GooglePlacesAutocomplete
             placeholder="Search by Location"
+            style={styles.googleMapsDD}
             onPress={(data, details = null) => {
-              // console.log(data)
               handleSelectItem(data);
-              ref.current.setAddressText(""); //
             }}
             query={{
               key: `${appKey}`,
@@ -148,85 +137,127 @@ export default function Search({ props }) {
             }}
             ref={ref}
           />
+          <SelectDropdown
+            defaultButtonText="Select animal type"
+            buttonTextStyle={styles.buttonTextStyle}
+            keyboardShouldPersistTaps={"handled"}
+            horizontal={false}
+            buttonStyle={styles.selectDropdown}
+            dropdownStyle={styles.dropDown}
+            data={petTypes}
+            onSelect={(selectedItem, index) => {
+              handlePetTypeSelection(selectedItem);
+            }}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              return selectedItem;
+            }}
+            rowTextForSelection={(item, index) => {
+              return item;
+            }}
+          />
+          <TouchableOpacity style={styles.clearSearchButton} onPress={reset}>
+            <Text style={styles.buttonTitle}>Clear search</Text>
+          </TouchableOpacity>
+          <>
+            {pets.map((pet) => {
+              return (
+                <TouchableOpacity
+                  key={uuid.v4()}
+                  onPress={() => handlePress(pet)}
+                >
+                  <Text style={styles.petName}>{pet.pet_name}</Text>
+                  <Image
+                    source={{
+                      uri: pet.picture,
+                    }}
+                    style={styles.image}
+                  />
+                </TouchableOpacity>
+              );
+            })}
+          </>
         </ScrollView>
-        <Button title="reset" onPress={reset}></Button>
-        {/* <FlatList
-          // keyboardShouldPersistTaps={"handled"}
-          horzionatal="false"
-          showsVerticalScrollIndicator={false}
-          data={pets}
-          renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => handlePress(item)}>
-              <>
-                <Text style={styles.petName}>{item.pet_name}</Text>
-                <Image
-                  source={{
-                    uri: item.picture,
-                  }}
-                  style={styles.image}
-                />
-              </>
-            </TouchableOpacity>
-          )}
-          keyExtractor={(item) => item.id}
-        /> */}
-        <>
-          {pets.map((pet) => {
-            return (
-              <TouchableOpacity
-                key={uuid.v4()}
-                onPress={() => handlePress(pet)}
-              >
-                <Text>{pet.pet_name}</Text>
-                <Image
-                  source={{
-                    uri: pet.picture,
-                  }}
-                  style={{ width: 200, height: 200 }}
-                />
-              </TouchableOpacity>
-            );
-          })}
-        </>
-      </ScrollView>
-      <Footer pets = {pets}/>
+      </ImageBackground>
+      <Footer pets={pets} />
     </>
   );
 }
-// }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#5cc8d7",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  scrollContainer: {
+    marginTop: 20,
+    width: "90%",
+  },
+  selectDropdown: {
+    backgroundColor: "#788eec",
+    borderColor: "#ccc",
+    borderWidth: 1,
+    borderRadius: 5,
+    marginTop: 15,
+    alignSelf: "center",
+    height: 40,
+  },
+  buttonTextStyle: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 18,
+  },
+  googleMapsDD: {
+    marginTop: 7,
+    margin: 20,
+    borderRadius: 8,
   },
   dropDown: {
-    color: "#000",
-    justifyContent: "center",
-    paddingVertical: 20,
-    alignSelf: "center",
+    marginTop: 10,
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: "gray",
+    backgroundColor: "#788eec",
+    opacity: 0.9,
   },
   petName: {
     fontWeight: "bold",
     margin: 10,
     textAlign: "center",
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "black",
   },
   inputAuto: {
-    height: "auto",
-    borderRadius: 5,
-    backgroundColor: "white",
-    marginTop: 6,
-    marginBottom: 6,
-    marginLeft: 30,
-    marginRight: 30,
-    paddingLeft: 16,
+    marginTop: 10,
+    paddingRight: 0,
+    paddingLeft: 0,
+    opacity: 0.9,
   },
   image: {
-    width: 200,
-    height: 200,
+    width: 250,
+    height: 250,
     alignSelf: "center",
     margin: 30,
-    borderRadius: 30,
     marginTop: 6,
+    borderRadius: 30,
+  },
+  buttonTitle: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  clearSearchButton: {
+    backgroundColor: "#788eec",
+    marginLeft: 100,
+    marginRight: 100,
+    marginTop: 15,
+    marginBottom: 20,
+    height: 40,
+    borderRadius: 5,
+    alignItems: "center",
+    justifyContent: "center",
+    borderColor: "#ccc",
+    borderWidth: 1,
   },
 });

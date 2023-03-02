@@ -89,7 +89,7 @@ export default function HomeScreen({ props, extraData }) {
             horzionatal="false"
             defaultButtonText={"Sort Pets by..."}
             
-            data={["Date", "Name"]}
+            data={["lastSeenDate", "pet_name"]}
             onSelect={(selectedItem, index) => {
               handleSort(selectedItem);
             }}
