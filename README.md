@@ -11,7 +11,7 @@ Our project is designed to help reunite lost pets with their owners quickly and 
 Pets-reunited is a mobile app developed using React Native and Firebase. It is the final group project that we have created during the Northcoders bootcamp in software-development. The main goal of our venture was to design and develop - top to bottom - a working app using a new tech stack that we were not familiar with. We decided to use React Native to produce something for IOS and Android platforms, we also choose to implement Google services: Firebase, Google Autocomplete and Maps _(Geocoding API, Places API)_. The process of development was conducted using Agile methodology, with daily morning stand-ups, sprints and task alocation via Kaban boards.
 Please feel free to explore, fork and clone if you like our project.
 
-<font color="#A66829" size=5>_How it works:_</font>
+## _How it works:_
 
 If you've lost a pet, simply create a profile for your pet on our app, including their name, pet type, and any other identifying information etc. You can also upload a photo of your pet to help others recognize them. Once your profile is complete, you can report your pet as lost and our app will immediately post to main page of lost pets.
 
@@ -19,7 +19,7 @@ Our Lost Pets app also includes a map feature that allows you to see lost and fo
 
 We hope that our Lost Pets app will help reunite lost pets with their owners quickly and easily. We hope our app can help owners to bring lost pets back homehouse_with_garden!
 
-<font color="#A66829" size=5> _Tech Stacks_</font>
+## _Tech Stacks_
 
 - React Native
 - Firebase
@@ -29,13 +29,13 @@ We hope that our Lost Pets app will help reunite lost pets with their owners qui
 - Expo
 - Xcode
 
-<font color="#A66829" size=5> _Installation_</font>
+## _Installation_ 
 
 - Clone the repository onto your local machine
 - Install the necessary dependencies using npm install
 - Start the app using npm start
 
-<font color="#A66829" size=5>_Contributors_</font>
+## _Contributors_
 
 - [nickkagame](https://github.com/nickkagame)
 - [manheicatherine](https://github.com/manheicatherine)
@@ -43,6 +43,6 @@ We hope that our Lost Pets app will help reunite lost pets with their owners qui
 - [Luke95G](https://github.com/Luke95G)
 - [Marek Januszewski](https://github.com/MarekJanu)
 
-<font color="green" size=5>D</font><font color="red" size=5>e</font><font color="orange" size=5>m</font><font color="darkgrey" size=5>o</font>
+## _Demo_
 
 https://www.youtube.com/watch?v=JG3xi7KOWRE
