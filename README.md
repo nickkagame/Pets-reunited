@@ -4,7 +4,7 @@
 
 # <font color="green">m</font><font color="red">a</font><font color="orange">n</font><font color="darkgrey">c</font>-<font color="#728FCE">r</font><font color="#A66829">o</font><font color="yellow">s</font><font color="pink">o</font><font color="lightgreen">f</font><font color="darkgrey">t</font>
 
-<font color="#A66829" size=5>## _Introduction_</font>
+## _Introduction_
 
 Our project is designed to help reunite lost pets with their owners quickly and easily. Losing a pet can be a very stressful and emotional experience, but with our app, you can report your lost pet and search for found pets in your local area.
 
