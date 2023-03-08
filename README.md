@@ -1,8 +1,4 @@
-# <font color="grey">Pets-reunited</font>
-
-### A group project by
-
-# <font color="green">m</font><font color="red">a</font><font color="orange">n</font><font color="darkgrey">c</font>-<font color="#728FCE">r</font><font color="#A66829">o</font><font color="yellow">s</font><font color="pink">o</font><font color="lightgreen">f</font><font color="darkgrey">t</font>
+# Pets-reunited by Manc-rosoft
 
 ## _Introduction_
 
